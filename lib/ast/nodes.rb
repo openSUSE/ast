@@ -578,11 +578,31 @@ module AST
   end
 
   class CurrentException < Node
-    # TODO: Implement.
   end
 
   class GlobalVariableAccess < VariableAccess
-    # TODO: Implement.
+    EnglishBackrefs = {
+      :$LAST_MATCH_INFO => :~,
+      :$MATCH => :&,
+      :$PREMATCH => :'`',
+      :$POSTMATCH => :"'",
+      :$LAST_PAREN_MATCH => :+,
+    }
+
+    def self.for_name(line, name)
+      case name
+      when :$!
+        CurrentException.new(line)
+      when :$~
+        BackRef.new(line, :~)
+      else
+        if backref = EnglishBackrefs[name]
+          BackRef.new(line, backref)
+        else
+          new(line, name)
+        end
+      end
+    end
   end
 
   class GlobalVariableAssignment < VariableAssignment

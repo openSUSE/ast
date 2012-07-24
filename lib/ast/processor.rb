@@ -40,6 +40,10 @@ module AST
       FalseLiteral.new exp.line
     end
 
+    def process_gvar(exp)
+      GlobalVariableAccess.for_name exp.line, exp[1]
+    end
+
     def process_ivar(exp)
       InstanceVariableAccess.new exp.line, exp[1]
     end

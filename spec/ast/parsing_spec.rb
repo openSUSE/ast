@@ -1384,7 +1384,7 @@ module AST
       '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)
 
       # tGVAR
-      # TODO: Spec.
+      '$a'.to_ast.should == GlobalVariableAccess.new(1, :$a)
 
       # tCONSTANT
       'A'.to_ast.should == ConstantAccess.new(1, :A)

@@ -625,11 +625,30 @@ module AST
   end
 
   describe CurrentException do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe GlobalVariableAccess do
-    # TODO: Spec.
+    describe ".for_name" do
+      it "returns correct AST node" do
+        GlobalVariableAccess.for_name(1, :$!).should ==
+          CurrentException.new(1)
+        GlobalVariableAccess.for_name(1, :$~).should ==
+          BackRef.new(1, :~)
+        GlobalVariableAccess.for_name(1, :$LAST_MATCH_INFO).should ==
+          BackRef.new(1, :~)
+        GlobalVariableAccess.for_name(1, :$MATCH).should ==
+          BackRef.new(1, :&)
+        GlobalVariableAccess.for_name(1, :$PREMATCH).should ==
+          BackRef.new(1, :`)
+        GlobalVariableAccess.for_name(1, :$POSTMATCH).should ==
+          BackRef.new(1, :"'")
+        GlobalVariableAccess.for_name(1, :$LAST_PAREN_MATCH).should ==
+          BackRef.new(1, :+)
+        GlobalVariableAccess.for_name(1, :$a).should ==
+          GlobalVariableAccess.new(1, :$a)
+      end
+    end
   end
 
   describe GlobalVariableAssignment do
