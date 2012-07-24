@@ -40,6 +40,10 @@ module AST
       DynamicString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
     end
 
+    def process_dxstr(exp)
+      DynamicExecuteString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
+    end
+
     def process_evstr(exp)
       if exp[1]
         ToString.new exp.line, process(exp[1])
@@ -89,6 +93,10 @@ module AST
 
     def process_true(exp)
       TrueLiteral.new exp.line
+    end
+
+    def process_xstr(exp)
+      ExecuteString.new exp.line, exp[1]
     end
   end
 end

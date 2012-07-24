@@ -432,7 +432,7 @@ module AST
   end
 
   describe DynamicExecuteString do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe DynamicRegex do
@@ -444,7 +444,7 @@ module AST
   end
 
   describe ExecuteString do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   # ===== File: operators.rb =====

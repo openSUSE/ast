@@ -870,7 +870,7 @@ module AST
       '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
 
       # xstring
-      # TODO: Spec.
+      '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
 
       # regexp
       # TODO: Spec.
@@ -1252,9 +1252,17 @@ module AST
       )
     end
 
+    # Canonical xstring is "`abcd`".
     it "parses xstring" do
       # tXSTRING_BEG xstring_contents tSTRING_END
-      # TODO: Spec.
+      '` #$a `'.to_ast.should == DynamicExecuteString.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      )
     end
 
     it "parses regexp" do
@@ -1318,12 +1326,20 @@ module AST
       )
     end
 
+    # Canonical xstring_contents is " #$a ".
     it "parses xstring_contents" do
       # /* none */
-      # TODO: Spec.
+      '``'.to_ast.should == ExecuteString.new(1, "")
 
       # xstring_contents string_content
-      # TODO: Spec.
+      '` #$a `'.to_ast.should == DynamicExecuteString.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      )
     end
 
     # Canonical string_content is "abcd".

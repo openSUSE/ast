@@ -383,7 +383,6 @@ module AST
   end
 
   class DynamicExecuteString < DynamicString
-    # TODO: Implement.
   end
 
   class DynamicRegex < DynamicString
@@ -395,7 +394,6 @@ module AST
   end
 
   class ExecuteString < StringLiteral
-    # TODO: Implement.
   end
 
   # ===== File: operators.rb =====
