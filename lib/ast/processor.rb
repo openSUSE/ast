@@ -36,6 +36,18 @@ module AST
       ClassVariableAccess.new exp.line, exp[1]
     end
 
+    def process_dstr(exp)
+      DynamicString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
+    end
+
+    def process_evstr(exp)
+      if exp[1]
+        ToString.new exp.line, process(exp[1])
+      else
+        StringLiteral.new exp.line, ""
+      end
+    end
+
     def process_false(exp)
       FalseLiteral.new exp.line
     end

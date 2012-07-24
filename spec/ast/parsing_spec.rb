@@ -1242,7 +1242,14 @@ module AST
     # Canonical string1 is "\"abcd\"".
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
-      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
+      '" #$a "'.to_ast.should == DynamicString.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      )
     end
 
     it "parses xstring" do
@@ -1295,12 +1302,20 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical string_contents is " #$a ".
     it "parses string_contents" do
       # /* none */
       '""'.to_ast.should == StringLiteral.new(1, "")
 
       # string_contents string_content
-      # TODO: Spec.
+      '" #$a "'.to_ast.should == DynamicString.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      )
     end
 
     it "parses xstring_contents" do
@@ -1317,24 +1332,51 @@ module AST
       '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
 
       # tSTRING_DVAR string_dvar
-      # TODO: Spec.
+      '"#$a"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [ToString.new(1, GlobalVariableAccess.new(1, :$a))]
+      )
 
       # tSTRING_DBEG compstmt '}'
-      # TODO: Spec.
+      # TODO: Spec regular case.
+      # Special case -- see Processor#process_evstr.
+      '"#{}"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [StringLiteral.new(1, "")]
+      )
     end
 
+    # Canonical string_dvar is "$a".
     it "parses string_dvar" do
       # tGVAR
-      # TODO: Spec.
+      '"#$a"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [ToString.new(1, GlobalVariableAccess.new(1, :$a))]
+      )
 
       # tIVAR
-      # TODO: Spec.
+      '"#@a"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [ToString.new(1, InstanceVariableAccess.new(1, :@a))]
+      )
 
       # tCVAR
-      # TODO: Spec.
+      '"#@@a"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [ToString.new(1, ClassVariableAccess.new(1, :@@a))]
+      )
 
       # backref
-      # TODO: Spec.
+      '"#$&"'.to_ast.should == DynamicString.new(
+        1,
+        "",
+        [ToString.new(1, BackRef.new(1, :&))]
+      )
     end
 
     it "parses symbol" do

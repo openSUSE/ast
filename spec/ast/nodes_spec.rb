@@ -411,7 +411,20 @@ module AST
   end
 
   describe DynamicString do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        array = [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+        node = DynamicString.new(1, " ", array)
+
+        node.line.should == 1
+        node.string.should == " "
+        node.array.should == array
+        node.options.should == nil
+      end
+    end
   end
 
   describe DynamicSymbol do
@@ -577,7 +590,15 @@ module AST
   end
 
   describe ToString do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = ToString.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+    end
   end
 
   # ===== File: variables.rb =====

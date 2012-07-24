@@ -369,7 +369,13 @@ module AST
   end
 
   class DynamicString < StringLiteral
-    # TODO: Implement.
+    attr_accessor :array, :options
+
+    def initialize(line, str, array)
+      @line = line
+      @string = str
+      @array = array
+    end
   end
 
   class DynamicSymbol < DynamicString
@@ -535,7 +541,12 @@ module AST
   end
 
   class ToString < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   # ===== File: variables.rb =====
