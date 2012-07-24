@@ -552,7 +552,6 @@ module AST
   end
 
   class ClassVariableAccess < VariableAccess
-    # TODO: Implement.
   end
 
   class ClassVariableAssignment < VariableAssignment

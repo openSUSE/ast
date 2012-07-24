@@ -24,6 +24,10 @@ module AST
       self.expected = Object
     end
 
+    def process_cvar(exp)
+      ClassVariableAccess.new exp.line, exp[1]
+    end
+
     def process_false(exp)
       FalseLiteral.new exp.line
     end

@@ -1390,7 +1390,7 @@ module AST
       # TODO: Spec.
 
       # tCVAR
-      # TODO: Spec.
+      '@@a'.to_ast.should == ClassVariableAccess.new(1, :@@a)
 
       # kNIL
       'nil'.to_ast.should == NilLiteral.new(1)

@@ -592,7 +592,7 @@ module AST
   end
 
   describe ClassVariableAccess do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe ClassVariableAssignment do
