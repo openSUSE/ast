@@ -24,6 +24,10 @@ module AST
       self.expected = Object
     end
 
+    def process_back_ref(exp)
+      BackRef.new exp.line, exp[1]
+    end
+
     def process_const(exp)
       ConstantAccess.new exp.line, exp[1]
     end
@@ -53,6 +57,10 @@ module AST
 
     def process_nil(exp)
       NilLiteral.new exp.line
+    end
+
+    def process_nth_ref(exp)
+      NthRef.new exp.line, exp[1]
     end
 
     def process_self(exp)

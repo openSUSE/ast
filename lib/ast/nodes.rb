@@ -536,11 +536,21 @@ module AST
   # ===== File: variables.rb =====
 
   class BackRef < Node
-    # TODO: Implement.
+    attr_accessor :kind
+
+    def initialize(line, ref)
+      @line = line
+      @kind = ref
+    end
   end
 
   class NthRef < Node
-    # TODO: Implement.
+    attr_accessor :which
+
+    def initialize(line, ref)
+      @line = line
+      @which = ref
+    end
   end
 
   class VariableAccess < Node

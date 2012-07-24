@@ -576,11 +576,25 @@ module AST
   # ===== File: variables.rb =====
 
   describe BackRef do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = BackRef.new(1, :&)
+
+        node.line.should == 1
+        node.kind.should == :&
+      end
+    end
   end
 
   describe NthRef do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = NthRef.new(1, 42)
+
+        node.line.should == 1
+        node.which.should == 42
+      end
+    end
   end
 
   describe VariableAccess do

@@ -885,7 +885,7 @@ module AST
       # TODO: Spec.
 
       # backref
-      # TODO: Spec.
+      '$&'.to_ast.should == BackRef.new(1, :&)
 
       # tFID
       # TODO: Spec.
@@ -1421,12 +1421,13 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical backref is "$~".
     it "parses backref" do
       # tNTH_REF
-      # TODO: Spec.
+      '$1'.to_ast.should == NthRef.new(1, 1)
 
       # tBACK_REF
-      # TODO: Spec.
+      '$&'.to_ast.should == BackRef.new(1, :&)
     end
 
     it "parses superclass" do
