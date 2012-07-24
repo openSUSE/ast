@@ -1391,7 +1391,7 @@ module AST
       # TODO: Spec.
 
       # kSELF
-      # TODO: Spec.
+      'self'.to_ast.should == Self.new(1)
 
       # kTRUE
       # TODO: Spec.

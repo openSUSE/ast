@@ -12,12 +12,58 @@ module AST
         node.line.should == 1
       end
     end
+
+    describe "#==" do
+      class MyNode < Node
+        attr_accessor :foo, :bar, :baz, :qux
+
+        def initialize(line, foo = nil, bar = nil, baz = nil, qux = nil)
+          @line = line
+          @foo = foo if foo
+          @bar = bar if bar
+          @baz = baz if baz
+          @qux = baz if qux
+        end
+      end
+
+      class MySubclassedNode < MyNode
+      end
+
+      before do
+        @node = MyNode.new(42, :a, :b, :c)
+      end
+
+      it "returns true when passed the same object" do
+        @node.should == @node
+      end
+
+      it "returns true when passed a MyNode with the same instance variables" do
+        @node.should == MyNode.new(42, :a, :b, :c)
+      end
+
+      it "returns false when passed some random object" do
+        @node.should_not == Object.new
+      end
+
+      it "returns false when passed a subclass of MyNode with the same instance variables" do
+        @node.should_not == MySubclassedNode.new(42, :a, :b, :c)
+      end
+
+      it "returns false when passed a MyNode with different instance variables" do
+        @node.should_not == MyNode.new(42, :a, :b)
+        @node.should_not == MyNode.new(42, :a, :b, :c, :d)
+
+        @node.should_not == MyNode.new(42, :e, :b, :c)
+        @node.should_not == MyNode.new(42, :a, :f, :c)
+        @node.should_not == MyNode.new(42, :a, :b, :g)
+      end
+    end
   end
 
   # ===== File: self.rb =====
 
   describe Self do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   # ===== File: constants.rb =====

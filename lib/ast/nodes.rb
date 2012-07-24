@@ -18,12 +18,20 @@ module AST
     def initialize(line)
       @line = line
     end
+
+    # This is not defiend in Rubinius but makes our specs easier to write.
+    def ==(other)
+      other.instance_of?(self.class) &&
+        instance_variables.sort == other.instance_variables.sort &&
+        instance_variables.all? do |name|
+          instance_variable_get(name) == other.instance_variable_get(name)
+        end
+    end
   end
 
   # ===== File: self.rb =====
 
   class Self < Node
-    # TODO: Implement.
   end
 
   # ===== File: constants.rb =====

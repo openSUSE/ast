@@ -26,5 +26,8 @@ Gem::Specification.new do |s|
     "lib/ast/nodes.rb"
   ]
 
+  s.add_dependency "ruby_parser", "2.3.1"
+  s.add_dependency "sexp_processor", "3.2.0"
+
   s.add_development_dependency "rspec"
 end
