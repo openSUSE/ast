@@ -335,11 +335,11 @@ module AST
   end
 
   describe FalseLiteral do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe TrueLiteral do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe FloatLiteral do
@@ -355,7 +355,7 @@ module AST
   end
 
   describe NilLiteral do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe NumberLiteral do

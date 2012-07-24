@@ -1388,16 +1388,16 @@ module AST
       # TODO: Spec.
 
       # kNIL
-      # TODO: Spec.
+      'nil'.to_ast.should == NilLiteral.new(1)
 
       # kSELF
       'self'.to_ast.should == Self.new(1)
 
       # kTRUE
-      # TODO: Spec.
+      'true'.to_ast.should == TrueLiteral.new(1)
 
       # kFALSE
-      # TODO: Spec.
+      'false'.to_ast.should == FalseLiteral.new(1)
 
       # k__FILE__
       # TODO: Spec.

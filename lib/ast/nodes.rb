@@ -303,11 +303,9 @@ module AST
   end
 
   class FalseLiteral < Node
-    # TODO: Implement.
   end
 
   class TrueLiteral < Node
-    # TODO: Implement.
   end
 
   class FloatLiteral < Node
@@ -323,7 +321,6 @@ module AST
   end
 
   class NilLiteral < Node
-    # TODO: Implement.
   end
 
   class NumberLiteral < Node

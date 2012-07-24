@@ -24,8 +24,20 @@ module AST
       self.expected = Object
     end
 
+    def process_false(exp)
+      FalseLiteral.new exp.line
+    end
+
+    def process_nil(exp)
+      NilLiteral.new exp.line
+    end
+
     def process_self(exp)
       Self.new exp.line
+    end
+
+    def process_true(exp)
+      TrueLiteral.new exp.line
     end
   end
 end
