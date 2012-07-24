@@ -1381,7 +1381,7 @@ module AST
       # TODO: Spec.
 
       # tIVAR
-      # TODO: Spec.
+      '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)
 
       # tGVAR
       # TODO: Spec.

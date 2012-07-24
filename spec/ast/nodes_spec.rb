@@ -577,7 +577,14 @@ module AST
   end
 
   describe VariableAccess do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = VariableAccess.new(1, :a)
+
+        node.line.should == 1
+        node.name.should == :a
+      end
+    end
   end
 
   describe VariableAssignment do
@@ -625,7 +632,7 @@ module AST
   end
 
   describe InstanceVariableAccess do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe InstanceVariableAssignment do

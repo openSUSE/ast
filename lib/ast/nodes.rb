@@ -539,7 +539,12 @@ module AST
   end
 
   class VariableAccess < Node
-    # TODO: Implement.
+    attr_accessor :name
+
+    def initialize(line, name)
+      @line = line
+      @name = name
+    end
   end
 
   class VariableAssignment < Node
@@ -587,7 +592,6 @@ module AST
   end
 
   class InstanceVariableAccess < VariableAccess
-    # TODO: Implement.
   end
 
   class InstanceVariableAssignment < VariableAssignment
