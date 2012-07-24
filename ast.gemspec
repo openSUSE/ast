@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
     "README.md",
     "VERSION",
     "lib/ast.rb",
-    "lib/ast/version.rb"
+    "lib/ast/version.rb",
+    "lib/ast/nodes.rb"
   ]
 
   s.add_development_dependency "rspec"
