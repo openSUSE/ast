@@ -49,7 +49,12 @@ module AST
   end
 
   class ConstantAccess < Node
-    # TODO: Implement.
+    attr_accessor :name
+
+    def initialize(line, name)
+      @line = line
+      @name = name
+    end
   end
 
   class ConstantAssignment < Node

@@ -1387,7 +1387,7 @@ module AST
       # TODO: Spec.
 
       # tCONSTANT
-      # TODO: Spec.
+      'A'.to_ast.should == ConstantAccess.new(1, :A)
 
       # tCVAR
       '@@a'.to_ast.should == ClassVariableAccess.new(1, :@@a)

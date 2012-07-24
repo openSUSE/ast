@@ -81,7 +81,14 @@ module AST
   end
 
   describe ConstantAccess do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = ConstantAccess.new(1, :A)
+
+        node.line.should == 1
+        node.name.should == :A
+      end
+    end
   end
 
   describe ConstantAssignment do
