@@ -71,6 +71,10 @@ module AST
       Self.new exp.line
     end
 
+    def process_str(exp)
+      StringLiteral.new exp.line, exp[1]
+    end
+
     def process_true(exp)
       TrueLiteral.new exp.line
     end

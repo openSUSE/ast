@@ -360,7 +360,12 @@ module AST
   end
 
   class StringLiteral < Node
-    # TODO: Implement.
+    attr_accessor :string
+
+    def initialize(line, str)
+      @line = line
+      @string = str
+    end
   end
 
   class DynamicString < StringLiteral

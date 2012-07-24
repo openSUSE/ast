@@ -867,7 +867,7 @@ module AST
       # TODO: Spec.
 
       # strings
-      # TODO: Spec.
+      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
 
       # xstring
       # TODO: Spec.
@@ -1224,22 +1224,25 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical strings is "\"abcd\" \"efgh\"".
     it "parses strings" do
       # string
-      # TODO: Spec.
+      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
     end
 
+    # Canonical string is "\"abcd\" \"efgh\"".
     it "parses string" do
       # string1
-      # TODO: Spec.
+      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
 
       # string string1
-      # TODO: Spec.
+      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
     end
 
+    # Canonical string1 is "\"abcd\"".
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
-      # TODO: Spec.
+      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
     end
 
     it "parses xstring" do
@@ -1294,7 +1297,7 @@ module AST
 
     it "parses string_contents" do
       # /* none */
-      # TODO: Spec.
+      '""'.to_ast.should == StringLiteral.new(1, "")
 
       # string_contents string_content
       # TODO: Spec.
@@ -1308,9 +1311,10 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical string_content is "abcd".
     it "parses string_content" do
       # tSTRING_CONTENT
-      # TODO: Spec.
+      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
 
       # tSTRING_DVAR string_dvar
       # TODO: Spec.

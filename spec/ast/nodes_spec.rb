@@ -400,7 +400,14 @@ module AST
   end
 
   describe StringLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = StringLiteral.new(1, "abcd")
+
+        node.line.should == 1
+        node.string.should == "abcd"
+      end
+    end
   end
 
   describe DynamicString do
