@@ -343,7 +343,14 @@ module AST
   end
 
   describe FloatLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = FloatLiteral.new(1, "42.0")
+
+        node.line.should == 1
+        node.value.should == 42.0
+      end
+    end
   end
 
   describe HashLiteral do
@@ -359,11 +366,18 @@ module AST
   end
 
   describe NumberLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = NumberLiteral.new(1, 42)
+
+        node.line.should == 1
+        node.value.should == 42
+      end
+    end
   end
 
   describe FixnumLiteral do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe Range do

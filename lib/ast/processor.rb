@@ -28,6 +28,17 @@ module AST
       FalseLiteral.new exp.line
     end
 
+    def process_lit(exp)
+      case exp[1]
+      when Fixnum
+        FixnumLiteral.new exp.line, exp[1]
+      when Bignum
+        NumberLiteral.new exp.line, exp[1]
+      when Float
+        FloatLiteral.new exp.line, exp[1].to_s
+      end
+    end
+
     def process_nil(exp)
       NilLiteral.new exp.line
     end

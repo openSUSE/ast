@@ -309,7 +309,12 @@ module AST
   end
 
   class FloatLiteral < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, str)
+      @line = line
+      @value = str.to_f
+    end
   end
 
   class HashLiteral < Node
@@ -324,11 +329,17 @@ module AST
   end
 
   class NumberLiteral < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class FixnumLiteral < NumberLiteral
-    # TODO: Implement.
+    # Rubinius defines "initialize" here in the same way as for NumberLiteral.
+    # This is useless so we don't do it.
   end
 
   class Range < Node

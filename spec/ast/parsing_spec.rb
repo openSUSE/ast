@@ -1357,18 +1357,23 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical numeric is "42".
     it "parses numeric" do
       # tINTEGER
-      # TODO: Spec.
+      '42'.to_ast.should == FixnumLiteral.new(1, 42)
+      '42_000_000_000_000_000_000'.to_ast.should ==
+        NumberLiteral.new(1, 42_000_000_000_000_000_000)
 
       # tFLOAT
-      # TODO: Spec.
+      '42.0'.to_ast.should == FloatLiteral.new(1, 42.0)
 
       # tUMINUS_NUM tINTEGER %prec tLOWEST
-      # TODO: Spec.
+      '-42'.to_ast.should == FixnumLiteral.new(1, -42)
+      '-42_000_000_000_000_000_000'.to_ast.should ==
+        NumberLiteral.new(1, -42_000_000_000_000_000_000)
 
       # tUMINUS_NUM tFLOAT %prec tLOWEST
-      # TODO: Spec.
+      '-42.0'.to_ast.should == FloatLiteral.new(1, -42.0)
     end
 
     it "parses variable" do
