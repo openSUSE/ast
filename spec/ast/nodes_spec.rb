@@ -5,7 +5,13 @@ module AST
   # ===== File: node.rb =====
 
   describe Node do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = Node.new(1)
+
+        node.line.should == 1
+      end
+    end
   end
 
   # ===== File: self.rb =====

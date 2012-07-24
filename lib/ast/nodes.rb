@@ -13,7 +13,11 @@ module AST
   # ===== File: node.rb =====
 
   class Node
-    # TODO: Implement.
+    attr_accessor :line
+
+    def initialize(line)
+      @line = line
+    end
   end
 
   # ===== File: self.rb =====
