@@ -365,7 +365,13 @@ module AST
   end
 
   class RegexLiteral < Node
-    # TODO: Implement.
+    attr_accessor :source, :options
+
+    def initialize(line, str, flags)
+      @line = line
+      @source = str
+      @options = flags
+    end
   end
 
   class StringLiteral < Node
@@ -394,11 +400,13 @@ module AST
   end
 
   class DynamicRegex < DynamicString
-    # TODO: Implement.
+    def initialize(line, str, array, flags)
+      super line, str, array
+      @options = flags || 0
+    end
   end
 
   class DynamicOnceRegex < DynamicRegex
-    # TODO: Implement.
   end
 
   class ExecuteString < StringLiteral

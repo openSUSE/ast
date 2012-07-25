@@ -403,7 +403,15 @@ module AST
   end
 
   describe RegexLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = RegexLiteral.new(1, "abcd", 4)
+
+        node.line.should == 1
+        node.source.should == "abcd"
+        node.options.should == 4
+      end
+    end
   end
 
   describe StringLiteral do
@@ -443,11 +451,33 @@ module AST
   end
 
   describe DynamicRegex do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @array = [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      end
+
+      it "sets attributes correctly" do
+        node = DynamicRegex.new(1, " ", @array, 4)
+
+        node.line.should == 1
+        node.string.should == " "
+        node.array.should == @array
+        node.options.should == 4
+      end
+
+      it "sets options to 0 when flags is nil" do
+        node = DynamicRegex.new(1, " ", @array, nil)
+
+        node.options.should == 0
+      end
+    end
   end
 
   describe DynamicOnceRegex do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe ExecuteString do

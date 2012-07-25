@@ -873,7 +873,7 @@ module AST
       '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
 
       # regexp
-      # TODO: Spec.
+      '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
 
       # words
       # TODO: Spec.
@@ -1266,9 +1266,46 @@ module AST
       )
     end
 
+    # Canonical regexp is "/abcd/".
     it "parses regexp" do
       # tREGEXP_BEG xstring_contents tREGEXP_END
-      # TODO: Spec.
+      '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
+      '/ #$a /'.to_ast.should == DynamicRegex.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ],
+        0
+      )
+      '/ #$a /m'.to_ast.should == DynamicRegex.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ],
+        4
+      )
+      '/ #$a /o'.to_ast.should == DynamicOnceRegex.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ],
+        0
+      )
+      '/ #$a /om'.to_ast.should == DynamicOnceRegex.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ],
+        4
+      )
     end
 
     it "parses words" do

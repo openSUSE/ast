@@ -36,6 +36,18 @@ module AST
       ClassVariableAccess.new exp.line, exp[1]
     end
 
+    def process_dregx(exp)
+      flags = exp.last.is_a?(Fixnum) ? exp.pop : nil
+
+      DynamicRegex.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }, flags
+    end
+
+    def process_dregx_once(exp)
+      flags = exp.last.is_a?(Fixnum) ? exp.pop : nil
+
+      DynamicOnceRegex.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }, flags
+    end
+
     def process_dstr(exp)
       DynamicString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
     end
@@ -78,6 +90,8 @@ module AST
         FloatLiteral.new exp.line, exp[1].to_s
       when Symbol
         SymbolLiteral.new exp.line, exp[1]
+      when Regexp
+        RegexLiteral.new exp.line, exp[1].source, exp[1].options
       end
     end
 

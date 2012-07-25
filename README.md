@@ -112,3 +112,6 @@ only 1.8.x code but support for 1.9.x is coming soon.
   * Rubinius parses `__FILE__` as `Rubinius::AST::File` but `AST` parses it as
     `AST::StringLiteral` with the file name already substituted. This is because
     the substitution is done by ruby_parser already and AST can't influence it.
+
+  * Rubinius allows `g` and `G` options for regexp literals but AST does not.
+    This is because ruby_parser considers these options invalid.
