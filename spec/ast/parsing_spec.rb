@@ -883,7 +883,11 @@ module AST
       ])
 
       # qwords
-      # TODO: Spec.
+      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
+      ])
 
       # var_ref
       # TODO: Spec.
@@ -1327,20 +1331,29 @@ module AST
       ])
     end
 
+    # Canonical qwords is "%w(a b c)".
     it "parses qwords" do
       # tQWORDS_BEG ' ' tSTRING_END
-      # TODO: Spec.
+      '%w( )'.to_ast.should == EmptyArray.new(1)
 
       # tQWORDS_BEG qword_list tSTRING_END
-      # TODO: Spec.
+      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
+      ])
     end
 
+    # Canonical qword_list is "a b c".
     it "parses qword_list" do
       # /* none */
-      # TODO: Spec.
+      '%w()'.to_ast.should == EmptyArray.new(1)
 
       # qword_list tSTRING_CONTENT ' '
-      # TODO: Spec.
+      '%w(a b)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b")
+      ])
     end
 
     # Canonical string_contents is "abcd#{$a}efgh".
