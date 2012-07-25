@@ -864,7 +864,7 @@ module AST
 
     it "parses primary" do
       # literal
-      # TODO: Spec.
+      '42'.to_ast.should == FixnumLiteral.new(1, 42)
 
       # strings
       '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
@@ -1213,9 +1213,10 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical literal is "42".
     it "parses literal" do
       # numeric
-      # TODO: Spec.
+      '42'.to_ast.should == FixnumLiteral.new(1, 42)
 
       # symbol
       ':a'.to_ast.should == SymbolLiteral.new(1, :a)
