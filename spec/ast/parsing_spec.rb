@@ -1243,6 +1243,7 @@ module AST
     # Canonical string1 is "\"abcd\"".
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
+      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
       '" #$a "'.to_ast.should == DynamicString.new(
         1,
         " ",
@@ -1256,6 +1257,7 @@ module AST
     # Canonical xstring is "`abcd`".
     it "parses xstring" do
       # tXSTRING_BEG xstring_contents tSTRING_END
+      '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
       '` #$a `'.to_ast.should == DynamicExecuteString.new(
         1,
         " ",
@@ -1457,6 +1459,7 @@ module AST
     # Canonical dsym is ":\"a\"".
     it "parses dsym" do
       # tSYMBEG xstring_contents tSTRING_END
+      ':"abcd"'.to_ast.should == SymbolLiteral.new(1, :abcd)
       ':" #$a "'.to_ast.should == DynamicSymbol.new(
         1,
         " ",
