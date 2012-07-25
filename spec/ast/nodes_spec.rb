@@ -430,12 +430,12 @@ module AST
       it "sets attributes correctly" do
         array = [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
-        node = DynamicString.new(1, " ", array)
+        node = DynamicString.new(1, "abcd", array)
 
         node.line.should == 1
-        node.string.should == " "
+        node.string.should == "abcd"
         node.array.should == array
         node.options.should == nil
       end
@@ -455,21 +455,21 @@ module AST
       before do
         @array = [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       end
 
       it "sets attributes correctly" do
-        node = DynamicRegex.new(1, " ", @array, 4)
+        node = DynamicRegex.new(1, "abcd", @array, 4)
 
         node.line.should == 1
-        node.string.should == " "
+        node.string.should == "abcd"
         node.array.should == @array
         node.options.should == 4
       end
 
       it "sets options to 0 when flags is nil" do
-        node = DynamicRegex.new(1, " ", @array, nil)
+        node = DynamicRegex.new(1, "abcd", @array, nil)
 
         node.options.should == 0
       end

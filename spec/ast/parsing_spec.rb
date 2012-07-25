@@ -1244,12 +1244,12 @@ module AST
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
       '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
-      '" #$a "'.to_ast.should == DynamicString.new(
+      '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       )
     end
@@ -1258,12 +1258,12 @@ module AST
     it "parses xstring" do
       # tXSTRING_BEG xstring_contents tSTRING_END
       '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
-      '` #$a `'.to_ast.should == DynamicExecuteString.new(
+      '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       )
     end
@@ -1272,39 +1272,39 @@ module AST
     it "parses regexp" do
       # tREGEXP_BEG xstring_contents tREGEXP_END
       '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
-      '/ #$a /'.to_ast.should == DynamicRegex.new(
+      '/abcd#{$a}efgh/'.to_ast.should == DynamicRegex.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ],
         0
       )
-      '/ #$a /m'.to_ast.should == DynamicRegex.new(
+      '/abcd#{$a}efgh/m'.to_ast.should == DynamicRegex.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ],
         4
       )
-      '/ #$a /o'.to_ast.should == DynamicOnceRegex.new(
+      '/abcd#{$a}efgh/o'.to_ast.should == DynamicOnceRegex.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ],
         0
       )
-      '/ #$a /om'.to_ast.should == DynamicOnceRegex.new(
+      '/abcd#{$a}efgh/om'.to_ast.should == DynamicOnceRegex.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ],
         4
       )
@@ -1350,18 +1350,18 @@ module AST
       # TODO: Spec.
     end
 
-    # Canonical string_contents is " #$a ".
+    # Canonical string_contents is "abcd#{$a}efgh".
     it "parses string_contents" do
       # /* none */
       '""'.to_ast.should == StringLiteral.new(1, "")
 
       # string_contents string_content
-      '" #$a "'.to_ast.should == DynamicString.new(
+      '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       )
     end
@@ -1372,12 +1372,12 @@ module AST
       '``'.to_ast.should == ExecuteString.new(1, "")
 
       # xstring_contents string_content
-      '` #$a `'.to_ast.should == DynamicExecuteString.new(
+      '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       )
     end
@@ -1460,12 +1460,12 @@ module AST
     it "parses dsym" do
       # tSYMBEG xstring_contents tSTRING_END
       ':"abcd"'.to_ast.should == SymbolLiteral.new(1, :abcd)
-      ':" #$a "'.to_ast.should == DynamicSymbol.new(
+      ':"abcd#{$a}efgh"'.to_ast.should == DynamicSymbol.new(
         1,
-        " ",
+        "abcd",
         [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, " ")
+          StringLiteral.new(1, "efgh")
         ]
       )
     end
