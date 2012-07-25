@@ -989,7 +989,7 @@ module AST
       'break'.to_ast.should == Break.new(1, nil)
 
       # kNEXT
-      # TODO: Spec.
+      'next'.to_ast.should == Next.new(1, nil)
 
       # kREDO
       # TODO: Spec.

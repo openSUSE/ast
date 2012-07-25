@@ -164,7 +164,15 @@ module AST
   end
 
   describe Next do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = Next.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+    end
   end
 
   describe Redo do

@@ -121,7 +121,10 @@ module AST
   end
 
   class Next < Break
-    # TODO: Implement.
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class Redo < Break

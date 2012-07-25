@@ -107,6 +107,10 @@ module AST
       end
     end
 
+    def process_next(exp)
+      Next.new exp.line, nil
+    end
+
     def process_nil(exp)
       NilLiteral.new exp.line
     end
