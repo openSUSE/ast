@@ -707,13 +707,17 @@ module AST
 
     it "parses aref_args" do
       # none
-      # TODO: Spec.
+      '[]'.to_ast.should == EmptyArray.new(1)
 
       # command opt_nl
       # TODO: Spec.
 
       # args trailer
-      # TODO: Spec.
+      '[42, 43, 44,]'.to_ast.should == ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # args ',' tSTAR arg opt_nl
       # TODO: Spec.
@@ -917,7 +921,11 @@ module AST
       # TODO: Spec.
 
       # tLBRACK aref_args ']'
-      # TODO: Spec.
+      '[42, 43, 44]'.to_ast.should == ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # tLBRACE assoc_list '}'
       # TODO: Spec.
@@ -1745,15 +1753,28 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical trailer is ",".
     it "parses trailer" do
       # /* none */
-      # TODO: Spec.
+      '[42, 43, 44]'.to_ast.should == ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # '\n'
-      # TODO: Spec.
+      "[42, 43, 44\n]".to_ast.should == ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # ','
-      # TODO: Spec.
+      '[42, 43, 44,]'.to_ast.should == ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
     end
 
     it "parses term" do
