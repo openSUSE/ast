@@ -1478,7 +1478,7 @@ module AST
       'false'.to_ast.should == FalseLiteral.new(1)
 
       # k__FILE__
-      # TODO: Spec.
+      '__FILE__'.to_ast.should == String.new(1, "aa")
 
       # k__LINE__
       '__LINE__'.to_ast.should == FixnumLiteral.new(1, 1)
