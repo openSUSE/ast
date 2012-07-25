@@ -304,11 +304,15 @@ module AST
   # ===== File: literals.rb =====
 
   class ArrayLiteral < Node
-    # TODO: Implement.
+    attr_accessor :body
+
+    def initialize(line, array)
+      @line = line
+      @body = array
+    end
   end
 
   class EmptyArray < Node
-    # TODO: Implement.
   end
 
   class FalseLiteral < Node

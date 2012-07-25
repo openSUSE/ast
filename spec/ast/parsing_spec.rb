@@ -876,7 +876,11 @@ module AST
       '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
 
       # words
-      # TODO: Spec.
+      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
+      ])
 
       # qwords
       # TODO: Spec.
@@ -1282,28 +1286,45 @@ module AST
       ], 4)
     end
 
+    # Canonical words is "%W(a b c)".
     it "parses words" do
       # tWORDS_BEG ' ' tSTRING_END
-      # TODO: Spec.
+      '%W( )'.to_ast.should == EmptyArray.new(1)
 
       # tWORDS_BEG word_list tSTRING_END
-      # TODO: Spec.
+      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
+      ])
     end
 
+    # Canonical word_list is "a b c".
     it "parses word_list" do
       # /* none */
-      # TODO: Spec.
+      '%W()'.to_ast.should == EmptyArray.new(1)
 
       # word_list word ' '
-      # TODO: Spec.
+      '%W(a b)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b")
+      ])
     end
 
+    # Canonical word is "abcd".
     it "parses word" do
       # string_content
-      # TODO: Spec.
+      '%W(abcd)'.to_ast.should == ArrayLiteral.new(1, [
+        StringLiteral.new(1, "abcd")
+      ])
 
       # word string_content
-      # TODO: Spec.
+      '%W(abcd#{$a}efgh)'.to_ast.should == ArrayLiteral.new(1, [
+        DynamicString.new(1, "abcd", [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, "efgh")
+        ])
+      ])
     end
 
     it "parses qwords" do

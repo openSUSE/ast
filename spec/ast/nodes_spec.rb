@@ -334,11 +334,23 @@ module AST
   # ===== File: literals.rb =====
 
   describe ArrayLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        body = [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44),
+        ]
+        node = ArrayLiteral.new(1, body)
+
+        node.line.should == 1
+        node.body.should == body
+      end
+    end
   end
 
   describe EmptyArray do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe FalseLiteral do

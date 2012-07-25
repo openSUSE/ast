@@ -24,6 +24,14 @@ module AST
       self.expected = Object
     end
 
+    def process_array(exp)
+      if exp.size == 1
+        EmptyArray.new exp.line
+      else
+        ArrayLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
+      end
+    end
+
     def process_back_ref(exp)
       BackRef.new exp.line, exp[1]
     end
