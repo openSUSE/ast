@@ -140,7 +140,15 @@ module AST
   end
 
   class Return < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, expr)
+      @line = line
+      @value = expr
+
+      # Rubinius also initializes @splat to nil here. Since @splat can't be
+      # accessed from the outside, we skip that.
+    end
   end
 
   # ===== File: data.rb =====

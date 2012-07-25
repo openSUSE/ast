@@ -127,6 +127,10 @@ module AST
       Retry.new exp.line
     end
 
+    def process_return(exp)
+      Return.new exp.line, exp[1]
+    end
+
     def process_self(exp)
       Self.new exp.line
     end

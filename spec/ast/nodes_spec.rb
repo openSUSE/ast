@@ -198,7 +198,13 @@ module AST
   end
 
   describe Return do
-    # TODO: Spec.
+    it "sets attributes correctly" do
+      value = FixnumLiteral.new(1, 42)
+      node = Return.new(1, value)
+
+      node.line.should == 1
+      node.value.should == value
+    end
   end
 
   # ===== File: data.rb =====

@@ -923,7 +923,7 @@ module AST
       # TODO: Spec.
 
       # kRETURN
-      # TODO: Spec.
+      'return'.to_ast.should == Return.new(1, nil)
 
       # kYIELD '(' call_args ')'
       # TODO: Spec.
