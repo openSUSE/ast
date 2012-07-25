@@ -134,7 +134,9 @@ module AST
   end
 
   class Retry < Break
-    # TODO: Implement.
+    def initialize(line)
+      @line = line
+    end
   end
 
   class Return < Node

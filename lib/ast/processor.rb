@@ -123,6 +123,10 @@ module AST
       Redo.new exp.line
     end
 
+    def process_retry(exp)
+      Retry.new exp.line
+    end
+
     def process_self(exp)
       Self.new exp.line
     end

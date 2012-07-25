@@ -995,7 +995,7 @@ module AST
       'redo'.to_ast.should == Redo.new(1)
 
       # kRETRY
-      # TODO: Spec.
+      'retry'.to_ast.should == Retry.new(1)
     end
 
     it "parses primary_value" do
