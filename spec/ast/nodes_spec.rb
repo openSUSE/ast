@@ -146,7 +146,21 @@ module AST
   end
 
   describe Break do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = Break.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+
+      it "sets value to a NilLiteral instance when expr is nil" do
+        node = Break.new(1, nil)
+
+        node.value.should == NilLiteral.new(1)
+      end
+    end
   end
 
   describe Next do

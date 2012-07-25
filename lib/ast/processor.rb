@@ -36,6 +36,10 @@ module AST
       BackRef.new exp.line, exp[1]
     end
 
+    def process_break(exp)
+      Break.new exp.line, nil
+    end
+
     def process_const(exp)
       ConstantAccess.new exp.line, exp[1]
     end

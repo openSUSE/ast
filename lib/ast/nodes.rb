@@ -112,7 +112,12 @@ module AST
   end
 
   class Break < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, expr)
+      @line = line
+      @value = expr || NilLiteral.new(line)
+    end
   end
 
   class Next < Break

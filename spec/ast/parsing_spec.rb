@@ -986,7 +986,7 @@ module AST
       # TODO: Spec.
 
       # kBREAK
-      # TODO: Spec.
+      'break'.to_ast.should == Break.new(1, nil)
 
       # kNEXT
       # TODO: Spec.
