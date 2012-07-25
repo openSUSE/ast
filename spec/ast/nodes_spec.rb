@@ -328,7 +328,7 @@ module AST
   # ===== File: file.rb =====
 
   describe File do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   # ===== File: literals.rb =====

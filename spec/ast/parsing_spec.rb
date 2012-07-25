@@ -1478,7 +1478,12 @@ module AST
       'false'.to_ast.should == FalseLiteral.new(1)
 
       # k__FILE__
-      '__FILE__'.to_ast.should == String.new(1, "aa")
+
+      # Rubinius parses __FILE__ as Rubinius::AST::File but AST parses it as
+      # AST::StringLiteral with the file name already substituted. This is
+      # because the substitution is done by ruby_parser already and AST can't
+      # influence it.
+      '__FILE__'.to_ast.should == StringLiteral.new(1, "(string)")
 
       # k__LINE__
       '__LINE__'.to_ast.should == FixnumLiteral.new(1, 1)

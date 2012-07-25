@@ -106,3 +106,9 @@ Compatibility
 
 AST should run in any environment where ruby_parser does. It currently parses
 only 1.8.x code but support for 1.9.x is coming soon.
+
+=== Differences From Rubinius
+
+  * Rubinius parses `__FILE__` as `Rubinius::AST::File` but `AST` parses it as
+    `AST::StringLiteral` with the file name already substituted. This is because
+    the substitution is done by ruby_parser already and AST can't influence it.

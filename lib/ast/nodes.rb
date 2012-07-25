@@ -294,7 +294,11 @@ module AST
   # ===== File: file.rb =====
 
   class File < Node
-    # TODO: Implement.
+    # Rubinius parses __FILE__ as Rubinius::AST::File but AST parses it as
+    # AST::StringLiteral with the file name already substituted. This is because
+    # the substitution is done by ruby_parser already and AST can't influence
+    # it. As a result, this class is unused and it is implemented only for
+    # compatibility.
   end
 
   # ===== File: literals.rb =====
