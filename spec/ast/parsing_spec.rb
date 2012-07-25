@@ -992,7 +992,7 @@ module AST
       'next'.to_ast.should == Next.new(1, nil)
 
       # kREDO
-      # TODO: Spec.
+      'redo'.to_ast.should == Redo.new(1)
 
       # kRETRY
       # TODO: Spec.

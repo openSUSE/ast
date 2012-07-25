@@ -176,7 +176,14 @@ module AST
   end
 
   describe Redo do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = Redo.new(1)
+
+        node.line.should == 1
+        node.value.should == nil
+      end
+    end
   end
 
   describe Retry do

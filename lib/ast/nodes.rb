@@ -128,7 +128,9 @@ module AST
   end
 
   class Redo < Break
-    # TODO: Implement.
+    def initialize(line)
+      @line = line
+    end
   end
 
   class Retry < Break

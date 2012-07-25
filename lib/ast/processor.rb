@@ -119,6 +119,10 @@ module AST
       NthRef.new exp.line, exp[1]
     end
 
+    def process_redo(exp)
+      Redo.new exp.line
+    end
+
     def process_self(exp)
       Self.new exp.line
     end
