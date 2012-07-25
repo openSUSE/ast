@@ -40,6 +40,10 @@ module AST
       DynamicString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
     end
 
+    def process_dsym(exp)
+      DynamicSymbol.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
+    end
+
     def process_dxstr(exp)
       DynamicExecuteString.new exp.line, exp[1], exp[2..-1].map { |e| process(e) }
     end

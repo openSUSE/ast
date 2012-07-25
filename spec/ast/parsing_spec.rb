@@ -1221,7 +1221,7 @@ module AST
       ':a'.to_ast.should == SymbolLiteral.new(1, :a)
 
       # dsym
-      # TODO: Spec.
+      ':"a"'.to_ast.should == SymbolLiteral.new(1, :a)
     end
 
     # Canonical strings is "\"abcd\" \"efgh\"".
@@ -1416,9 +1416,17 @@ module AST
       ':@@a'.to_ast.should == SymbolLiteral.new(1, :@@a)
     end
 
+    # Canonical dsym is ":\"a\"".
     it "parses dsym" do
       # tSYMBEG xstring_contents tSTRING_END
-      # TODO: Spec.
+      ':" #$a "'.to_ast.should == DynamicSymbol.new(
+        1,
+        " ",
+        [
+          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
+          StringLiteral.new(1, " ")
+        ]
+      )
     end
 
     # Canonical numeric is "42".

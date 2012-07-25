@@ -384,7 +384,6 @@ module AST
   end
 
   class DynamicSymbol < DynamicString
-    # TODO: Implement.
   end
 
   class DynamicExecuteString < DynamicString

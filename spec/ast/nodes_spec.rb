@@ -435,7 +435,7 @@ module AST
   end
 
   describe DynamicSymbol do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe DynamicExecuteString do
