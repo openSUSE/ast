@@ -928,7 +928,14 @@ module AST
       ])
 
       # tLBRACE assoc_list '}'
-      # TODO: Spec.
+      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42),
+        SymbolLiteral.new(1, :b),
+        FixnumLiteral.new(1, 43),
+        SymbolLiteral.new(1, :c),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # kRETURN
       'return'.to_ast.should == Return.new(1, nil)
@@ -1669,23 +1676,47 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical assoc_list is ":a => 42, :b => 43, :c => 44".
     it "parses assoc_list" do
       # none
-      # TODO: Spec.
+      '{}'.to_ast.should == HashLiteral.new(1, [])
 
       # assocs trailer
-      # TODO: Spec.
+      '{ :a => 42, :b => 43, :c => 44, }'.to_ast.should == HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42),
+        SymbolLiteral.new(1, :b),
+        FixnumLiteral.new(1, 43),
+        SymbolLiteral.new(1, :c),
+        FixnumLiteral.new(1, 44)
+      ])
 
       # args trailer
-      # TODO: Spec.
+      '{ :a, 42, :b, 43, :c, 44, }'.to_ast.should == HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42),
+        SymbolLiteral.new(1, :b),
+        FixnumLiteral.new(1, 43),
+        SymbolLiteral.new(1, :c),
+        FixnumLiteral.new(1, 44)
+      ])
     end
 
+    # Canonical assocs is ":a => 42, :b => 43, :c => 44".
     it "parses assocs" do
       # assoc
-      # TODO: Spec.
+      '{ :a => 42 }'.to_ast.should == HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42)
+      ])
 
       # assocs ',' assoc
-      # TODO: Spec.
+      '{ :a => 42, :b => 43 }'.to_ast.should == HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42),
+        SymbolLiteral.new(1, :b),
+        FixnumLiteral.new(1, 43)
+      ])
     end
 
     it "parses assoc" do

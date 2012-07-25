@@ -415,7 +415,22 @@ module AST
   end
 
   describe HashLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        array = [
+          SymbolLiteral.new(1, :a),
+          FixnumLiteral.new(1, 42),
+          SymbolLiteral.new(1, :b),
+          FixnumLiteral.new(1, 43),
+          SymbolLiteral.new(1, :c),
+          FixnumLiteral.new(1, 44)
+        ]
+        node = HashLiteral.new(1, array)
+
+        node.line.should == 1
+        node.array.should == array
+      end
+    end
   end
 
   describe SymbolLiteral do

@@ -88,6 +88,10 @@ module AST
       GlobalVariableAccess.for_name exp.line, exp[1]
     end
 
+    def process_hash(exp)
+      HashLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
+    end
+
     def process_ivar(exp)
       InstanceVariableAccess.new exp.line, exp[1]
     end

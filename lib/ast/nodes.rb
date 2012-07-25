@@ -351,7 +351,12 @@ module AST
   end
 
   class HashLiteral < Node
-    # TODO: Implement.
+    attr_accessor :array
+
+    def initialize(line, array)
+      @line = line
+      @array = array
+    end
   end
 
   class SymbolLiteral < Node
