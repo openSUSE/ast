@@ -1218,7 +1218,7 @@ module AST
       # TODO: Spec.
 
       # symbol
-      # TODO: Spec.
+      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
 
       # dsym
       # TODO: Spec.
@@ -1395,23 +1395,25 @@ module AST
       )
     end
 
+    # Canonical symbol is ":a".
     it "parses symbol" do
       # tSYMBEG sym
-      # TODO: Spec.
+      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
     end
 
+    # Canonical sym is ":a".
     it "parses sym" do
       # fname
-      # TODO: Spec.
+      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
 
       # tIVAR
-      # TODO: Spec.
+      ':@a'.to_ast.should == SymbolLiteral.new(1, :@a)
 
       # tGVAR
-      # TODO: Spec.
+      ':$a'.to_ast.should == SymbolLiteral.new(1, :$a)
 
       # tCVAR
-      # TODO: Spec.
+      ':@@a'.to_ast.should == SymbolLiteral.new(1, :@@a)
     end
 
     it "parses dsym" do

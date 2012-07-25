@@ -365,7 +365,14 @@ module AST
   end
 
   describe SymbolLiteral do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = SymbolLiteral.new(1, :a)
+
+        node.line.should == 1
+        node.value.should == :a
+      end
+    end
   end
 
   describe NilLiteral do

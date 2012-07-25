@@ -72,6 +72,8 @@ module AST
         NumberLiteral.new exp.line, exp[1]
       when Float
         FloatLiteral.new exp.line, exp[1].to_s
+      when Symbol
+        SymbolLiteral.new exp.line, exp[1]
       end
     end
 

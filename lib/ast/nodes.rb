@@ -327,7 +327,12 @@ module AST
   end
 
   class SymbolLiteral < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, sym)
+      @line = line
+      @value = sym
+    end
   end
 
   class NilLiteral < Node
