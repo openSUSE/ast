@@ -1481,7 +1481,7 @@ module AST
       # TODO: Spec.
 
       # k__LINE__
-      # TODO: Spec.
+      '__LINE__'.to_ast.should == FixnumLiteral.new(1, 1)
     end
 
     it "parses var_ref" do
