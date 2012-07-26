@@ -671,10 +671,10 @@ module AST
       # TODO: Spec.
 
       # tUPLUS arg
-      # TODO: Spec.
+      '+!42'.to_ast.should == Send.new(1, @not42, :+@)
 
       # tUMINUS arg
-      # TODO: Spec.
+      '-!42'.to_ast.should == Send.new(1, @not42, :-@)
 
       # arg '|' arg
       '!42 | !43'.to_ast.should == SendWithArguments.new(1, @not42, :|, @not43)
