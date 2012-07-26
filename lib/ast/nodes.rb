@@ -499,7 +499,15 @@ module AST
   end
 
   class SendWithArguments < Send
-    # TODO: Implement.
+    attr_accessor :arguments
+
+    def initialize(line, receiver, name, arguments, privately=false)
+      super line, receiver, name, privately
+      @arguments = ActualArguments.new line, arguments
+
+      # Rubinius also initializes @block to nil here. Since this is already done
+      # in the superclass, we skip that.
+    end
   end
 
   class AttributeAssignment < SendWithArguments

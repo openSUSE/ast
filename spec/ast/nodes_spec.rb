@@ -630,7 +630,31 @@ module AST
   end
 
   describe SendWithArguments do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @receiver = FixnumLiteral.new(1, 42)
+        @arguments = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        node = SendWithArguments.new(1, @receiver, :foo, @arguments, true)
+
+        node.line.should == 1
+        node.receiver.should == @receiver
+        node.name.should == :foo
+        node.privately.should == true
+        node.block.should == nil
+        node.check_for_local.should == false
+        node.vcall_style.should == false
+        node.arguments.should == ActualArguments.new(1, @arguments)
+      end
+
+      it "sets \"privately\" to false when not passed the corresonding param" do
+        node = SendWithArguments.new(1, @receiver, :foo, @arguments)
+
+        node.privately.should == false
+      end
+    end
   end
 
   describe AttributeAssignment do

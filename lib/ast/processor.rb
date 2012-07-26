@@ -24,6 +24,10 @@ module AST
       self.expected = Object
     end
 
+    def process_arglist(exp)
+      ArrayLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
+    end
+
     def process_array(exp)
       if exp.size == 1
         EmptyArray.new exp.line
@@ -41,7 +45,11 @@ module AST
     end
 
     def process_call(exp)
-      Send.new exp.line, process(exp[1]), exp[2]
+      if exp[3].size == 1
+        Send.new exp.line, process(exp[1]), exp[2]
+      else
+        SendWithArguments.new exp.line, process(exp[1]), exp[2], process(exp[3])
+      end
     end
 
     def process_const(exp)

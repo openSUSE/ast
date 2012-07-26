@@ -48,6 +48,7 @@ module AST
       @ds = DynamicString.new(1, "abcd", [@to_s, @s_efgh])
 
       @not42 = Not.new(1, @i42)
+      @not43 = Not.new(1, @i43)
     end
 
     it "parses program" do
@@ -645,22 +646,23 @@ module AST
       # TODO: Spec.
 
       # arg '+' arg
-      # TODO: Spec.
+      '!42 + !43'.to_ast.should == SendWithArguments.new(1, @not42, :+, @not43)
 
       # arg '-' arg
-      # TODO: Spec.
+      '!42 - !43'.to_ast.should == SendWithArguments.new(1, @not42, :-, @not43)
 
       # arg '*' arg
-      # TODO: Spec.
+      '!42 * !43'.to_ast.should == SendWithArguments.new(1, @not42, :*, @not43)
 
       # arg '/' arg
-      # TODO: Spec.
+      '!42 / !43'.to_ast.should == SendWithArguments.new(1, @not42, :/, @not43)
 
       # arg '%' arg
-      # TODO: Spec.
+      '!42 % !43'.to_ast.should == SendWithArguments.new(1, @not42, :%, @not43)
 
       # arg tPOW arg
-      # TODO: Spec.
+      '!42 ** !43'.to_ast.should ==
+        SendWithArguments.new(1, @not42, :**, @not43)
 
       # tUMINUS_NUM tINTEGER tPOW arg
       # TODO: Spec.
@@ -675,43 +677,43 @@ module AST
       # TODO: Spec.
 
       # arg '|' arg
-      # TODO: Spec.
+      '!42 | !43'.to_ast.should == SendWithArguments.new(1, @not42, :|, @not43)
 
       # arg '^' arg
-      # TODO: Spec.
+      '!42 ^ !43'.to_ast.should == SendWithArguments.new(1, @not42, :^, @not43)
 
       # arg '&' arg
-      # TODO: Spec.
+      '!42 & !43'.to_ast.should == SendWithArguments.new(1, @not42, :&, @not43)
 
       # arg tCMP arg
-      # TODO: Spec.
+      '!42 <=> !43'.to_ast.should == SendWithArguments.new(1, @not42, :<=>, @not43)
 
       # arg '>' arg
-      # TODO: Spec.
+      '!42 > !43'.to_ast.should == SendWithArguments.new(1, @not42, :>, @not43)
 
       # arg tGEQ arg
-      # TODO: Spec.
+      '!42 >= !43'.to_ast.should == SendWithArguments.new(1, @not42, :>=, @not43)
 
       # arg '<' arg
-      # TODO: Spec.
+      '!42 < !43'.to_ast.should == SendWithArguments.new(1, @not42, :<, @not43)
 
       # arg tLEQ arg
-      # TODO: Spec.
+      '!42 <= !43'.to_ast.should == SendWithArguments.new(1, @not42, :<=, @not43)
 
       # arg tEQ arg
-      # TODO: Spec.
+      '!42 == !43'.to_ast.should == SendWithArguments.new(1, @not42, :==, @not43)
 
       # arg tEQQ arg
-      # TODO: Spec.
+      '!42 === !43'.to_ast.should == SendWithArguments.new(1, @not42, :===, @not43)
 
       # arg tNEQ arg
-      # TODO: Spec.
+      '!42 != !43'.to_ast.should == Not.new(1, SendWithArguments.new(1, @not42, :==, @not43))
 
       # arg tMATCH arg
-      # TODO: Spec.
+      '!42 =~ !43'.to_ast.should == SendWithArguments.new(1, @not42, :=~, @not43)
 
       # arg tNMATCH arg
-      # TODO: Spec.
+      '!42 !~ !43'.to_ast.should == Not.new(1, SendWithArguments.new(1, @not42, :=~, @not43))
 
       # '!' arg
       '!!42'.to_ast.should == Not.new(1, @not42)
@@ -720,10 +722,10 @@ module AST
       '~!42'.to_ast.should == Send.new(1, @not42, :~)
 
       # arg tLSHFT arg
-      # TODO: Spec.
+      '!42 << !43'.to_ast.should == SendWithArguments.new(1, @not42, :<<, @not43)
 
       # arg tRSHFT arg
-      # TODO: Spec.
+      '!42 >> !43'.to_ast.should == SendWithArguments.new(1, @not42, :>>, @not43)
 
       # arg tANDOP arg
       # TODO: Spec.
