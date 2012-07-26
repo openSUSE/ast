@@ -662,7 +662,23 @@ module AST
   end
 
   describe CollectSplat do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        parts = [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44),
+          FixnumLiteral.new(1, 45),
+          FixnumLiteral.new(1, 46)
+        ]
+        node = CollectSplat.new(1, *parts)
+
+        node.line.should == 1
+        node.splat.should == parts[0]
+        node.last.should == parts[-1]
+        node.array.should == parts[1..-2]
+      end
+    end
   end
 
   describe ActualArguments do
@@ -712,15 +728,113 @@ module AST
   # ===== File: values.rb =====
 
   describe SplatValue do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = SplatValue.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+    end
   end
 
   describe ConcatArgs do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        array = ArrayLiteral.new(1, [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44)
+        ])
+        rest = FixnumLiteral.new(1, 45)
+        node = ConcatArgs.new(1, array, rest)
+
+        node.line.should == 1
+        node.array.should == array
+        node.rest.should == rest
+      end
+    end
+
+    describe "#peel_lhs" do
+      before do
+        @body = [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44)
+        ]
+      end
+
+      describe "when \"array\" is a ConcatArgs instance" do
+        it "calls itself recursively and returns the result" do
+          node = ConcatArgs.new(
+            1,
+            ConcatArgs.new(
+              1,
+              ArrayLiteral.new(1, @body),
+              FixnumLiteral.new(1, 45)
+            ),
+            FixnumLiteral.new(1, 46)
+          )
+
+          node.peel_lhs.should == @body
+        end
+      end
+
+      describe "when \"array\" is an ArrayLiteral instance" do
+        before do
+          @node = ConcatArgs.new(
+            1,
+            ArrayLiteral.new(1, @body),
+            FixnumLiteral.new(1, 45)
+          )
+        end
+
+        it "returns \"array\"'s body" do
+          @node.peel_lhs.should == @body
+        end
+
+        it "sets \"array\" to nil" do
+          @node.peel_lhs
+
+          @node.array.should == nil
+        end
+      end
+
+      describe "when \"array\" is something else" do
+        it "returns nil" do
+          node = ConcatArgs.new(
+            1,
+            FixnumLiteral.new(1, 42),
+            FixnumLiteral.new(1, 43)
+          )
+
+          node.peel_lhs.should == nil
+        end
+      end
+    end
   end
 
   describe PushArgs do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        arguments = ConcatArgs.new(
+          1,
+          ArrayLiteral.new(1, [
+            FixnumLiteral.new(1, 42),
+            FixnumLiteral.new(1, 43),
+            FixnumLiteral.new(1, 44)
+          ]),
+          FixnumLiteral.new(1, 45)
+        )
+        value = FixnumLiteral.new(1, 46)
+        node = PushArgs.new(1, arguments, value)
+
+        node.line.should == 1
+        node.arguments.should == arguments
+        node.value.should == value
+      end
+    end
   end
 
   describe SValue do

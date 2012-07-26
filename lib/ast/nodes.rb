@@ -531,7 +531,15 @@ module AST
   end
 
   class CollectSplat < Node
-    # TODO: Implement.
+    # Rubinius does not define accessors for @splat, @last and @array. We do.
+    attr_accessor :splat, :last, :array
+
+    def initialize(line, *parts)
+      @line = line
+      @splat = parts.shift
+      @last = parts.pop
+      @array = parts
+    end
   end
 
   class ActualArguments < Node
@@ -581,15 +589,47 @@ module AST
   # ===== File: values.rb =====
 
   class SplatValue < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class ConcatArgs < Node
-    # TODO: Implement.
+    attr_accessor :array, :rest
+
+    def initialize(line, array, rest)
+      @line = line
+      @array = array
+      @rest = rest
+    end
+
+    # Dive down and try to find an array of regular values
+    # that could construct the left side of a concatination.
+    def peel_lhs
+      case @array
+      when ConcatArgs
+        @array.peel_lhs
+      when ArrayLiteral
+        ary = @array.body
+        @array = nil
+        ary
+      else
+        nil
+      end
+    end
   end
 
   class PushArgs < Node
-    # TODO: Implement.
+    attr_accessor :arguments, :value
+
+    def initialize(line, arguments, value)
+      @line = line
+      @arguments = arguments
+      @value = value
+    end
   end
 
   class SValue < Node
