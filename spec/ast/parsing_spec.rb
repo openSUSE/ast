@@ -665,10 +665,18 @@ module AST
         SendWithArguments.new(1, @not42, :**, @not43)
 
       # tUMINUS_NUM tINTEGER tPOW arg
-      # TODO: Spec.
+      '-42 ** !43'.to_ast.should == Send.new(
+        1,
+        SendWithArguments.new(1, @i42, :**, @not43),
+        :-@
+      )
 
       # tUMINUS_NUM tFLOAT tPOW arg
-      # TODO: Spec.
+      '-42.0 ** !43'.to_ast.should == Send.new(
+        1,
+        SendWithArguments.new(1, FloatLiteral.new(1, 42.0), :**, @not43),
+        :-@
+      )
 
       # tUPLUS arg
       '+!42'.to_ast.should == Send.new(1, @not42, :+@)
