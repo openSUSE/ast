@@ -717,7 +717,7 @@ module AST
       '!!42'.to_ast.should == Not.new(1, @not42)
 
       # '~' arg
-      # TODO: Spec.
+      '~!42'.to_ast.should == Send.new(1, @not42, :~)
 
       # arg tLSHFT arg
       # TODO: Spec.

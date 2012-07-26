@@ -598,7 +598,35 @@ module AST
   # ===== File: sends.rb =====
 
   describe Send do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @receiver = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        node = Send.new(1, @receiver, :foo, true, true)
+
+        node.line.should == 1
+        node.receiver.should == @receiver
+        node.name.should == :foo
+        node.privately.should == true
+        node.block.should == nil
+        node.check_for_local.should == false
+        node.vcall_style.should == true
+      end
+
+      it "sets privately to false if not specified" do
+        node = Send.new(1, @receiver, :foo)
+
+        node.privately.should == false
+      end
+
+      it "sets vcall_style to false if not specified" do
+        node = Send.new(1, @receiver, :foo, true)
+
+        node.vcall_style.should == false
+      end
+    end
   end
 
   describe SendWithArguments do

@@ -40,6 +40,10 @@ module AST
       Break.new exp.line, nil
     end
 
+    def process_call(exp)
+      Send.new exp.line, process(exp[1]), exp[2]
+    end
+
     def process_const(exp)
       ConstantAccess.new exp.line, exp[1]
     end

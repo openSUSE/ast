@@ -483,7 +483,19 @@ module AST
   # ===== File: sends.rb =====
 
   class Send < Node
-    # TODO: Implement.
+    # Rubinius does not define an accessor for @vcall_style. We do.
+    attr_accessor :receiver, :name, :privately, :block, :variable
+    attr_accessor :check_for_local, :vcall_style
+
+    def initialize(line, receiver, name, privately=false, vcall_style=false)
+      @line = line
+      @receiver = receiver
+      @name = name
+      @privately = privately
+      @block = nil
+      @check_for_local = false
+      @vcall_style = vcall_style
+    end
   end
 
   class SendWithArguments < Send
