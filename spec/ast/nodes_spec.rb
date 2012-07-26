@@ -155,7 +155,7 @@ module AST
         node.value.should == value
       end
 
-      it "sets value to a NilLiteral instance when expr is nil" do
+      it "sets \"value\" to a NilLiteral instance when passed nil \"expr\" param" do
         node = Break.new(1, nil)
 
         node.value.should == NilLiteral.new(1)
@@ -537,7 +537,7 @@ module AST
         node.options.should == 4
       end
 
-      it "sets options to 0 when flags is nil" do
+      it "sets \"options\" to 0 when passed nil \"flags\" param" do
         node = DynamicRegex.new(1, "abcd", @array, nil)
 
         node.options.should == 0
@@ -615,13 +615,13 @@ module AST
         node.vcall_style.should == true
       end
 
-      it "sets privately to false if not specified" do
+      it "sets \"privately\" to false when not passed the corresonding param" do
         node = Send.new(1, @receiver, :foo)
 
         node.privately.should == false
       end
 
-      it "sets vcall_style to false if not specified" do
+      it "sets \"vcall_style\" to false when not passed the corresonding param" do
         node = Send.new(1, @receiver, :foo, true)
 
         node.vcall_style.should == false
