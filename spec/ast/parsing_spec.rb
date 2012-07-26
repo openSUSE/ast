@@ -1260,7 +1260,7 @@ module AST
       '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
 
       # string string1
-      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
+      '"abcd" "efgh" "ijkl"'.to_ast.should == StringLiteral.new(1, "abcdefghijkl")
     end
 
     # Canonical string1 is "\"abcd\"".
@@ -1324,9 +1324,10 @@ module AST
       '%W()'.to_ast.should == EmptyArray.new(1)
 
       # word_list word ' '
-      '%W(a b)'.to_ast.should == ArrayLiteral.new(1, [
+      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
         StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b")
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
       ])
     end
 
@@ -1365,9 +1366,10 @@ module AST
       '%w()'.to_ast.should == EmptyArray.new(1)
 
       # qword_list tSTRING_CONTENT ' '
-      '%w(a b)'.to_ast.should == ArrayLiteral.new(1, [
+      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
         StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b")
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
       ])
     end
 
@@ -1711,11 +1713,13 @@ module AST
       ])
 
       # assocs ',' assoc
-      '{ :a => 42, :b => 43 }'.to_ast.should == HashLiteral.new(1, [
+      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == HashLiteral.new(1, [
         SymbolLiteral.new(1, :a),
         FixnumLiteral.new(1, 42),
         SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43)
+        FixnumLiteral.new(1, 43),
+        SymbolLiteral.new(1, :c),
+        FixnumLiteral.new(1, 44)
       ])
     end
 
