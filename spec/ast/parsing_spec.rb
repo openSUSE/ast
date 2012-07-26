@@ -46,6 +46,8 @@ module AST
       @to_s = ToString.new(1, GlobalVariableAccess.new(1, :$a))
 
       @ds = DynamicString.new(1, "abcd", [@to_s, @s_efgh])
+
+      @not42 = Not.new(1, @i42)
     end
 
     it "parses program" do
@@ -604,6 +606,7 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical arg is "!42".
     it "parses arg" do
       # lhs '=' arg
       # TODO: Spec.
@@ -711,7 +714,7 @@ module AST
       # TODO: Spec.
 
       # '!' arg
-      # TODO: Spec.
+      '!!42'.to_ast.should == Not.new(1, @not42)
 
       # '~' arg
       # TODO: Spec.

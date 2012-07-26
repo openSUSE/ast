@@ -452,7 +452,12 @@ module AST
   end
 
   class Not < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class OpAssign1 < Node
