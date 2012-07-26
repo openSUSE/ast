@@ -11,12 +11,12 @@ module AST
     #       Remove tags for passing specs
 
     before do
+      @i42 = FixnumLiteral.new(1, 42)
+      @i43 = FixnumLiteral.new(1, 43)
+      @i44 = FixnumLiteral.new(1, 44)
+
       @array_empty = EmptyArray.new(1)
-      @array_424344 = ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      @array_424344 = ArrayLiteral.new(1, [@i42, @i43, @i44])
       @array_abc = ArrayLiteral.new(1, [
         StringLiteral.new(1, "a"),
         StringLiteral.new(1, "b"),
@@ -26,15 +26,15 @@ module AST
       @hash_empty = HashLiteral.new(1, [])
       @hash_a42 = HashLiteral.new(1, [
         SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42)
+        @i42
       ])
       @hash_a42b43c44 = HashLiteral.new(1, [
         SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42),
+        @i42,
         SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43),
+        @i43,
         SymbolLiteral.new(1, :c),
-        FixnumLiteral.new(1, 44)
+        @i44,
       ])
     end
 
@@ -892,7 +892,7 @@ module AST
 
     it "parses primary" do
       # literal
-      '42'.to_ast.should == FixnumLiteral.new(1, 42)
+      '42'.to_ast.should == @i42
 
       # strings
       '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
@@ -1244,7 +1244,7 @@ module AST
     # Canonical literal is "42".
     it "parses literal" do
       # numeric
-      '42'.to_ast.should == FixnumLiteral.new(1, 42)
+      '42'.to_ast.should == @i42
 
       # symbol
       ':a'.to_ast.should == SymbolLiteral.new(1, :a)
@@ -1461,7 +1461,7 @@ module AST
     # Canonical numeric is "42".
     it "parses numeric" do
       # tINTEGER
-      '42'.to_ast.should == FixnumLiteral.new(1, 42)
+      '42'.to_ast.should == @i42
       '42_000_000_000_000_000_000'.to_ast.should ==
         NumberLiteral.new(1, 42_000_000_000_000_000_000)
 
