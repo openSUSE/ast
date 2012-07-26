@@ -10,6 +10,20 @@ module AST
     #
     #       Remove tags for passing specs
 
+    before do
+      @array_empty = EmptyArray.new(1)
+      @array_424344 = ArrayLiteral.new(1, [
+        FixnumLiteral.new(1, 42),
+        FixnumLiteral.new(1, 43),
+        FixnumLiteral.new(1, 44)
+      ])
+      @array_abc = ArrayLiteral.new(1, [
+        StringLiteral.new(1, "a"),
+        StringLiteral.new(1, "b"),
+        StringLiteral.new(1, "c")
+      ])
+    end
+
     it "parses program" do
       # compstmt
       # TODO: Spec.
@@ -707,17 +721,13 @@ module AST
 
     it "parses aref_args" do
       # none
-      '[]'.to_ast.should == EmptyArray.new(1)
+      '[]'.to_ast.should == @array_empty
 
       # command opt_nl
       # TODO: Spec.
 
       # args trailer
-      '[42, 43, 44,]'.to_ast.should == ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      '[42, 43, 44,]'.to_ast.should == @array_424344
 
       # args ',' tSTAR arg opt_nl
       # TODO: Spec.
@@ -880,18 +890,10 @@ module AST
       '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
 
       # words
-      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%W(a b c)'.to_ast.should == @array_abc
 
       # qwords
-      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%w(a b c)'.to_ast.should == @array_abc
 
       # var_ref
       # TODO: Spec.
@@ -921,11 +923,7 @@ module AST
       # TODO: Spec.
 
       # tLBRACK aref_args ']'
-      '[42, 43, 44]'.to_ast.should == ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      '[42, 43, 44]'.to_ast.should == @array_424344
 
       # tLBRACE assoc_list '}'
       '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == HashLiteral.new(1, [
@@ -1308,27 +1306,19 @@ module AST
     # Canonical words is "%W(a b c)".
     it "parses words" do
       # tWORDS_BEG ' ' tSTRING_END
-      '%W( )'.to_ast.should == EmptyArray.new(1)
+      '%W( )'.to_ast.should == @array_empty
 
       # tWORDS_BEG word_list tSTRING_END
-      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%W(a b c)'.to_ast.should == @array_abc
     end
 
     # Canonical word_list is "a b c".
     it "parses word_list" do
       # /* none */
-      '%W()'.to_ast.should == EmptyArray.new(1)
+      '%W()'.to_ast.should == @array_empty
 
       # word_list word ' '
-      '%W(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%W(a b c)'.to_ast.should == @array_abc
     end
 
     # Canonical word is "abcd".
@@ -1350,27 +1340,19 @@ module AST
     # Canonical qwords is "%w(a b c)".
     it "parses qwords" do
       # tQWORDS_BEG ' ' tSTRING_END
-      '%w( )'.to_ast.should == EmptyArray.new(1)
+      '%w( )'.to_ast.should == @array_empty
 
       # tQWORDS_BEG qword_list tSTRING_END
-      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%w(a b c)'.to_ast.should == @array_abc
     end
 
     # Canonical qword_list is "a b c".
     it "parses qword_list" do
       # /* none */
-      '%w()'.to_ast.should == EmptyArray.new(1)
+      '%w()'.to_ast.should == @array_empty
 
       # qword_list tSTRING_CONTENT ' '
-      '%w(a b c)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "a"),
-        StringLiteral.new(1, "b"),
-        StringLiteral.new(1, "c")
-      ])
+      '%w(a b c)'.to_ast.should == @array_abc
     end
 
     # Canonical string_contents is "abcd#{$a}efgh".
@@ -1791,25 +1773,13 @@ module AST
     # Canonical trailer is ",".
     it "parses trailer" do
       # /* none */
-      '[42, 43, 44]'.to_ast.should == ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      '[42, 43, 44]'.to_ast.should == @array_424344
 
       # '\n'
-      "[42, 43, 44\n]".to_ast.should == ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      "[42, 43, 44\n]".to_ast.should == @array_424344
 
       # ','
-      '[42, 43, 44,]'.to_ast.should == ArrayLiteral.new(1, [
-        FixnumLiteral.new(1, 42),
-        FixnumLiteral.new(1, 43),
-        FixnumLiteral.new(1, 44)
-      ])
+      '[42, 43, 44,]'.to_ast.should == @array_424344
     end
 
     it "parses term" do
