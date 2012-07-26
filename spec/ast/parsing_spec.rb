@@ -22,6 +22,20 @@ module AST
         StringLiteral.new(1, "b"),
         StringLiteral.new(1, "c")
       ])
+
+      @hash_empty = HashLiteral.new(1, [])
+      @hash_a42 = HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42)
+      ])
+      @hash_a42b43c44 = HashLiteral.new(1, [
+        SymbolLiteral.new(1, :a),
+        FixnumLiteral.new(1, 42),
+        SymbolLiteral.new(1, :b),
+        FixnumLiteral.new(1, 43),
+        SymbolLiteral.new(1, :c),
+        FixnumLiteral.new(1, 44)
+      ])
     end
 
     it "parses program" do
@@ -926,14 +940,7 @@ module AST
       '[42, 43, 44]'.to_ast.should == @array_424344
 
       # tLBRACE assoc_list '}'
-      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42),
-        SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43),
-        SymbolLiteral.new(1, :c),
-        FixnumLiteral.new(1, 44)
-      ])
+      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == @hash_a42b43c44
 
       # kRETURN
       'return'.to_ast.should == Return.new(1, nil)
@@ -1663,46 +1670,22 @@ module AST
     # Canonical assoc_list is ":a => 42, :b => 43, :c => 44".
     it "parses assoc_list" do
       # none
-      '{}'.to_ast.should == HashLiteral.new(1, [])
+      '{}'.to_ast.should == @hash_empty
 
       # assocs trailer
-      '{ :a => 42, :b => 43, :c => 44, }'.to_ast.should == HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42),
-        SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43),
-        SymbolLiteral.new(1, :c),
-        FixnumLiteral.new(1, 44)
-      ])
+      '{ :a => 42, :b => 43, :c => 44, }'.to_ast.should == @hash_a42b43c44
 
       # args trailer
-      '{ :a, 42, :b, 43, :c, 44, }'.to_ast.should == HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42),
-        SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43),
-        SymbolLiteral.new(1, :c),
-        FixnumLiteral.new(1, 44)
-      ])
+      '{ :a, 42, :b, 43, :c, 44, }'.to_ast.should == @hash_a42b43c44
     end
 
     # Canonical assocs is ":a => 42, :b => 43, :c => 44".
     it "parses assocs" do
       # assoc
-      '{ :a => 42 }'.to_ast.should == HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42)
-      ])
+      '{ :a => 42 }'.to_ast.should == @hash_a42
 
       # assocs ',' assoc
-      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        FixnumLiteral.new(1, 42),
-        SymbolLiteral.new(1, :b),
-        FixnumLiteral.new(1, 43),
-        SymbolLiteral.new(1, :c),
-        FixnumLiteral.new(1, 44)
-      ])
+      '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == @hash_a42b43c44
     end
 
     it "parses assoc" do
