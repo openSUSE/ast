@@ -42,6 +42,8 @@ module AST
         @sym_c,
         @i44
       ])
+
+      @to_s = ToString.new(1, GlobalVariableAccess.new(1, :$a))
     end
 
     it "parses program" do
@@ -1278,42 +1280,30 @@ module AST
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
       '"abcd"'.to_ast.should == @s_abcd
-      '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ])
+      '"abcd#{$a}efgh"'.to_ast.should ==
+        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     # Canonical xstring is "`abcd`".
     it "parses xstring" do
       # tXSTRING_BEG xstring_contents tSTRING_END
       '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
-      '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ])
+      '`abcd#{$a}efgh`'.to_ast.should ==
+        DynamicExecuteString.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     # Canonical regexp is "/abcd/".
     it "parses regexp" do
       # tREGEXP_BEG xstring_contents tREGEXP_END
       '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
-      '/abcd#{$a}efgh/'.to_ast.should == DynamicRegex.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ], 0)
-      '/abcd#{$a}efgh/m'.to_ast.should == DynamicRegex.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ], 4)
-      '/abcd#{$a}efgh/o'.to_ast.should == DynamicOnceRegex.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ], 0)
-      '/abcd#{$a}efgh/om'.to_ast.should == DynamicOnceRegex.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ], 4)
+      '/abcd#{$a}efgh/'.to_ast.should ==
+        DynamicRegex.new(1, "abcd", [@to_s, @s_efgh], 0)
+      '/abcd#{$a}efgh/m'.to_ast.should ==
+        DynamicRegex.new(1, "abcd", [@to_s, @s_efgh], 4)
+      '/abcd#{$a}efgh/o'.to_ast.should ==
+        DynamicOnceRegex.new(1, "abcd", [@to_s, @s_efgh], 0)
+      '/abcd#{$a}efgh/om'.to_ast.should ==
+        DynamicOnceRegex.new(1, "abcd", [@to_s, @s_efgh], 4)
     end
 
     # Canonical words is "%W(a b c)".
@@ -1341,10 +1331,7 @@ module AST
 
       # word string_content
       '%W(abcd#{$a}efgh)'.to_ast.should == ArrayLiteral.new(1, [
-        DynamicString.new(1, "abcd", [
-          ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          @s_efgh
-        ])
+        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
       ])
     end
 
@@ -1372,10 +1359,8 @@ module AST
       '""'.to_ast.should == @s_empty
 
       # string_contents string_content
-      '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ])
+      '"abcd#{$a}efgh"'.to_ast.should ==
+        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     # Canonical xstring_contents is " #$a ".
@@ -1384,10 +1369,8 @@ module AST
       '``'.to_ast.should == ExecuteString.new(1, "")
 
       # xstring_contents string_content
-      '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ])
+      '`abcd#{$a}efgh`'.to_ast.should ==
+        DynamicExecuteString.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     # Canonical string_content is "abcd".
@@ -1396,9 +1379,7 @@ module AST
       '"abcd"'.to_ast.should == @s_abcd
 
       # tSTRING_DVAR string_dvar
-      '"#$a"'.to_ast.should == DynamicString.new(1, "", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a))
-      ])
+      '"#$a"'.to_ast.should == DynamicString.new(1, "", [@to_s])
 
       # tSTRING_DBEG compstmt '}'
       # TODO: Spec regular case.
@@ -1409,9 +1390,7 @@ module AST
     # Canonical string_dvar is "$a".
     it "parses string_dvar" do
       # tGVAR
-      '"#$a"'.to_ast.should == DynamicString.new(1, "", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a))
-      ])
+      '"#$a"'.to_ast.should == DynamicString.new(1, "", [@to_s])
 
       # tIVAR
       '"#@a"'.to_ast.should == DynamicString.new(1, "", [
@@ -1454,10 +1433,8 @@ module AST
     it "parses dsym" do
       # tSYMBEG xstring_contents tSTRING_END
       ':"abcd"'.to_ast.should == SymbolLiteral.new(1, :abcd)
-      ':"abcd#{$a}efgh"'.to_ast.should == DynamicSymbol.new(1, "abcd", [
-        ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        @s_efgh
-      ])
+      ':"abcd#{$a}efgh"'.to_ast.should ==
+        DynamicSymbol.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     # Canonical numeric is "42".
