@@ -15,6 +15,10 @@ module AST
       @i43 = FixnumLiteral.new(1, 43)
       @i44 = FixnumLiteral.new(1, 44)
 
+      @sym_a = SymbolLiteral.new(1, :a)
+      @sym_b = SymbolLiteral.new(1, :b)
+      @sym_c = SymbolLiteral.new(1, :c)
+
       @array_empty = EmptyArray.new(1)
       @array_424344 = ArrayLiteral.new(1, [@i42, @i43, @i44])
       @array_abc = ArrayLiteral.new(1, [
@@ -24,17 +28,14 @@ module AST
       ])
 
       @hash_empty = HashLiteral.new(1, [])
-      @hash_a42 = HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
-        @i42
-      ])
+      @hash_a42 = HashLiteral.new(1, [@sym_a, @i42])
       @hash_a42b43c44 = HashLiteral.new(1, [
-        SymbolLiteral.new(1, :a),
+        @sym_a,
         @i42,
-        SymbolLiteral.new(1, :b),
+        @sym_b,
         @i43,
-        SymbolLiteral.new(1, :c),
-        @i44,
+        @sym_c,
+        @i44
       ])
     end
 
@@ -1247,10 +1248,10 @@ module AST
       '42'.to_ast.should == @i42
 
       # symbol
-      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
+      ':a'.to_ast.should == @sym_a
 
       # dsym
-      ':"a"'.to_ast.should == SymbolLiteral.new(1, :a)
+      ':"a"'.to_ast.should == @sym_a
     end
 
     # Canonical strings is "\"abcd\" \"efgh\"".
@@ -1430,13 +1431,13 @@ module AST
     # Canonical symbol is ":a".
     it "parses symbol" do
       # tSYMBEG sym
-      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
+      ':a'.to_ast.should == @sym_a
     end
 
     # Canonical sym is ":a".
     it "parses sym" do
       # fname
-      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
+      ':a'.to_ast.should == @sym_a
 
       # tIVAR
       ':@a'.to_ast.should == SymbolLiteral.new(1, :@a)
