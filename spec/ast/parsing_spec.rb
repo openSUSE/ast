@@ -19,6 +19,11 @@ module AST
       @sym_b = SymbolLiteral.new(1, :b)
       @sym_c = SymbolLiteral.new(1, :c)
 
+      @s_empty = StringLiteral.new(1, "")
+      @s_abcd = StringLiteral.new(1, "abcd")
+      @s_efgh = StringLiteral.new(1, "efgh")
+      @s_strings = StringLiteral.new(1, "abcdefghijkl")
+
       @array_empty = EmptyArray.new(1)
       @array_424344 = ArrayLiteral.new(1, [@i42, @i43, @i44])
       @array_abc = ArrayLiteral.new(1, [
@@ -896,7 +901,7 @@ module AST
       '42'.to_ast.should == @i42
 
       # strings
-      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
+      '"abcd" "efgh" "ijkl"'.to_ast.should == @s_strings
 
       # xstring
       '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
@@ -1254,28 +1259,28 @@ module AST
       ':"a"'.to_ast.should == @sym_a
     end
 
-    # Canonical strings is "\"abcd\" \"efgh\"".
+    # Canonical strings is "\"abcd\" \"efgh\" \"ijkl\"".
     it "parses strings" do
       # string
-      '"abcd" "efgh"'.to_ast.should == StringLiteral.new(1, "abcdefgh")
+      '"abcd" "efgh" "ijkl"'.to_ast.should == @s_strings
     end
 
-    # Canonical string is "\"abcd\" \"efgh\"".
+    # Canonical string is "\"abcd\" \"efgh\" \"ijkl\"".
     it "parses string" do
       # string1
-      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
+      '"abcd"'.to_ast.should == @s_abcd
 
       # string string1
-      '"abcd" "efgh" "ijkl"'.to_ast.should == StringLiteral.new(1, "abcdefghijkl")
+      '"abcd" "efgh" "ijkl"'.to_ast.should == @s_strings
     end
 
     # Canonical string1 is "\"abcd\"".
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
-      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
+      '"abcd"'.to_ast.should == @s_abcd
       '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ])
     end
 
@@ -1285,7 +1290,7 @@ module AST
       '`abcd`'.to_ast.should == ExecuteString.new(1, "abcd")
       '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ])
     end
 
@@ -1295,19 +1300,19 @@ module AST
       '/abcd/'.to_ast.should == RegexLiteral.new(1, "abcd", 0)
       '/abcd#{$a}efgh/'.to_ast.should == DynamicRegex.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ], 0)
       '/abcd#{$a}efgh/m'.to_ast.should == DynamicRegex.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ], 4)
       '/abcd#{$a}efgh/o'.to_ast.should == DynamicOnceRegex.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ], 0)
       '/abcd#{$a}efgh/om'.to_ast.should == DynamicOnceRegex.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ], 4)
     end
 
@@ -1332,15 +1337,13 @@ module AST
     # Canonical word is "abcd".
     it "parses word" do
       # string_content
-      '%W(abcd)'.to_ast.should == ArrayLiteral.new(1, [
-        StringLiteral.new(1, "abcd")
-      ])
+      '%W(abcd)'.to_ast.should == ArrayLiteral.new(1, [@s_abcd])
 
       # word string_content
       '%W(abcd#{$a}efgh)'.to_ast.should == ArrayLiteral.new(1, [
         DynamicString.new(1, "abcd", [
           ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-          StringLiteral.new(1, "efgh")
+          @s_efgh
         ])
       ])
     end
@@ -1366,12 +1369,12 @@ module AST
     # Canonical string_contents is "abcd#{$a}efgh".
     it "parses string_contents" do
       # /* none */
-      '""'.to_ast.should == StringLiteral.new(1, "")
+      '""'.to_ast.should == @s_empty
 
       # string_contents string_content
       '"abcd#{$a}efgh"'.to_ast.should == DynamicString.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ])
     end
 
@@ -1383,14 +1386,14 @@ module AST
       # xstring_contents string_content
       '`abcd#{$a}efgh`'.to_ast.should == DynamicExecuteString.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ])
     end
 
     # Canonical string_content is "abcd".
     it "parses string_content" do
       # tSTRING_CONTENT
-      '"abcd"'.to_ast.should == StringLiteral.new(1, "abcd")
+      '"abcd"'.to_ast.should == @s_abcd
 
       # tSTRING_DVAR string_dvar
       '"#$a"'.to_ast.should == DynamicString.new(1, "", [
@@ -1400,9 +1403,7 @@ module AST
       # tSTRING_DBEG compstmt '}'
       # TODO: Spec regular case.
       # Special case -- see Processor#process_evstr.
-      '"#{}"'.to_ast.should == DynamicString.new(1, "", [
-        StringLiteral.new(1, "")
-      ])
+      '"#{}"'.to_ast.should == DynamicString.new(1, "", [@s_empty])
     end
 
     # Canonical string_dvar is "$a".
@@ -1455,7 +1456,7 @@ module AST
       ':"abcd"'.to_ast.should == SymbolLiteral.new(1, :abcd)
       ':"abcd#{$a}efgh"'.to_ast.should == DynamicSymbol.new(1, "abcd", [
         ToString.new(1, GlobalVariableAccess.new(1, :$a)),
-        StringLiteral.new(1, "efgh")
+        @s_efgh
       ])
     end
 
