@@ -44,6 +44,8 @@ module AST
       ])
 
       @to_s = ToString.new(1, GlobalVariableAccess.new(1, :$a))
+
+      @ds = DynamicString.new(1, "abcd", [@to_s, @s_efgh])
     end
 
     it "parses program" do
@@ -1280,8 +1282,7 @@ module AST
     it "parses string1" do
       # tSTRING_BEG string_contents tSTRING_END
       '"abcd"'.to_ast.should == @s_abcd
-      '"abcd#{$a}efgh"'.to_ast.should ==
-        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
+      '"abcd#{$a}efgh"'.to_ast.should == @ds
     end
 
     # Canonical xstring is "`abcd`".
@@ -1330,9 +1331,7 @@ module AST
       '%W(abcd)'.to_ast.should == ArrayLiteral.new(1, [@s_abcd])
 
       # word string_content
-      '%W(abcd#{$a}efgh)'.to_ast.should == ArrayLiteral.new(1, [
-        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
-      ])
+      '%W(abcd#{$a}efgh)'.to_ast.should == ArrayLiteral.new(1, [@ds])
     end
 
     # Canonical qwords is "%w(a b c)".
@@ -1359,8 +1358,7 @@ module AST
       '""'.to_ast.should == @s_empty
 
       # string_contents string_content
-      '"abcd#{$a}efgh"'.to_ast.should ==
-        DynamicString.new(1, "abcd", [@to_s, @s_efgh])
+      '"abcd#{$a}efgh"'.to_ast.should == @ds
     end
 
     # Canonical xstring_contents is " #$a ".
