@@ -682,7 +682,170 @@ module AST
   end
 
   describe ActualArguments do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets \"line\" correctly" do
+        node = ActualArguments.new(1)
+
+        node.line.should == 1
+      end
+
+      describe "when not passed the \"arguments\" param" do
+        it "sets \"array\" and \"splat\" correctly" do
+          node = ActualArguments.new(1)
+
+          node.array.should == []
+          node.splat.should == nil
+        end
+      end
+
+      describe "when passed a SplatValue instance as the \"arguments\" param" do
+        it "sets \"array\" and \"splat\" correctly" do
+          arguments = SplatValue.new(1, FixnumLiteral.new(1, 42))
+          node = ActualArguments.new(1, arguments)
+
+          node.array.should == []
+          node.splat.should == arguments
+        end
+      end
+
+      describe "when passed a ConcatArgs instance as the \"arguments\" param" do
+        describe "and its \"array\" is an ArrayLiteral instance" do
+          it "sets \"array\" and \"splat\" correctly" do
+            body = [
+              FixnumLiteral.new(1, 42),
+              FixnumLiteral.new(1, 43),
+              FixnumLiteral.new(1, 44)
+            ]
+            rest = FixnumLiteral.new(1, 45)
+            node = ActualArguments.new(
+              1,
+              ConcatArgs.new(1, ArrayLiteral.new(1, body), rest)
+            )
+
+            node.array.should == body
+            node.splat.should == SplatValue.new(1, rest)
+          end
+        end
+
+        describe "and its \"array\" is an PushArgs instance" do
+          it "sets \"array\" and \"splat\" correctly" do
+            array = PushArgs.new(
+              1,
+              ConcatArgs.new(
+                1,
+                ArrayLiteral.new(1, [
+                  FixnumLiteral.new(1, 42),
+                  FixnumLiteral.new(1, 43),
+                  FixnumLiteral.new(1, 44)
+                ]),
+                FixnumLiteral.new(1, 45)
+              ),
+              FixnumLiteral.new(1, 46)
+            )
+            rest = FixnumLiteral.new(1, 47)
+            node = ActualArguments.new(1, ConcatArgs.new(1, array, rest))
+
+            node.array.should == []
+            node.splat.should ==
+              CollectSplat.new(1, array, SplatValue.new(1, rest))
+          end
+        end
+
+        describe "and its \"array\" is something else" do
+          it "sets \"array\" and \"splat\" correctly" do
+            array = FixnumLiteral.new(1, 42),
+            rest = FixnumLiteral.new(1, 43)
+            node = ActualArguments.new(1, ConcatArgs.new(1, array, rest))
+
+            node.array.should == []
+            node.splat.should == CollectSplat.new(1, array, rest)
+          end
+        end
+      end
+
+      describe "when passed a PushArgs instance as the \"arguments\" param" do
+        describe "and its \"arguments\" is a ConcatArgs instance" do
+          describe "and calling \"pee_lhs\" on it returns a non-nil value" do
+            it "sets \"array\" and \"splat\" correctly" do
+              body = [
+                FixnumLiteral.new(1, 42),
+                FixnumLiteral.new(1, 43),
+                FixnumLiteral.new(1, 44)
+              ]
+              arguments = ConcatArgs.new(
+                1,
+                ArrayLiteral.new(1, body),
+                FixnumLiteral.new(1, 45)
+              )
+              value = FixnumLiteral.new(1, 46)
+              node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+
+              node.array.should == body
+              node.splat.should == CollectSplat.new(1, arguments, value)
+            end
+          end
+
+          describe "and calling \"pee_lhs\" on it returns nil" do
+            it "sets \"array\" and \"splat\" correctly" do
+              arguments = ConcatArgs.new(
+                1,
+                FixnumLiteral.new(1, 42),
+                FixnumLiteral.new(1, 43)
+              )
+              value = FixnumLiteral.new(1, 44)
+              node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+
+              node.array.should == []
+              node.splat.should == CollectSplat.new(1, arguments, value)
+            end
+          end
+        end
+
+        describe "and its \"arguments\" is something else" do
+          it "sets \"array\" and \"splat\" correctly" do
+            arguments = FixnumLiteral.new(1, 42)
+            value = FixnumLiteral.new(1, 43)
+            node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+
+            node.array.should == []
+            node.splat.should == CollectSplat.new(1, arguments, value)
+          end
+        end
+      end
+
+      describe "when passed an ArrayLiteral instance as the \"arguments\" param" do
+        it "sets \"array\" and \"splat\" correctly" do
+          body = [
+            FixnumLiteral.new(1, 42),
+            FixnumLiteral.new(1, 43),
+            FixnumLiteral.new(1, 44)
+          ]
+          node = ActualArguments.new(1, ArrayLiteral.new(1, body))
+
+          node.array.should == body
+          node.splat.should == nil
+        end
+      end
+
+      describe "when passed nil as the \"arguments\" param" do
+        it "sets \"array\" and \"splat\" correctly" do
+          node = ActualArguments.new(1, nil)
+
+          node.array.should == []
+          node.splat.should == nil
+        end
+      end
+
+      describe "when passed something else as the \"arguments\" param" do
+        it "sets \"array\" and \"splat\" correctly" do
+          arguments = FixnumLiteral.new(1, 42)
+          node = ActualArguments.new(1, arguments)
+
+          node.array.should == [arguments]
+          node.splat.should == nil
+        end
+      end
+    end
   end
 
   describe Iter do

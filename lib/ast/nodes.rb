@@ -543,7 +543,49 @@ module AST
   end
 
   class ActualArguments < Node
-    # TODO: Implement.
+    attr_accessor :array, :splat
+
+    def initialize(line, arguments=nil)
+      @line = line
+      @splat = nil
+
+      case arguments
+      when SplatValue
+        @splat = arguments
+        @array = []
+      when ConcatArgs
+        case arguments.array
+        when ArrayLiteral
+          @array = arguments.array.body
+          @splat = SplatValue.new line, arguments.rest
+        when PushArgs
+          @array = []
+          node = SplatValue.new line, arguments.rest
+          @splat = CollectSplat.new line, arguments.array, node
+        else
+          @array = []
+          @splat = CollectSplat.new line, arguments.array, arguments.rest
+        end
+      when PushArgs
+        if arguments.arguments.kind_of? ConcatArgs
+          if ary = arguments.arguments.peel_lhs
+            @array = ary
+          else
+            @array = []
+          end
+        else
+          @array = []
+        end
+
+        @splat = CollectSplat.new line, arguments.arguments, arguments.value
+      when ArrayLiteral
+        @array = arguments.body
+      when nil
+        @array = []
+      else
+        @array = [arguments]
+      end
+    end
   end
 
   class Iter < Node
