@@ -950,7 +950,7 @@ module AST
       '%w(a b c)'.to_ast.should == @array_abc
 
       # var_ref
-      # TODO: Spec.
+      '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)
 
       # backref
       '$&'.to_ast.should == BackRef.new(1, :&)
@@ -1525,9 +1525,10 @@ module AST
       '__LINE__'.to_ast.should == FixnumLiteral.new(1, 1)
     end
 
+    # Canonical var_ref is "@a".
     it "parses var_ref" do
       # variable
-      # TODO: Spec.
+      '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)
     end
 
     it "parses var_lhs" do
