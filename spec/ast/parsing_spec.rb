@@ -962,7 +962,7 @@ module AST
       # TODO: Spec.
 
       # tLPAREN_ARG expr opt_nl ')'
-      # TODO: Spec.
+      "((42)\n)".to_ast.should == @i42
 
       # tLPAREN compstmt ')'
       # TODO: Spec.
