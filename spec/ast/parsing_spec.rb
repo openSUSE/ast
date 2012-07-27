@@ -971,7 +971,7 @@ module AST
       # TODO: Spec.
 
       # tCOLON3 tCONSTANT
-      # TODO: Spec.
+      '::A'.to_ast.should == ToplevelConstant.new(1, :A)
 
       # primary_value '[' aref_args ']'
       # TODO: Spec.

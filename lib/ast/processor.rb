@@ -76,6 +76,10 @@ module AST
       end
     end
 
+    def process_colon3(exp)
+      ToplevelConstant.new exp.line, exp[1]
+    end
+
     def process_const(exp)
       ConstantAccess.new exp.line, exp[1]
     end

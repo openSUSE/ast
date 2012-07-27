@@ -45,7 +45,12 @@ module AST
   end
 
   class ToplevelConstant < Node
-    # TODO: Implement.
+    attr_accessor :name
+
+    def initialize(line, name)
+      @line = line
+      @name = name
+    end
   end
 
   class ConstantAccess < Node
