@@ -62,7 +62,15 @@ module AST
 
     def process_call(exp)
       if exp[3].size == 1
-        Send.new exp.line, process(exp[1]), exp[2]
+        if exp[1].nil?
+          receiver = Self.new exp.line
+          privately = true
+        else
+          receiver = process(exp[1])
+          privately = false
+        end
+
+        Send.new exp.line, receiver, exp[2], privately
       else
         SendWithArguments.new exp.line, process(exp[1]), exp[2], process(exp[3])
       end
