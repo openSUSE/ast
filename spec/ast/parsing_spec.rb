@@ -326,6 +326,7 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical lhs is "@a".
     it "parses lhs" do
       # variable
       'a = 42'.to_ast.should == LocalVariableAssignment.new(1, :a, @i42)
@@ -380,7 +381,7 @@ module AST
       )
 
       # backref
-      # TODO: Spec.
+      # Produces error => not tested.
     end
 
     it "parses cname" do
