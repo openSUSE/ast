@@ -108,7 +108,35 @@ module AST
   end
 
   describe ConstantAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @value = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        node = ConstantAssignment.new(1, :a, @value)
+
+        node.line.should == 1
+        node.value.should == @value
+      end
+
+      describe "when passed a symbol as the \"expr\" param" do
+        it "sets \"constant\" correctly" do
+          node = ConstantAssignment.new(1, :a, @value)
+
+          node.constant.should == ConstantAccess.new(1, :a)
+        end
+      end
+
+      describe "when passed something else as the \"expr\" param" do
+        it "sets \"constant\" correctly" do
+          expr = FixnumLiteral.new(1, 42)
+          node = ConstantAssignment.new(1, expr, @value)
+
+          node.constant.should == expr
+        end
+      end
+    end
   end
 
   # ===== File: control_flow.rb =====

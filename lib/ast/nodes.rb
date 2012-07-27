@@ -69,7 +69,18 @@ module AST
   end
 
   class ConstantAssignment < Node
-    # TODO: Implement.
+    attr_accessor :constant, :value
+
+    def initialize(line, expr, value)
+      @line = line
+      @value = value
+
+      if expr.kind_of? Symbol
+        @constant = ConstantAccess.new line, expr
+      else
+        @constant = expr
+      end
+    end
   end
 
   # ===== File: control_flow.rb =====

@@ -85,6 +85,10 @@ module AST
       end
     end
 
+    def process_cdecl(exp)
+      ConstantAssignment.new exp.line, process(exp[1]), process(exp[2])
+    end
+
     def process_colon2(exp)
       ScopedConstant.new exp.line, process(exp[1]), exp[2]
     end

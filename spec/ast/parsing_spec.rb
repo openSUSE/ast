@@ -366,10 +366,18 @@ module AST
       )
 
       # primary_value tCOLON2 tCONSTANT
-      # TODO: Spec.
+      '(42)::A = 42'.to_ast.should == ConstantAssignment.new(
+        1,
+        ScopedConstant.new(1, @i42, :A),
+        @i42
+      )
 
       # tCOLON3 tCONSTANT
-      # TODO: Spec.
+      '::A = 42'.to_ast.should == ConstantAssignment.new(
+        1,
+        ToplevelConstant.new(1, :A),
+        @i42
+      )
 
       # backref
       # TODO: Spec.
