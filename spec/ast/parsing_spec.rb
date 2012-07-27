@@ -180,9 +180,10 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical expr_value is "not 42".
     it "parses expr_value" do
       # expr
-      # TODO: Spec.
+      'not 42'.to_ast.should == @not42
     end
 
     it "parses command_call" do
