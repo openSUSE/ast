@@ -68,6 +68,14 @@ module AST
       Defined.new exp.line, process(exp[1])
     end
 
+    def process_dot2(exp)
+      Range.new exp.line, process(exp[1]), process(exp[2])
+    end
+
+    def process_dot3(exp)
+      RangeExclude.new exp.line, process(exp[1]), process(exp[2])
+    end
+
     def process_dregx(exp)
       flags = exp.last.is_a?(Fixnum) ? exp.pop : nil
 

@@ -398,11 +398,18 @@ module AST
   end
 
   class Range < Node
-    # TODO: Implement.
+    attr_accessor :start, :finish
+
+    def initialize(line, start, finish)
+      @line = line
+      @start = start
+      @finish = finish
+    end
   end
 
   class RangeExclude < Range
-    # TODO: Implement.
+    # Rubinius defines "initialize" here in the same way as for Range. This is
+    # useless so we don't do it.
   end
 
   class RegexLiteral < Node

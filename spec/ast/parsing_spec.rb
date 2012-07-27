@@ -641,10 +641,10 @@ module AST
       # TODO: Spec.
 
       # arg tDOT2 arg
-      # TODO: Spec.
+      '!42..!43'.to_ast.should == Range.new(1, @not42, @not43)
 
       # arg tDOT3 arg
-      # TODO: Spec.
+      '!42...!43'.to_ast.should == RangeExclude.new(1, @not42, @not43)
 
       # arg '+' arg
       '!42 + !43'.to_ast.should == SendWithArguments.new(1, @not42, :+, @not43)

@@ -499,11 +499,21 @@ module AST
   end
 
   describe Range do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        start = NumberLiteral.new(1, 42)
+        finish = NumberLiteral.new(1, 43)
+        node = Range.new(1, start, finish)
+
+        node.line.should == 1
+        node.start.should == start
+        node.finish.should == finish
+      end
+    end
   end
 
   describe RangeExclude do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe RegexLiteral do
