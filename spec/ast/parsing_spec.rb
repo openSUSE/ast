@@ -55,6 +55,8 @@ module AST
 
       @and = And.new(1, @not42, @not43)
       @or = Or.new(1, @not42, @not43)
+
+      @defined = Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
     end
 
     it "parses program" do
@@ -749,8 +751,7 @@ module AST
       '!42 || !43'.to_ast.should == @or
 
       # kDEFINED opt_nl arg
-      "defined?\n!42".to_ast.should ==
-        Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
+      "defined?\n!42".to_ast.should == @defined
 
       # arg '?' arg ":" arg
       '!42 ? !43 : !44'.to_ast.should == If.new(1, @not42, @not43, @not44)
@@ -996,7 +997,7 @@ module AST
       # TODO: Spec.
 
       # kDEFINED opt_nl '(' expr ')'
-      # TODO: Spec.
+      "defined?\n(not 42)".to_ast.should == @defined
 
       # operation brace_block
       # TODO: Spec.
