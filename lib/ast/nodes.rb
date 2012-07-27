@@ -550,7 +550,16 @@ module AST
   end
 
   class AttributeAssignment < SendWithArguments
-    # TODO: Implement.
+    def initialize(line, receiver, name, arguments)
+      @line = line
+
+      @receiver = receiver
+      @privately = receiver.kind_of?(Self) ? true : false
+
+      @name = :"#{name}="
+
+      @arguments = ActualArguments.new line, arguments
+    end
   end
 
   class ElementAssignment < SendWithArguments

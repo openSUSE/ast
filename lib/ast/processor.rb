@@ -33,7 +33,12 @@ module AST
     end
 
     def process_attrasgn(exp)
-      ElementAssignment.new exp.line, process(exp[1]), process(exp[3])
+      if exp[2] == :[]=
+        ElementAssignment.new exp.line, process(exp[1]), process(exp[3])
+      else
+        name = exp[2].to_s[0..-2].to_sym
+        AttributeAssignment.new exp.line, process(exp[1]), name, process(exp[3])
+      end
     end
 
     def process_array(exp)

@@ -26,6 +26,7 @@ module AST
       @s_strings = StringLiteral.new(1, "abcdefghijkl")
 
       @array_empty = EmptyArray.new(1)
+      @array_42 = ArrayLiteral.new(1, [@i42])
       @array_424344 = ArrayLiteral.new(1, [@i42, @i43, @i44])
       @array_abc = ArrayLiteral.new(1, [
         StringLiteral.new(1, "a"),
@@ -341,13 +342,28 @@ module AST
       )
 
       # primary_value '.' tIDENTIFIER
-      # TODO: Spec.
+      '(42).a = 42'.to_ast.should == AttributeAssignment.new(
+        1,
+        @i42,
+        :a,
+        @array_42
+      )
 
       # primary_value tCOLON2 tIDENTIFIER
-      # TODO: Spec.
+      '(42)::a = 42'.to_ast.should == AttributeAssignment.new(
+        1,
+        @i42,
+        :a,
+        @array_42
+      )
 
       # primary_value '.' tCONSTANT
-      # TODO: Spec.
+      '(42).A = 42'.to_ast.should == AttributeAssignment.new(
+        1,
+        @i42,
+        :A,
+        @array_42
+      )
 
       # primary_value tCOLON2 tCONSTANT
       # TODO: Spec.

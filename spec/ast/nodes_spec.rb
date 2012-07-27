@@ -729,7 +729,37 @@ module AST
   end
 
   describe AttributeAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @receiver = FixnumLiteral.new(1, 42)
+        @arguments = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        node = AttributeAssignment.new(1, @receiver, :a, @arguments)
+
+        node.line.should == 1
+        node.receiver.should == @receiver
+        node.name.should == :a=
+        node.arguments.should == ActualArguments.new(1, @arguments)
+      end
+
+      describe "when passed a Self instance as the \"receiver\" param" do
+        it "sets \"privately\" to true" do
+          node = AttributeAssignment.new(1, Self.new(1), :a, @arguments)
+
+          node.privately.should == true
+        end
+      end
+
+      describe "when passed something else as the \"receiver\" param" do
+        it "sets \"privately\" to false" do
+          node = AttributeAssignment.new(1, @receiver, :a, @arguments)
+
+          node.privately.should == false
+        end
+      end
+    end
   end
 
   describe ElementAssignment do
