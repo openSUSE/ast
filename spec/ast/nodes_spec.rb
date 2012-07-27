@@ -556,7 +556,17 @@ module AST
   # ===== File: operators.rb =====
 
   describe And do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        left = FixnumLiteral.new(1, 42)
+        right = FixnumLiteral.new(1, 43)
+        node = And.new(1, left, right)
+
+        node.line.should == 1
+        node.left.should == left
+        node.right.should == right
+      end
+    end
   end
 
   describe Or do

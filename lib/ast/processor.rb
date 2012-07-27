@@ -24,6 +24,10 @@ module AST
       self.expected = Object
     end
 
+    def process_and(exp)
+      And.new exp.line, process(exp[1]), process(exp[2])
+    end
+
     def process_arglist(exp)
       ArrayLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
     end

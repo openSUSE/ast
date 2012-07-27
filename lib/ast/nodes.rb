@@ -444,7 +444,13 @@ module AST
   # ===== File: operators.rb =====
 
   class And < Node
-    # TODO: Implement.
+    attr_accessor :left, :right
+
+    def initialize(line, left, right)
+      @line = line
+      @left = left
+      @right = right
+    end
   end
 
   class Or < And

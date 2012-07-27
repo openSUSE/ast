@@ -736,7 +736,7 @@ module AST
       '!42 >> !43'.to_ast.should == SendWithArguments.new(1, @not42, :>>, @not43)
 
       # arg tANDOP arg
-      # TODO: Spec.
+      '!42 && !43'.to_ast.should == And.new(1, @not42, @not43)
 
       # arg tOROP arg
       # TODO: Spec.
