@@ -122,7 +122,34 @@ module AST
   end
 
   describe If do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @condition = FixnumLiteral.new(1, 42)
+        @body = FixnumLiteral.new(1, 43)
+        @else = FixnumLiteral.new(1, 44)
+      end
+
+      it "sets attributes correctly" do
+        node = If.new(1, @condition, @body, @else)
+
+        node.line.should == 1
+        node.condition.should == @condition
+        node.body.should == @body
+        node.else.should == @else
+      end
+
+      it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
+        node = If.new(1, @condition, nil, @else)
+
+        node.body.should == NilLiteral.new(1)
+      end
+
+      it "sets \"else\" to a NilLiteral instance when passed nil \"else_body\" param" do
+        node = If.new(1, @condition, @body, nil)
+
+        node.else.should == NilLiteral.new(1)
+      end
+    end
   end
 
   describe While do

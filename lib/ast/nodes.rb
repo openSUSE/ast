@@ -88,7 +88,14 @@ module AST
   end
 
   class If < Node
-    # TODO: Implement.
+    attr_accessor :condition, :body, :else
+
+    def initialize(line, condition, body, else_body)
+      @line = line
+      @condition = condition
+      @body = body || NilLiteral.new(line)
+      @else = else_body || NilLiteral.new(line)
+    end
   end
 
   class While < Node

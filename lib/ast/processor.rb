@@ -112,6 +112,10 @@ module AST
       HashLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
     end
 
+    def process_if(exp)
+      If.new exp.line, process(exp[1]), process(exp[2]), process(exp[3])
+    end
+
     def process_ivar(exp)
       InstanceVariableAccess.new exp.line, exp[1]
     end

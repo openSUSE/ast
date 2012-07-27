@@ -49,6 +49,7 @@ module AST
 
       @not42 = Not.new(1, @i42)
       @not43 = Not.new(1, @i43)
+      @not44 = Not.new(1, @i44)
     end
 
     it "parses program" do
@@ -745,8 +746,8 @@ module AST
       "defined?\n!42".to_ast.should ==
         Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
 
-      # arg '?' arg     it "parses '" do' arg
-      # TODO: Spec.
+      # arg '?' arg ":" arg
+      '!42 ? !43 : !44'.to_ast.should == If.new(1, @not42, @not43, @not44)
 
       # primary
       # TODO: Spec.
