@@ -536,129 +536,130 @@ module AST
       ':`'.to_ast.should == SymbolLiteral.new(1, :`)
     end
 
+    # Canonical reswords is "class".
     it "parses reswords" do
-      # k__LINE_
-      # TODO: Spec.
+      # k__LINE__
+      ':__LINE__'.to_ast.should == SymbolLiteral.new(1, :__LINE__)
 
       # k__FILE__
-      # TODO: Spec.
+      ':__FILE__'.to_ast.should == SymbolLiteral.new(1, :__FILE__)
 
       # klBEGIN
-      # TODO: Spec.
+      ':BEGIN'.to_ast.should == SymbolLiteral.new(1, :BEGIN)
 
       # klEND
-      # TODO: Spec.
+      ':END'.to_ast.should == SymbolLiteral.new(1, :END)
 
       # kALIAS
-      # TODO: Spec.
+      ':alias'.to_ast.should == SymbolLiteral.new(1, :alias)
 
       # kAND
-      # TODO: Spec.
+      ':and'.to_ast.should == SymbolLiteral.new(1, :and)
 
       # kBEGIN
-      # TODO: Spec.
+      ':begin'.to_ast.should == SymbolLiteral.new(1, :begin)
 
       # kBREAK
-      # TODO: Spec.
+      ':break'.to_ast.should == SymbolLiteral.new(1, :break)
 
       # kCASE
-      # TODO: Spec.
+      ':case'.to_ast.should == SymbolLiteral.new(1, :case)
 
       # kCLASS
-      # TODO: Spec.
+      ':class'.to_ast.should == SymbolLiteral.new(1, :class)
 
       # kDEF
-      # TODO: Spec.
+      ':def'.to_ast.should == SymbolLiteral.new(1, :def)
 
       # kDEFINED
-      # TODO: Spec.
+      ':defined?'.to_ast.should == SymbolLiteral.new(1, :defined?)
 
       # kDO
-      # TODO: Spec.
+      ':do'.to_ast.should == SymbolLiteral.new(1, :do)
 
       # kELSE
-      # TODO: Spec.
+      ':else'.to_ast.should == SymbolLiteral.new(1, :else)
 
       # kELSIF
-      # TODO: Spec.
+      ':elsif'.to_ast.should == SymbolLiteral.new(1, :elsif)
 
       # kEND
-      # TODO: Spec.
+      ':end'.to_ast.should == SymbolLiteral.new(1, :end)
 
       # kENSURE
-      # TODO: Spec.
+      ':ensure'.to_ast.should == SymbolLiteral.new(1, :ensure)
 
       # kFALSE
-      # TODO: Spec.
+      ':false'.to_ast.should == SymbolLiteral.new(1, :false)
 
       # kFOR
-      # TODO: Spec.
+      ':for'.to_ast.should == SymbolLiteral.new(1, :for)
 
       # kIN
-      # TODO: Spec.
+      ':in'.to_ast.should == SymbolLiteral.new(1, :in)
 
       # kMODULE
-      # TODO: Spec.
+      ':module'.to_ast.should == SymbolLiteral.new(1, :module)
 
       # kNEXT
-      # TODO: Spec.
+      ':next'.to_ast.should == SymbolLiteral.new(1, :next)
 
       # kNIL
-      # TODO: Spec.
+      ':nil'.to_ast.should == SymbolLiteral.new(1, :nil)
 
       # kNOT
-      # TODO: Spec.
+      ':not'.to_ast.should == SymbolLiteral.new(1, :not)
 
       # kOR
-      # TODO: Spec.
+      ':or'.to_ast.should == SymbolLiteral.new(1, :or)
 
       # kREDO
-      # TODO: Spec.
+      ':redo'.to_ast.should == SymbolLiteral.new(1, :redo)
 
       # kRESCUE
-      # TODO: Spec.
+      ':rescue'.to_ast.should == SymbolLiteral.new(1, :rescue)
 
       # kRETRY
-      # TODO: Spec.
+      ':retry'.to_ast.should == SymbolLiteral.new(1, :retry)
 
       # kRETURN
-      # TODO: Spec.
+      ':return'.to_ast.should == SymbolLiteral.new(1, :return)
 
       # kSELF
-      # TODO: Spec.
+      ':self'.to_ast.should == SymbolLiteral.new(1, :self)
 
       # kSUPER
-      # TODO: Spec.
+      ':super'.to_ast.should == SymbolLiteral.new(1, :super)
 
       # kTHEN
-      # TODO: Spec.
+      ':then'.to_ast.should == SymbolLiteral.new(1, :then)
 
       # kTRUE
-      # TODO: Spec.
+      ':true'.to_ast.should == SymbolLiteral.new(1, :true)
 
       # kUNDEF
-      # TODO: Spec.
+      ':undef'.to_ast.should == SymbolLiteral.new(1, :undef)
 
       # kWHEN
-      # TODO: Spec.
+      ':when'.to_ast.should == SymbolLiteral.new(1, :when)
 
       # kYIELD
-      # TODO: Spec.
+      ':yield'.to_ast.should == SymbolLiteral.new(1, :yield)
 
       # kIF_MOD
-      # TODO: Spec.
+      ':if'.to_ast.should == SymbolLiteral.new(1, :if)
 
       # kUNLESS_MOD
-      # TODO: Spec.
+      ':unless'.to_ast.should == SymbolLiteral.new(1, :unless)
 
       # kWHILE_MOD
-      # TODO: Spec.
+      ':while'.to_ast.should == SymbolLiteral.new(1, :while)
 
       # kUNTIL_MOD
-      # TODO: Spec.
+      ':until'.to_ast.should == SymbolLiteral.new(1, :until)
 
       # kRESCUE_MOD
-      # TODO: Spec.
+      ':rescue'.to_ast.should == SymbolLiteral.new(1, :rescue)
     end
 
     # Canonical arg is "!42".
