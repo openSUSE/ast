@@ -143,6 +143,10 @@ module AST
       NthRef.new exp.line, exp[1]
     end
 
+    def process_or(exp)
+      Or.new exp.line, process(exp[1]), process(exp[2])
+    end
+
     def process_redo(exp)
       Redo.new exp.line
     end

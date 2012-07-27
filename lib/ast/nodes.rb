@@ -454,7 +454,6 @@ module AST
   end
 
   class Or < And
-    # TODO: Implement.
   end
 
   class Not < Node

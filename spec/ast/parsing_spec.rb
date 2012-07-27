@@ -739,7 +739,7 @@ module AST
       '!42 && !43'.to_ast.should == And.new(1, @not42, @not43)
 
       # arg tOROP arg
-      # TODO: Spec.
+      '!42 || !43'.to_ast.should == Or.new(1, @not42, @not43)
 
       # kDEFINED opt_nl arg
       # TODO: Spec.

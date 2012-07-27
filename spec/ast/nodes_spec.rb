@@ -570,7 +570,7 @@ module AST
   end
 
   describe Or do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe Not do
