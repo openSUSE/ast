@@ -51,6 +51,10 @@ module AST
       @not42 = Not.new(1, @i42)
       @not43 = Not.new(1, @i43)
       @not44 = Not.new(1, @i44)
+      @not = Not.new(1, @not42)
+
+      @and = And.new(1, @not42, @not43)
+      @or = Or.new(1, @not42, @not43)
     end
 
     it "parses program" do
@@ -161,13 +165,13 @@ module AST
       # TODO: Spec.
 
       # expr kAND expr
-      # TODO: Spec.
+      'not 42 and not 43'.to_ast.should == @and
 
       # expr kOR expr
-      # TODO: Spec.
+      'not 42 or not 43'.to_ast.should == @or
 
       # kNOT expr
-      # TODO: Spec.
+      'not not 42'.to_ast.should == @not
 
       # '!' command_call
       # TODO: Spec.
@@ -726,7 +730,7 @@ module AST
       '!42 !~ !43'.to_ast.should == Not.new(1, SendWithArguments.new(1, @not42, :=~, @not43))
 
       # '!' arg
-      '!!42'.to_ast.should == Not.new(1, @not42)
+      '!!42'.to_ast.should == @not
 
       # '~' arg
       '~!42'.to_ast.should == Send.new(1, @not42, :~)
@@ -738,10 +742,10 @@ module AST
       '!42 >> !43'.to_ast.should == SendWithArguments.new(1, @not42, :>>, @not43)
 
       # arg tANDOP arg
-      '!42 && !43'.to_ast.should == And.new(1, @not42, @not43)
+      '!42 && !43'.to_ast.should == @and
 
       # arg tOROP arg
-      '!42 || !43'.to_ast.should == Or.new(1, @not42, @not43)
+      '!42 || !43'.to_ast.should == @or
 
       # kDEFINED opt_nl arg
       "defined?\n!42".to_ast.should ==
