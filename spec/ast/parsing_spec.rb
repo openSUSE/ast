@@ -778,7 +778,8 @@ module AST
         ConcatArgs.new(1, @array_424344, Not.new(2, @i45))
 
       # assocs trailer
-      # TODO: Spec.
+      '[:a => 42, :b => 43, :c => 44,]'.to_ast.should ==
+        ArrayLiteral.new(1, [@hash_a42b43c44])
 
       # tSTAR arg opt_nl
 
