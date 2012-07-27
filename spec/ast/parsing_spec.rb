@@ -1681,9 +1681,10 @@ module AST
       '{ :a => 42, :b => 43, :c => 44 }'.to_ast.should == @hash_a42b43c44
     end
 
+    # Canonical assoc is ":a => 42".
     it "parses assoc" do
       # arg_value tASSOC arg_value
-      # TODO: Spec.
+      '{ !42 => !43 }'.to_ast.should == HashLiteral.new(1, [@not42, @not43])
     end
 
     it "parses operation" do
