@@ -64,6 +64,10 @@ module AST
       ClassVariableAccess.new exp.line, exp[1]
     end
 
+    def process_defined(exp)
+      Defined.new exp.line, process(exp[1])
+    end
+
     def process_dregx(exp)
       flags = exp.last.is_a?(Fixnum) ? exp.pop : nil
 

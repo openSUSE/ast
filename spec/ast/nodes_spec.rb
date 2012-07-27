@@ -336,7 +336,15 @@ module AST
   end
 
   describe Defined do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        expression = FixnumLiteral.new(1, 42)
+        node = Defined.new(1, expression)
+
+        node.line.should == 1
+        node.expression.should == expression
+      end
+    end
   end
 
   # ===== File: encoding.rb =====

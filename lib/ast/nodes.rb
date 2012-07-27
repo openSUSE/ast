@@ -280,7 +280,12 @@ module AST
   end
 
   class Defined < Node
-    # TODO: Implement.
+    attr_accessor :expression
+
+    def initialize(line, expr)
+      @line = line
+      @expression = expr
+    end
   end
 
   # ===== File: encoding.rb =====

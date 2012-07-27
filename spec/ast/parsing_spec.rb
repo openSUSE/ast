@@ -742,7 +742,8 @@ module AST
       '!42 || !43'.to_ast.should == Or.new(1, @not42, @not43)
 
       # kDEFINED opt_nl arg
-      # TODO: Spec.
+      "defined?\n!42".to_ast.should ==
+        Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
 
       # arg '?' arg     it "parses '" do' arg
       # TODO: Spec.
