@@ -1058,9 +1058,10 @@ module AST
       'retry'.to_ast.should == Retry.new(1)
     end
 
+    # Canonical primary_value is "(42)".
     it "parses primary_value" do
       # primary
-      # TODO: Spec.
+      '(42)'.to_ast.should == @i42
     end
 
     it "parses then" do
