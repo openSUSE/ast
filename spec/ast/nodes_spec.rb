@@ -295,11 +295,32 @@ module AST
   end
 
   describe Undef do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        name = SymbolLiteral.new(1, :a)
+        node = Undef.new(1, name)
+
+        node.line.should == 1
+        node.name.should == name
+      end
+    end
   end
 
   describe Block do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        array = [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44)
+        ]
+        node = Block.new(1, array)
+
+        node.line.should == 1
+        node.array.should == array
+        node.locals.should == nil
+      end
+    end
   end
 
   describe ClosedScope do

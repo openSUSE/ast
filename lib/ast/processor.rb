@@ -65,6 +65,10 @@ module AST
       BackRef.new exp.line, exp[1]
     end
 
+    def process_block(exp)
+      Block.new exp.line, exp[1..-1].map { |e| process(e) }
+    end
+
     def process_break(exp)
       Break.new exp.line, nil
     end
@@ -246,6 +250,10 @@ module AST
 
     def process_true(exp)
       TrueLiteral.new exp.line
+    end
+
+    def process_undef(exp)
+      Undef.new exp.line, process(exp[1])
     end
 
     def process_xstr(exp)

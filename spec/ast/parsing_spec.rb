@@ -103,7 +103,11 @@ module AST
       # TODO: Spec.
 
       # kUNDEF undef_list
-      # TODO: Spec.
+      'undef a, b, c'.to_ast.should == Block.new(1, [
+        Undef.new(1, @sym_a),
+        Undef.new(1, @sym_b),
+        Undef.new(1, @sym_c)
+      ])
 
       # stmt kIF_MOD expr_value
       # TODO: Spec.
@@ -420,28 +424,35 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical fsym is "a".
     it "parses fsym" do
       # fname
-      # TODO: Spec.
+      'undef a'.to_ast.should == Undef.new(1, @sym_a)
 
       # symbol
-      # TODO: Spec.
+      'undef :a'.to_ast.should == Undef.new(1, @sym_a)
     end
 
+    # Canonical fitem is "a".
     it "parses fitem" do
       # fsym
-      # TODO: Spec.
+      'undef a'.to_ast.should == Undef.new(1, @sym_a)
 
       # dsym
-      # TODO: Spec.
+      'undef :"a"'.to_ast.should == Undef.new(1, @sym_a)
     end
 
+    # Canonical undef_list is "a, b, c".
     it "parses undef_list" do
       # fitem
-      # TODO: Spec.
+      'undef a'.to_ast.should == Undef.new(1, @sym_a)
 
       # undef_list ',' fitem
-      # TODO: Spec.
+      'undef a, b, c'.to_ast.should == Block.new(1, [
+        Undef.new(1, @sym_a),
+        Undef.new(1, @sym_b),
+        Undef.new(1, @sym_c)
+      ])
     end
 
     it "parses op" do

@@ -197,11 +197,22 @@ module AST
   end
 
   class Undef < Node
-    # TODO: Implement.
+    attr_accessor :name
+
+    def initialize(line, sym)
+      @line = line
+      @name = sym
+    end
   end
 
   class Block < Node
-    # TODO: Implement.
+    attr_accessor :array, :locals
+
+    def initialize(line, array)
+      @line = line
+      @array = array
+      @locals = nil
+    end
   end
 
   class ClosedScope < Node
