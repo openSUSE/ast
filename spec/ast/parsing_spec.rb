@@ -1012,7 +1012,7 @@ module AST
       '$&'.to_ast.should == BackRef.new(1, :&)
 
       # tFID
-      'method?'.to_ast.should == Send.new(1, Self.new(1), :method?, true)
+      'a?'.to_ast.should == Send.new(1, Self.new(1), :a?, true)
 
       # kBEGIN bodystmt kEND
       # TODO: Spec.
