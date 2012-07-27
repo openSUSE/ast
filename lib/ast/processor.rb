@@ -36,7 +36,19 @@ module AST
       if exp.size == 1
         EmptyArray.new exp.line
       else
-        ArrayLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
+        items = exp[1..-1].map { |e| process(e) }
+
+        if items.last.is_a?(SplatValue)
+          splat = items.pop
+          if items.empty?
+            splat
+          else
+            array = ArrayLiteral.new exp.line, items
+            ConcatArgs.new exp.line, array, splat.value
+          end
+        else
+          ArrayLiteral.new exp.line, items
+        end
       end
     end
 
@@ -177,6 +189,10 @@ module AST
 
     def process_self(exp)
       Self.new exp.line
+    end
+
+    def process_splat(exp)
+      SplatValue.new exp.line, process(exp[1])
     end
 
     def process_str(exp)

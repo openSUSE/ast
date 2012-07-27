@@ -115,3 +115,6 @@ only 1.8.x code but support for 1.9.x is coming soon.
 
   * Rubinius allows `g` and `G` options for regexp literals but AST does not.
     This is because ruby_parser considers these options invalid.
+
+  * Line numbers of AST nodes are sometimes a bit off. This caused is by a known
+    issue of ruby_parser.

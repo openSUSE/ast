@@ -14,6 +14,7 @@ module AST
       @i42 = FixnumLiteral.new(1, 42)
       @i43 = FixnumLiteral.new(1, 43)
       @i44 = FixnumLiteral.new(1, 44)
+      @i45 = FixnumLiteral.new(1, 45)
 
       @sym_a = SymbolLiteral.new(1, :a)
       @sym_b = SymbolLiteral.new(1, :b)
@@ -770,13 +771,20 @@ module AST
       '[42, 43, 44,]'.to_ast.should == @array_424344
 
       # args ',' tSTAR arg opt_nl
-      # TODO: Spec.
+
+      # In Rubinius, all the nodes are at line 1, but ruby_parses does not think
+      # so.
+      "[42, 43, 44, *!45\n]".to_ast.should ==
+        ConcatArgs.new(1, @array_424344, Not.new(2, @i45))
 
       # assocs trailer
       # TODO: Spec.
 
       # tSTAR arg opt_nl
-      # TODO: Spec.
+
+      # In Rubinius, all the nodes are at line 1, but ruby_parses does not think
+      # so.
+      "[*!42\n]".to_ast.should == SplatValue.new(2, Not.new(2, @i42))
     end
 
     it "parses paren_args" do
