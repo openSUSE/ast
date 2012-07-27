@@ -753,9 +753,10 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical arg_value is "!42".
     it "parses arg_value" do
       # arg
-      # TODO: Spec.
+      '!42'.to_ast.should == @not42
     end
 
     it "parses aref_args" do
