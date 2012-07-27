@@ -968,7 +968,7 @@ module AST
       # TODO: Spec.
 
       # primary_value tCOLON2 tCONSTANT
-      # TODO: Spec.
+      '(42)::A'.to_ast.should == ScopedConstant.new(1, @i42, :A)
 
       # tCOLON3 tCONSTANT
       '::A'.to_ast.should == ToplevelConstant.new(1, :A)

@@ -73,7 +73,16 @@ module AST
   end
 
   describe ScopedConstant do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        parent = FixnumLiteral.new(1, 42)
+        node = ScopedConstant.new(1, parent, :A)
+
+        node.line.should == 1
+        node.parent.should == parent
+        node.name.should == :A
+      end
+    end
   end
 
   describe ToplevelConstant do

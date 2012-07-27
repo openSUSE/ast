@@ -41,7 +41,13 @@ module AST
   end
 
   class ScopedConstant < Node
-    # TODO: Implement.
+    attr_accessor :parent, :name
+
+    def initialize(line, parent, name)
+      @line = line
+      @parent = parent
+      @name = name
+    end
   end
 
   class ToplevelConstant < Node
