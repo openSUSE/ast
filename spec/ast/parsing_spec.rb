@@ -407,21 +407,22 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical fname is "a".
     it "parses fname" do
       # tIDENTIFIER
-      # TODO: Spec.
+      ':a'.to_ast.should == SymbolLiteral.new(1, :a)
 
       # tCONSTANT
-      # TODO: Spec.
+      ':A'.to_ast.should == SymbolLiteral.new(1, :A)
 
       # tFID
-      # TODO: Spec.
+      ':a?'.to_ast.should == SymbolLiteral.new(1, :a?)
 
       # op
-      # TODO: Spec.
+      ':+'.to_ast.should == SymbolLiteral.new(1, :+)
 
       # reswords
-      # TODO: Spec.
+      ':class'.to_ast.should == SymbolLiteral.new(1, :class)
     end
 
     # Canonical fsym is "a".
