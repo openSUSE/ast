@@ -974,7 +974,8 @@ module AST
       '::A'.to_ast.should == ToplevelConstant.new(1, :A)
 
       # primary_value '[' aref_args ']'
-      # TODO: Spec.
+      '(42)[42, 43, 44]'.to_ast.should ==
+        SendWithArguments.new(1, @i42, :[], @array_424344)
 
       # tLBRACK aref_args ']'
       '[42, 43, 44]'.to_ast.should == @array_424344
