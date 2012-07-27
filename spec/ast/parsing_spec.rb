@@ -455,84 +455,85 @@ module AST
       ])
     end
 
+    # Canonical op is "+".
     it "parses op" do
       # '|'
-      # TODO: Spec.
+      ':|'.to_ast.should == SymbolLiteral.new(1, :|)
 
       # '^'
-      # TODO: Spec.
+      ':^'.to_ast.should == SymbolLiteral.new(1, :^)
 
       # '&'
-      # TODO: Spec.
+      ':&'.to_ast.should == SymbolLiteral.new(1, :&)
 
       # tCMP
-      # TODO: Spec.
+      ':<=>'.to_ast.should == SymbolLiteral.new(1, :<=>)
 
       # tEQ
-      # TODO: Spec.
+      ':=='.to_ast.should == SymbolLiteral.new(1, :==)
 
       # tEQQ
-      # TODO: Spec.
+      ':==='.to_ast.should == SymbolLiteral.new(1, :===)
 
       # tMATCH
-      # TODO: Spec.
+      ':=~'.to_ast.should == SymbolLiteral.new(1, :=~)
 
       # '>'
-      # TODO: Spec.
+      ':>'.to_ast.should == SymbolLiteral.new(1, :>)
 
       # tGEQ
-      # TODO: Spec.
+      ':>='.to_ast.should == SymbolLiteral.new(1, :>=)
 
       # '<'
-      # TODO: Spec.
+      ':<'.to_ast.should == SymbolLiteral.new(1, :<)
 
       # tLEQ
-      # TODO: Spec.
+      ':<='.to_ast.should == SymbolLiteral.new(1, :<=)
 
       # tLSHFT
-      # TODO: Spec.
+      ':<<'.to_ast.should == SymbolLiteral.new(1, :<<)
 
       # tRSHFT
-      # TODO: Spec.
+      ':>>'.to_ast.should == SymbolLiteral.new(1, :>>)
 
       # '+'
-      # TODO: Spec.
+      ':+'.to_ast.should == SymbolLiteral.new(1, :+)
 
       # '-'
-      # TODO: Spec.
+      ':-'.to_ast.should == SymbolLiteral.new(1, :-)
 
       # '*'
-      # TODO: Spec.
+      ':*'.to_ast.should == SymbolLiteral.new(1, :*)
 
       # tSTAR
-      # TODO: Spec.
+      ':*'.to_ast.should == SymbolLiteral.new(1, :*)
 
       # '/'
-      # TODO: Spec.
+      ':/'.to_ast.should == SymbolLiteral.new(1, :/)
 
       # '%'
-      # TODO: Spec.
+      ':%'.to_ast.should == SymbolLiteral.new(1, :%)
 
       # tPOW
-      # TODO: Spec.
+      ':**'.to_ast.should == SymbolLiteral.new(1, :**)
 
       # '~'
-      # TODO: Spec.
+      ':~'.to_ast.should == SymbolLiteral.new(1, :~)
 
       # tUPLUS
-      # TODO: Spec.
+      ':+@'.to_ast.should == SymbolLiteral.new(1, :+@)
 
       # tUMINUS
-      # TODO: Spec.
+      ':-@'.to_ast.should == SymbolLiteral.new(1, :-@)
 
       # tAREF
-      # TODO: Spec.
+      ':[]'.to_ast.should == SymbolLiteral.new(1, :[])
 
       # tASET
-      # TODO: Spec.
+      ':[]='.to_ast.should == SymbolLiteral.new(1, :[]=)
 
       # '`'
-      # TODO: Spec.
+      ':`'.to_ast.should == SymbolLiteral.new(1, :`)
     end
 
     it "parses reswords" do
