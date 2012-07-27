@@ -287,11 +287,21 @@ module AST
   # ===== File: definitions.rb =====
 
   describe Alias do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        to = SymbolLiteral.new(1, :a)
+        from = SymbolLiteral.new(1, :b)
+        node = Alias.new(1, to, from)
+
+        node.line.should == 1
+        node.to.should == to
+        node.from.should == from
+      end
+    end
   end
 
   describe VAlias do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe Undef do

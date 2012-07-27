@@ -24,6 +24,10 @@ module AST
       self.expected = Object
     end
 
+    def process_alias(exp)
+      Alias.new exp.line, process(exp[1]), process(exp[2])
+    end
+
     def process_and(exp)
       And.new exp.line, process(exp[1]), process(exp[2])
     end
@@ -254,6 +258,10 @@ module AST
 
     def process_undef(exp)
       Undef.new exp.line, process(exp[1])
+    end
+
+    def process_valias(exp)
+      VAlias.new exp.line, exp[1], exp[2]
     end
 
     def process_xstr(exp)

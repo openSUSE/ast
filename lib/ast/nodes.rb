@@ -189,11 +189,16 @@ module AST
   # ===== File: definitions.rb =====
 
   class Alias < Node
-    # TODO: Implement.
+    attr_accessor :to, :from
+
+    def initialize(line, to, from)
+      @line = line
+      @to = to
+      @from = from
+    end
   end
 
   class VAlias < Alias
-    # TODO: Implement.
   end
 
   class Undef < Node

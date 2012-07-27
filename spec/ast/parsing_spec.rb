@@ -91,16 +91,16 @@ module AST
 
     it "parses stmt" do
       # kALIAS fitem fitem
-      # TODO: Spec.
+      'alias a b'.to_ast.should == Alias.new(1, @sym_a, @sym_b)
 
       # kALIAS tGVAR tGVAR
-      # TODO: Spec.
+      'alias $a $b'.to_ast.should == VAlias.new(1, :$a, :$b)
 
       # kALIAS tGVAR tBACK_REF
-      # TODO: Spec.
+      'alias $a $&'.to_ast.should == VAlias.new(1, :$a, :$&)
 
       # kALIAS tGVAR tNTH_REF
-      # TODO: Spec.
+      # Produces error => not tested.
 
       # kUNDEF undef_list
       'undef a, b, c'.to_ast.should == Block.new(1, [
