@@ -652,13 +652,22 @@ module AST
     # Canonical arg is "!42".
     it "parses arg" do
       # lhs '=' arg
-      # TODO: Spec.
+      '@a = !42'.to_ast.should == InstanceVariableAssignment.new(1, :@a, @not42)
 
       # lhs '=' arg kRESCUE_MOD arg
       # TODO: Spec.
 
       # var_lhs tOP_ASGN arg
-      # TODO: Spec.
+      '@a += !42'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SendWithArguments.new(
+          1,
+          InstanceVariableAccess.new(1, :@a),
+          :+,
+          ArrayLiteral.new(1, [@not42])
+        )
+      )
 
       # primary_value '[' aref_args ']' tOP_ASGN arg
       # TODO: Spec.
