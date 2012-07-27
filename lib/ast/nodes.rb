@@ -225,6 +225,10 @@ module AST
     # TODO: Implement.
   end
 
+  module LocalVariable
+    attr_accessor :variable
+  end
+
   class BlockArgument < Node
     # TODO: Implement.
   end
@@ -764,18 +768,22 @@ module AST
   end
 
   class VariableAssignment < Node
-    # TODO: Implement.
+    attr_accessor :name, :value
+
+    def initialize(line, name, value)
+      @line = line
+      @name = name
+      @value = value
+    end
   end
 
   class ClassVariableAccess < VariableAccess
   end
 
   class ClassVariableAssignment < VariableAssignment
-    # TODO: Implement.
   end
 
   class ClassVariableDeclaration < ClassVariableAssignment
-    # TODO: Implement.
   end
 
   class CurrentException < Node
@@ -807,7 +815,6 @@ module AST
   end
 
   class GlobalVariableAssignment < VariableAssignment
-    # TODO: Implement.
   end
 
   class SplatAssignment < Node
@@ -830,7 +837,6 @@ module AST
   end
 
   class InstanceVariableAssignment < VariableAssignment
-    # TODO: Implement.
   end
 
   class LocalVariableAccess < VariableAccess
@@ -838,7 +844,14 @@ module AST
   end
 
   class LocalVariableAssignment < VariableAssignment
-    # TODO: Implement.
+    include LocalVariable
+
+    def initialize(line, name, value)
+      @line = line
+      @name = name
+      @value = value
+      @variable = nil
+    end
   end
 
   class PostArg < Node

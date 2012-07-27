@@ -327,7 +327,11 @@ module AST
 
     it "parses lhs" do
       # variable
-      # TODO: Spec.
+      'a = 42'.to_ast.should == LocalVariableAssignment.new(1, :a, @i42)
+      '@a = 42'.to_ast.should == InstanceVariableAssignment.new(1, :@a, @i42)
+      '$a = 42'.to_ast.should == GlobalVariableAssignment.new(1, :$a, @i42)
+      '@@a = 42'.to_ast.should == ClassVariableDeclaration.new(1, :@@a, @i42)
+      # TODO: Test inside def, should build ClassVariableAssignment there.
 
       # primary_value '[' aref_args ']'
       # TODO: Spec.

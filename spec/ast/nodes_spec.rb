@@ -1151,7 +1151,16 @@ module AST
   end
 
   describe VariableAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = VariableAssignment.new(1, :a, value)
+
+        node.line.should == 1
+        node.name.should == :a
+        node.value.should == value
+      end
+    end
   end
 
   describe ClassVariableAccess do
@@ -1159,11 +1168,11 @@ module AST
   end
 
   describe ClassVariableAssignment do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe ClassVariableDeclaration do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe CurrentException do
@@ -1194,7 +1203,7 @@ module AST
   end
 
   describe GlobalVariableAssignment do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe SplatAssignment do
@@ -1218,7 +1227,7 @@ module AST
   end
 
   describe InstanceVariableAssignment do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe LocalVariableAccess do
@@ -1226,7 +1235,17 @@ module AST
   end
 
   describe LocalVariableAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = LocalVariableAssignment.new(1, :a, value)
+
+        node.line.should == 1
+        node.name.should == :a
+        node.value.should == value
+        node.variable.should == nil
+      end
+    end
   end
 
   describe PostArg do

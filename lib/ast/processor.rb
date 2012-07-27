@@ -92,6 +92,10 @@ module AST
       ClassVariableAccess.new exp.line, exp[1]
     end
 
+    def process_cvdecl(exp)
+      ClassVariableDeclaration.new exp.line, exp[1], process(exp[2])
+    end
+
     def process_defined(exp)
       Defined.new exp.line, process(exp[1])
     end
@@ -140,6 +144,10 @@ module AST
       FalseLiteral.new exp.line
     end
 
+    def process_gasgn(exp)
+      GlobalVariableAssignment.new exp.line, exp[1], process(exp[2])
+    end
+
     def process_gvar(exp)
       GlobalVariableAccess.for_name exp.line, exp[1]
     end
@@ -152,8 +160,16 @@ module AST
       If.new exp.line, process(exp[1]), process(exp[2]), process(exp[3])
     end
 
+    def process_iasgn(exp)
+      InstanceVariableAssignment.new exp.line, exp[1], process(exp[2])
+    end
+
     def process_ivar(exp)
       InstanceVariableAccess.new exp.line, exp[1]
+    end
+
+    def process_lasgn(exp)
+      LocalVariableAssignment.new exp.line, exp[1], process(exp[2])
     end
 
     def process_lit(exp)
