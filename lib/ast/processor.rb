@@ -32,6 +32,10 @@ module AST
       ArrayLiteral.new exp.line, exp[1..-1].map { |e| process(e) }
     end
 
+    def process_attrasgn(exp)
+      ElementAssignment.new exp.line, process(exp[1]), process(exp[3])
+    end
+
     def process_array(exp)
       if exp.size == 1
         EmptyArray.new exp.line

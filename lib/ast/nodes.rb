@@ -554,7 +554,21 @@ module AST
   end
 
   class ElementAssignment < SendWithArguments
-    # TODO: Implement.
+    def initialize(line, receiver, arguments)
+      @line = line
+
+      @receiver = receiver
+      @privately = receiver.kind_of?(Self) ? true : false
+
+      @name = :[]=
+
+      case arguments
+      when PushArgs
+        @arguments = PushActualArguments.new arguments
+      else
+        @arguments = ActualArguments.new line, arguments
+      end
+    end
   end
 
   class PreExe < Node
@@ -566,7 +580,20 @@ module AST
   end
 
   class PushActualArguments
-    # TODO: Implement.
+    # Rubinius does not define accessors for @arguments and @value. We do.
+    attr_accessor :arguments, :value
+
+    def initialize(pa)
+      @arguments = pa.arguments
+      @value = pa.value
+    end
+
+    # This is not defiend in Rubinius but makes our specs easier to write.
+    def ==(other)
+      other.instance_of?(self.class) &&
+        @arguments == other.arguments &&
+        @value == other.value
+    end
   end
 
   class BlockPass < Node

@@ -334,7 +334,11 @@ module AST
       # TODO: Test inside def, should build ClassVariableAssignment there.
 
       # primary_value '[' aref_args ']'
-      # TODO: Spec.
+      '(42)[42, 43, 44] = 42'.to_ast.should == ElementAssignment.new(
+        1,
+        @i42,
+        ArrayLiteral.new(1, [@i42, @i43, @i44, @i42])
+      )
 
       # primary_value '.' tIDENTIFIER
       # TODO: Spec.

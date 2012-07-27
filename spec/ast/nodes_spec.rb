@@ -733,7 +733,65 @@ module AST
   end
 
   describe ElementAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @receiver = FixnumLiteral.new(1, 42)
+        @arguments = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        node = ElementAssignment.new(1, @receiver, @arguments)
+
+        node.line.should == 1
+        node.receiver.should == @receiver
+        node.name.should == :[]=
+      end
+
+      describe "when passed a Self instance as the \"receiver\" param" do
+        it "sets \"privately\" to true" do
+          node = ElementAssignment.new(1, Self.new(1), @arguments)
+
+          node.privately.should == true
+        end
+      end
+
+      describe "when passed something else as the \"receiver\" param" do
+        it "sets \"privately\" to false" do
+          node = ElementAssignment.new(1, @receiver, @arguments)
+
+          node.privately.should == false
+        end
+      end
+
+      describe "when passed a PushArgs instance as the \"arguments\" param" do
+        it "sets \"arguments\" correctly" do
+          arguments = PushArgs.new(
+            1,
+            ConcatArgs.new(
+              1,
+              ArrayLiteral.new(1, [
+                FixnumLiteral.new(1, 42),
+                FixnumLiteral.new(1, 43),
+                FixnumLiteral.new(1, 44)
+              ]),
+              FixnumLiteral.new(1, 45)
+            ),
+            FixnumLiteral.new(1, 46)
+          )
+          node = ElementAssignment.new(1, @receiver, arguments)
+
+          node.arguments.should == PushActualArguments.new(arguments)
+        end
+      end
+
+      describe "when passed something else as the \"arguments\" param" do
+        it "sets \"arguments\" correctly" do
+          node = ElementAssignment.new(1, @receiver, @arguments)
+
+          node.arguments.should == ActualArguments.new(1, @arguments)
+        end
+      end
+    end
   end
 
   describe PreExe do
@@ -745,7 +803,72 @@ module AST
   end
 
   describe PushActualArguments do
-    # TODO: Spec.
+    before do
+      @pa = PushArgs.new(
+        1,
+        ConcatArgs.new(
+          1,
+          ArrayLiteral.new(1, [
+            FixnumLiteral.new(1, 42),
+            FixnumLiteral.new(1, 43),
+            FixnumLiteral.new(1, 44)
+          ]),
+          FixnumLiteral.new(1, 45)
+        ),
+        FixnumLiteral.new(1, 46)
+      )
+    end
+
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = PushActualArguments.new(@pa)
+
+        node.arguments.should == @pa.arguments
+        node.value.should == @pa.value
+      end
+    end
+
+    describe "#==" do
+      before do
+        @paa = PushActualArguments.new(@pa)
+      end
+
+      it "returns true when passed the same object" do
+        @paa.should == @paa
+      end
+
+      it "returns true when passed a PushActualArguments initialized with the same parameter" do
+        @paa.should == PushActualArguments.new(@paa)
+      end
+
+      it "returns false when passed some random object" do
+        @paa.should_not == Object.new
+      end
+
+      it "returns false when passed a subclass of PushActualArguments initialized with the same parameter" do
+        class SubclassedPushActualArguments < PushActualArguments
+        end
+
+        @paa.should_not == SubclassedPushActualArguments.new(@pa)
+      end
+
+      it "returns false when passed a PushActualArguments initialized with a different parameter" do
+        pa = PushArgs.new(
+          1,
+          ConcatArgs.new(
+            1,
+            ArrayLiteral.new(1, [
+              FixnumLiteral.new(1, 84),
+              FixnumLiteral.new(1, 86),
+              FixnumLiteral.new(1, 88)
+            ]),
+            FixnumLiteral.new(1, 90)
+          ),
+          FixnumLiteral.new(1, 92)
+        )
+        @paa.should_not == PushActualArguments.new(pa)
+      end
+    end
   end
 
   describe BlockPass do
