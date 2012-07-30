@@ -260,8 +260,16 @@ module AST
       Undef.new exp.line, process(exp[1])
     end
 
+    def process_until(exp)
+      Until.new exp.line, process(exp[1]), process(exp[2]), exp[3]
+    end
+
     def process_valias(exp)
       VAlias.new exp.line, exp[1], exp[2]
+    end
+
+    def process_while(exp)
+      While.new exp.line, process(exp[1]), process(exp[2]), exp[3]
     end
 
     def process_xstr(exp)

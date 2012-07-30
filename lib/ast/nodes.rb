@@ -121,11 +121,17 @@ module AST
   end
 
   class While < Node
-    # TODO: Implement.
+    attr_accessor :condition, :body, :check_first
+
+    def initialize(line, condition, body, check_first)
+      @line = line
+      @condition = condition
+      @body = body || NilLiteral.new(line)
+      @check_first = check_first
+    end
   end
 
   class Until < While
-    # TODO: Implement.
   end
 
   class Match < Node

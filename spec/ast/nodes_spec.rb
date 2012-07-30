@@ -197,11 +197,31 @@ module AST
   end
 
   describe While do
-    # TODO: Spec.
+    describe "#initialize" do
+      before do
+        @condition = FixnumLiteral.new(1, 42)
+      end
+
+      it "sets attributes correctly" do
+        body = FixnumLiteral.new(1, 43)
+        node = While.new(1, @condition, body, true)
+
+        node.line.should == 1
+        node.condition.should == @condition
+        node.body.should == body
+        node.check_first.should == true
+      end
+
+      it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
+        node = While.new(1, @condition, nil, true)
+
+        node.body.should == NilLiteral.new(1)
+      end
+    end
   end
 
   describe Until do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe Match do

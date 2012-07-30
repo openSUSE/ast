@@ -120,10 +120,12 @@ module AST
       '42 if 43 unless not 42'.to_ast.should == If.new(1, @i42, @if, nil)
 
       # stmt kWHILE_MOD expr_value
-      # TODO: Spec.
+      '42 if 43 while 42'.to_ast.should == While.new(1, @i42, @if, true)
+      '42 if 43 while not 42'.to_ast.should == Until.new(1, @i42, @if, true)
 
       # stmt kUNTIL_MOD expr_value
-      # TODO: Spec.
+      '42 if 43 until 42'.to_ast.should == Until.new(1, @i42, @if, true)
+      '42 if 43 until not 42'.to_ast.should == While.new(1, @i42, @if, true)
 
       # stmt kRESCUE_MOD stmt
       # TODO: Spec.
