@@ -17,6 +17,18 @@ module AST
       @i45 = FixnumLiteral.new(1, 45)
       @i46 = FixnumLiteral.new(1, 46)
       @i47 = FixnumLiteral.new(1, 47)
+      @i48 = FixnumLiteral.new(1, 48)
+      @i49 = FixnumLiteral.new(1, 49)
+      @i50 = FixnumLiteral.new(1, 50)
+      @i51 = FixnumLiteral.new(1, 51)
+      @i52 = FixnumLiteral.new(1, 52)
+      @i53 = FixnumLiteral.new(1, 53)
+      @i54 = FixnumLiteral.new(1, 54)
+      @i55 = FixnumLiteral.new(1, 55)
+      @i56 = FixnumLiteral.new(1, 56)
+      @i57 = FixnumLiteral.new(1, 57)
+      @i58 = FixnumLiteral.new(1, 58)
+      @i59 = FixnumLiteral.new(1, 59)
 
       @sym_a = SymbolLiteral.new(1, :a)
       @sym_b = SymbolLiteral.new(1, :b)
@@ -64,15 +76,23 @@ module AST
       @if_4243 = If.new(1, @i43, @i42, nil)
       @if_4445 = If.new(1, @i45, @i44, nil)
       @if_4647 = If.new(1, @i47, @i46, nil)
+      @if_4849 = If.new(1, @i49, @i48, nil)
+      @if_5051 = If.new(1, @i51, @i50, nil)
+      @if_5253 = If.new(1, @i53, @i52, nil)
+      @if_5455 = If.new(1, @i55, @i54, nil)
+      @if_5657 = If.new(1, @i57, @i56, nil)
+      @if_5859 = If.new(1, @i59, @i58, nil)
 
       @block2 = Block.new(1, [@if_4243, @if_4445])
-      @block3 = Block.new(1, [@if_4243, @if_4445, @if_4647])
+      @block3_1 = Block.new(1, [@if_4243, @if_4445, @if_4647])
+      @block3_2 = Block.new(1, [@if_4849, @if_5051, @if_5253])
+      @block3_3 = Block.new(1, [@if_5455, @if_5657, @if_5859])
     end
 
     # Canonical program is "42 if 43; 44 if 45; 46 if 47".
     it "parses program" do
       # compstmt
-      '42 if 43; 44 if 45; 46 if 47'.to_ast.should == @block3
+      '42 if 43; 44 if 45; 46 if 47'.to_ast.should == @block3_1
     end
 
     it "parses bodystmt" do
@@ -83,7 +103,7 @@ module AST
     # Canonical compstmt is "42 if 43; 44 if 45; 46 if 47".
     it "parses compstmt" do
       # stmts opt_terms
-      '42 if 43; 44 if 45; 46 if 47;;;'.to_ast.should == @block3
+      '42 if 43; 44 if 45; 46 if 47;;;'.to_ast.should == @block3_1
     end
 
     # Canonical stmts is "42 if 43; 44 if 45; 46 if 47".
@@ -95,7 +115,7 @@ module AST
       '42 if 43'.to_ast.should == @if_4243
 
       # stmts terms stmt
-      '42 if 43;;;44 if 45;;;46 if 47'.to_ast.should == @block3
+      '42 if 43;;;44 if 45;;;46 if 47'.to_ast.should == @block3_1
 
       # error stmt
       # Not tested.
@@ -1042,7 +1062,7 @@ module AST
       "((42)\n)".to_ast.should == @i42
 
       # tLPAREN compstmt ')'
-      '(42 if 43; 44 if 45; 46 if 47)'.to_ast.should == @block3
+      '(42 if 43; 44 if 45; 46 if 47)'.to_ast.should == @block3_1
 
       # primary_value tCOLON2 tCONSTANT
       '(42)::A'.to_ast.should == ScopedConstant.new(1, @i42, :A)
@@ -1085,10 +1105,16 @@ module AST
       # TODO: Spec.
 
       # kIF expr_value then compstmt if_tail kEND
-      # TODO: Spec.
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, @block3_2)
+      'if not 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_2, @block3_1)
 
       # kUNLESS expr_value then compstmt opt_else kEND
-      # TODO: Spec.
+      'unless 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_2, @block3_1)
+      'unless not 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, @block3_2)
 
       # kWHILE expr_value do compstmt kEND
       # TODO: Spec.
@@ -1142,18 +1168,19 @@ module AST
       '(42)'.to_ast.should == @i42
     end
 
+    # Canonical then is "then".
     it "parses then" do
       # term
-      # TODO: Spec.
+      'if 42; 43 end'.to_ast.should == If.new(1, @i42, @i43, nil)
 
       # ':'
-      # TODO: Spec.
+      'if 42: 43 end'.to_ast.should == If.new(1, @i42, @i43, nil)
 
       # kTHEN
-      # TODO: Spec.
+      'if 42 then 43 end'.to_ast.should == If.new(1, @i42, @i43, nil)
 
       # term kTHEN
-      # TODO: Spec.
+      'if 42; then 43 end'.to_ast.should == If.new(1, @i42, @i43, nil)
     end
 
     it "parses do" do
@@ -1167,20 +1194,28 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical if_tail is "else 42 if 43; 44 if 45; 46 if 47".
     it "parses if_tail" do
       # opt_else
-      # TODO: Spec.
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, @block3_2)
 
       # kELSIF expr_value then compstmt if_tail
-      # TODO: Spec.
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 elsif 43 then 48 if 49; 50 if 51; 52 if 53 else 54 if 55; 56 if 57; 58 if 59 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, If.new(1, @i43, @block3_2, @block3_3))
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 elsif not 43 then 48 if 49; 50 if 51; 52 if 53 else 54 if 55; 56 if 57; 58 if 59 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, If.new(1, @not43, @block3_2, @block3_3))
     end
 
+    # Canonical opt_else is "else 42 if 43; 44 if 45; 46 if 47".
     it "parses opt_else" do
       # none
-      # TODO: Spec.
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, nil)
 
       # kELSE compstmt
-      # TODO: Spec.
+      'if 42 then 42 if 43; 44 if 45; 46 if 47 else 48 if 49; 50 if 51; 52 if 53 end'.to_ast.should ==
+        If.new(1, @i42, @block3_1, @block3_2)
     end
 
     it "parses for_var" do
