@@ -1042,7 +1042,7 @@ module AST
       "((42)\n)".to_ast.should == @i42
 
       # tLPAREN compstmt ')'
-      # TODO: Spec.
+      '(42 if 43; 44 if 45; 46 if 47)'.to_ast.should == @block3
 
       # primary_value tCOLON2 tCONSTANT
       '(42)::A'.to_ast.should == ScopedConstant.new(1, @i42, :A)
