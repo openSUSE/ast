@@ -143,7 +143,9 @@ module AST
       # TODO: Spec.
 
       # klBEGIN '{' compstmt '}'
-      # TODO: Spec.
+
+      # Ignored because ruby_parser throws the corresponding s-expression away.
+      'BEGIN { 42 if 43; 44 if 45; 46 if 47 }'.to_ast.should == nil
 
       # klEND '{' compstmt '}'
       # TODO: Spec.

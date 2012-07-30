@@ -109,6 +109,9 @@ only 1.8.x code but support for 1.9.x is coming soon.
 
 ### Differences From Rubinius
 
+  * `BEGIN { ... }` is not represented in the tree — it is just ignored. This is
+    because ruby_parser throws the corresponding s-expression away.
+
   * Rubinius parses `__FILE__` as `Rubinius::AST::File` but `AST` parses it as
     `AST::StringLiteral` with the file name already substituted. This is because
     the substitution is done by ruby_parser already and AST can't influence it.

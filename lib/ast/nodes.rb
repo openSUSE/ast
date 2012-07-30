@@ -614,7 +614,7 @@ module AST
   end
 
   class PreExe < Node
-    # TODO: Implement.
+    # Not used because ruby_parser throws the corresponding s-expression away.
   end
 
   class PreExe19 < PreExe
