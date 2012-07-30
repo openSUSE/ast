@@ -79,9 +79,10 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical compstmt is "42 if 43; 44 if 45; 46 if 47".
     it "parses compstmt" do
       # stmts opt_terms
-      # TODO: Spec.
+      '42 if 43; 44 if 45; 46 if 47;;;'.to_ast.should == @block3
     end
 
     # Canonical stmts is "42 if 43; 44 if 45; 46 if 47".
@@ -1821,12 +1822,13 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical opt_terms is ";;;".
     it "parses opt_terms" do
       # /* none */
-      # TODO: Spec.
+      '42 if 43'.to_ast.should == @if_4243
 
       # terms
-      # TODO: Spec.
+      '42 if 43;;;'.to_ast.should == @if_4243
     end
 
     it "parses opt_nl" do
