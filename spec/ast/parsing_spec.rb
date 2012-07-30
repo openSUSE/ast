@@ -69,9 +69,10 @@ module AST
       @block3 = Block.new(1, [@if_4243, @if_4445, @if_4647])
     end
 
+    # Canonical program is "42 if 43; 44 if 45; 46 if 47".
     it "parses program" do
       # compstmt
-      # TODO: Spec.
+      '42 if 43; 44 if 45; 46 if 47'.to_ast.should == @block3
     end
 
     it "parses bodystmt" do
