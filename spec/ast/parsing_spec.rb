@@ -15,6 +15,8 @@ module AST
       @i43 = FixnumLiteral.new(1, 43)
       @i44 = FixnumLiteral.new(1, 44)
       @i45 = FixnumLiteral.new(1, 45)
+      @i46 = FixnumLiteral.new(1, 46)
+      @i47 = FixnumLiteral.new(1, 47)
 
       @sym_a = SymbolLiteral.new(1, :a)
       @sym_b = SymbolLiteral.new(1, :b)
@@ -59,7 +61,12 @@ module AST
 
       @defined = Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
 
-      @if = If.new(1, @i43, @i42, nil)
+      @if_4243 = If.new(1, @i43, @i42, nil)
+      @if_4445 = If.new(1, @i45, @i44, nil)
+      @if_4647 = If.new(1, @i47, @i46, nil)
+
+      @block2 = Block.new(1, [@if_4243, @if_4445])
+      @block3 = Block.new(1, [@if_4243, @if_4445, @if_4647])
     end
 
     it "parses program" do
@@ -77,18 +84,19 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical stmts is "42 if 43; 44 if 45; 46 if 47".
     it "parses stmts" do
       # none
-      # TODO: Spec.
+      ''.to_ast.should == nil
 
       # stmt
-      # TODO: Spec.
+      '42 if 43'.to_ast.should == @if_4243
 
       # stmts terms stmt
-      # TODO: Spec.
+      '42 if 43;;;44 if 45;;;46 if 47'.to_ast.should == @block3
 
       # error stmt
-      # TODO: Spec.
+      # Not tested.
     end
 
     it "parses stmt" do
@@ -112,20 +120,22 @@ module AST
       ])
 
       # stmt kIF_MOD expr_value
-      '42 if 43 if 42'.to_ast.should == If.new(1, @i42, @if, nil)
-      '42 if 43 if not 42'.to_ast.should == If.new(1, @i42, nil, @if)
+      '42 if 43 if 42'.to_ast.should == If.new(1, @i42, @if_4243, nil)
+      '42 if 43 if not 42'.to_ast.should == If.new(1, @i42, nil, @if_4243)
 
       # stmt kUNLESS_MOD expr_value
-      '42 if 43 unless 42'.to_ast.should == If.new(1, @i42, nil, @if)
-      '42 if 43 unless not 42'.to_ast.should == If.new(1, @i42, @if, nil)
+      '42 if 43 unless 42'.to_ast.should == If.new(1, @i42, nil, @if_4243)
+      '42 if 43 unless not 42'.to_ast.should == If.new(1, @i42, @if_4243, nil)
 
       # stmt kWHILE_MOD expr_value
-      '42 if 43 while 42'.to_ast.should == While.new(1, @i42, @if, true)
-      '42 if 43 while not 42'.to_ast.should == Until.new(1, @i42, @if, true)
+      '42 if 43 while 42'.to_ast.should == While.new(1, @i42, @if_4243, true)
+      '42 if 43 while not 42'.to_ast.should ==
+        Until.new(1, @i42, @if_4243, true)
 
       # stmt kUNTIL_MOD expr_value
-      '42 if 43 until 42'.to_ast.should == Until.new(1, @i42, @if, true)
-      '42 if 43 until not 42'.to_ast.should == While.new(1, @i42, @if, true)
+      '42 if 43 until 42'.to_ast.should == Until.new(1, @i42, @if_4243, true)
+      '42 if 43 until not 42'.to_ast.should ==
+        While.new(1, @i42, @if_4243, true)
 
       # stmt kRESCUE_MOD stmt
       # TODO: Spec.
@@ -1839,25 +1849,31 @@ module AST
       '[42, 43, 44,]'.to_ast.should == @array_424344
     end
 
+    # Canonical term is ";".
     it "parses term" do
       # ';'
-      # TODO: Spec.
+      '42 if 43;44 if 45'.to_ast.should == @block2
 
       # '\n'
-      # TODO: Spec.
+      "42 if 43\n44 if 45".to_ast.should == Block.new(1, [
+        @if_4243,
+        If.new(2, FixnumLiteral.new(2, 45), FixnumLiteral.new(2, 44), nil)
+      ])
     end
 
+    # Canonical terms is ";;;".
     it "parses terms" do
       # term
-      # TODO: Spec.
+      '42 if 43;44 if 45'.to_ast.should == @block2
 
       # terms ';'
-      # TODO: Spec.
+      '42 if 43;;;44 if 45'.to_ast.should == @block2
     end
 
+    # Canonical none is "".
     it "parses none" do
       # /* none */
-      # TODO: Spec.
+      ''.to_ast.should == nil
     end
   end
 end
