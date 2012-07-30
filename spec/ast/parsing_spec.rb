@@ -58,6 +58,8 @@ module AST
       @or = Or.new(1, @not42, @not43)
 
       @defined = Defined.new(2, Not.new(2, FixnumLiteral.new(2, 42)))
+
+      @if = If.new(1, @i43, @i42, nil)
     end
 
     it "parses program" do
@@ -110,10 +112,12 @@ module AST
       ])
 
       # stmt kIF_MOD expr_value
-      # TODO: Spec.
+      '42 if 43 if 42'.to_ast.should == If.new(1, @i42, @if, nil)
+      '42 if 43 if not 42'.to_ast.should == If.new(1, @i42, nil, @if)
 
       # stmt kUNLESS_MOD expr_value
-      # TODO: Spec.
+      '42 if 43 unless 42'.to_ast.should == If.new(1, @i42, nil, @if)
+      '42 if 43 unless not 42'.to_ast.should == If.new(1, @i42, @if, nil)
 
       # stmt kWHILE_MOD expr_value
       # TODO: Spec.
