@@ -1651,9 +1651,19 @@ module AST
       '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)
     end
 
+    # Canonical var_lhs is "@a".
     it "parses var_lhs" do
       # variable
-      # TODO: Spec.
+      '@a += 42'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SendWithArguments.new(
+          1,
+          InstanceVariableAccess.new(1, :@a),
+          :+,
+          ArrayLiteral.new(1, [@i42])
+        )
+      )
     end
 
     # Canonical backref is "$~".
