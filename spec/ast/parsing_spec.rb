@@ -1531,7 +1531,8 @@ module AST
       '"#$a"'.to_ast.should == DynamicString.new(1, "", [@to_s])
 
       # tSTRING_DBEG compstmt '}'
-      # TODO: Spec regular case.
+      '"#{42 if 43; 44 if 45; 46 if 47}"'.to_ast.should ==
+        DynamicString.new(1, "", [ToString.new(1, @block3_1)])
       # Special case -- see Processor#process_evstr.
       '"#{}"'.to_ast.should == DynamicString.new(1, "", [@s_empty])
     end
