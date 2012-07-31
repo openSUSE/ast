@@ -1605,9 +1605,14 @@ module AST
       '-42.0'.to_ast.should == FloatLiteral.new(1, -42.0)
     end
 
+    # Canonical variable is "@a".
     it "parses variable" do
       # tIDENTIFIER
-      # TODO: Spec.
+      'a'.to_ast.should == Send.new(1, Self.new(1), :a, true)
+      'a = 42; a'.to_ast.should == Block.new(1, [
+        LocalVariableAssignment.new(1, :a, @i42),
+        LocalVariableAccess.new(1, :a)
+      ])
 
       # tIVAR
       '@a'.to_ast.should == InstanceVariableAccess.new(1, :@a)

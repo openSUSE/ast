@@ -909,7 +909,13 @@ module AST
   end
 
   class LocalVariableAccess < VariableAccess
-    # TODO: Implement.
+    include LocalVariable
+
+    def initialize(line, name)
+      @line = line
+      @name = name
+      @variable = nil
+    end
   end
 
   class LocalVariableAssignment < VariableAssignment

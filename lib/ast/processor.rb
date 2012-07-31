@@ -208,6 +208,10 @@ module AST
       end
     end
 
+    def process_lvar(exp)
+      LocalVariableAccess.new exp.line, exp[1]
+    end
+
     def process_next(exp)
       Next.new exp.line, nil
     end

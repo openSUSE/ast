@@ -1463,7 +1463,15 @@ module AST
   end
 
   describe LocalVariableAccess do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = LocalVariableAccess.new(1, :a)
+
+        node.line.should == 1
+        node.name.should == :a
+        node.variable.should == nil
+      end
+    end
   end
 
   describe LocalVariableAssignment do
