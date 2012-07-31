@@ -1117,10 +1117,16 @@ module AST
         If.new(1, @i42, @block3_1, @block3_2)
 
       # kWHILE expr_value do compstmt kEND
-      # TODO: Spec.
+      'while 42 do 42 if 43; 44 if 45; 46 if 47 end'.to_ast.should ==
+        While.new(1, @i42, @block3_1, true)
+      'while not 42 do 42 if 43; 44 if 45; 46 if 47 end'.to_ast.should ==
+        Until.new(1, @i42, @block3_1, true)
 
       # kUNTIL expr_value do compstmt kEND
-      # TODO: Spec.
+      'until 42 do 42 if 43; 44 if 45; 46 if 47 end'.to_ast.should ==
+        Until.new(1, @i42, @block3_1, true)
+      'until not 42 do 42 if 43; 44 if 45; 46 if 47 end'.to_ast.should ==
+        While.new(1, @i42, @block3_1, true)
 
       # kCASE expr_value opt_terms case_body kEND
       # TODO: Spec.
@@ -1183,15 +1189,16 @@ module AST
       'if 42; then 43 end'.to_ast.should == If.new(1, @i42, @i43, nil)
     end
 
+    # Canonical do is "do".
     it "parses do" do
       # term
-      # TODO: Spec.
+      'while 42; 43 end'.to_ast.should == While.new(1, @i42, @i43, true)
 
       # ':'
-      # TODO: Spec.
+      'while 42: 43 end'.to_ast.should == While.new(1, @i42, @i43, true)
 
       # kDO_COND
-      # TODO: Spec.
+      'while 42 do 43 end'.to_ast.should == While.new(1, @i42, @i43, true)
     end
 
     # Canonical if_tail is "else 42 if 43; 44 if 45; 46 if 47".
