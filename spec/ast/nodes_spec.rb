@@ -1328,7 +1328,15 @@ module AST
   end
 
   describe SValue do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = SValue.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+    end
   end
 
   describe ToArray do

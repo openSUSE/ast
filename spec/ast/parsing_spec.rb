@@ -66,6 +66,7 @@ module AST
       @not42 = Not.new(1, @i42)
       @not43 = Not.new(1, @i43)
       @not44 = Not.new(1, @i44)
+      @not45 = Not.new(1, @i45)
       @not = Not.new(1, @not42)
 
       @and = And.new(1, @not42, @not43)
@@ -195,7 +196,11 @@ module AST
       # TODO: Spec.
 
       # lhs '=' mrhs
-      # TODO: Spec.
+      '@a = 42, 43, 44'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SValue.new(1, @array_424344)
+      )
 
       # mlhs '=' arg_value
       # TODO: Spec.
@@ -1016,15 +1021,28 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical mrhs is "42, 43, 44".
     it "parses mrhs" do
       # args ',' arg_value
-      # TODO: Spec.
+      '@a = 42, 43, 44, !45'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SValue.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44, @not45]))
+      )
 
       # args ',' tSTAR arg_value
-      # TODO: Spec.
+      '@a = 42, 43, 44, *!45'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SValue.new(1, ConcatArgs.new(1, @array_424344, @not45))
+      )
 
       # tSTAR arg_value
-      # TODO: Spec.
+      '@a = *!42'.to_ast.should == InstanceVariableAssignment.new(
+        1,
+        :@a,
+        SValue.new(1, SplatValue.new(1, @not42))
+      )
     end
 
     it "parses primary" do

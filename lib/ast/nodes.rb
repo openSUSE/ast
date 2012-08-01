@@ -791,7 +791,12 @@ module AST
   end
 
   class SValue < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class ToArray < Node

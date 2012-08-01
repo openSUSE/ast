@@ -256,6 +256,10 @@ module AST
       StringLiteral.new exp.line, exp[1]
     end
 
+    def process_svalue(exp)
+      SValue.new exp.line, process(exp[1])
+    end
+
     def process_true(exp)
       TrueLiteral.new exp.line
     end
