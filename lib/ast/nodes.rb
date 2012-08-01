@@ -247,7 +247,7 @@ module AST
   end
 
   class FormalArguments19 < FormalArguments
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class PatternArguments < Node
@@ -549,7 +549,7 @@ module AST
   end
 
   class OpAssignOr19 < OpAssignOr
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   # ===== File: sends.rb =====
@@ -618,7 +618,7 @@ module AST
   end
 
   class PreExe19 < PreExe
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class PushActualArguments
@@ -643,7 +643,7 @@ module AST
   end
 
   class BlockPass19 < BlockPass
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class CollectSplat < Node
@@ -709,7 +709,7 @@ module AST
   end
 
   class Iter19 < Iter
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class IterArguments < Node
@@ -721,11 +721,11 @@ module AST
   end
 
   class For19Arguments < Node
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class For19 < For
-    # TODO: Implement.
+    # Will be implemented as part of Ruby 1.9 support.
   end
 
   class Negate < Node
