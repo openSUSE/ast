@@ -1013,12 +1013,14 @@ module AST
       # TODO: Spec.
     end
 
+    # Canonical args is "42, 43, 44".
     it "parses args" do
       # arg_value
-      # TODO: Spec.
+      '[!42]'.to_ast.should == ArrayLiteral.new(1, [@not42])
 
       # args ',' arg_value
-      # TODO: Spec.
+      '[42, 43, 44, !45]'.to_ast.should ==
+        ArrayLiteral.new(1, [@i42, @i43, @i44, @not45])
     end
 
     # Canonical mrhs is "42, 43, 44".
