@@ -3,6 +3,8 @@ require "spec_helper"
 module AST
   RSpec.configure do |config|
     config.before(:each) do
+      @self = Self.new(1)
+
       @i42 = FixnumLiteral.new(1, 42)
       @i43 = FixnumLiteral.new(1, 43)
       @i44 = FixnumLiteral.new(1, 44)
@@ -789,7 +791,7 @@ module AST
 
       describe "when passed a Self instance as the \"receiver\" param" do
         it "sets \"privately\" to true" do
-          node = AttributeAssignment.new(1, Self.new(1), :a, @i42)
+          node = AttributeAssignment.new(1, @self, :a, @i42)
 
           node.privately.should == true
         end
@@ -817,7 +819,7 @@ module AST
 
       describe "when passed a Self instance as the \"receiver\" param" do
         it "sets \"privately\" to true" do
-          node = ElementAssignment.new(1, Self.new(1), @i42)
+          node = ElementAssignment.new(1, @self, @i42)
 
           node.privately.should == true
         end
