@@ -5,6 +5,8 @@ module AST
     config.before(:each) do
       @self = Self.new(1)
 
+      @nil = NilLiteral.new(1)
+
       @i42 = FixnumLiteral.new(1, 42)
       @i43 = FixnumLiteral.new(1, 43)
       @i44 = FixnumLiteral.new(1, 44)
@@ -185,13 +187,13 @@ module AST
       it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
         node = If.new(1, @i42, nil, @i44)
 
-        node.body.should == NilLiteral.new(1)
+        node.body.should == @nil
       end
 
       it "sets \"else\" to a NilLiteral instance when passed nil \"else_body\" param" do
         node = If.new(1, @i42, @i43, nil)
 
-        node.else.should == NilLiteral.new(1)
+        node.else.should == @nil
       end
     end
   end
@@ -210,7 +212,7 @@ module AST
       it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
         node = While.new(1, @i42, nil, true)
 
-        node.body.should == NilLiteral.new(1)
+        node.body.should == @nil
       end
     end
   end
@@ -243,7 +245,7 @@ module AST
       it "sets \"value\" to a NilLiteral instance when passed nil \"expr\" param" do
         node = Break.new(1, nil)
 
-        node.value.should == NilLiteral.new(1)
+        node.value.should == @nil
       end
     end
   end
