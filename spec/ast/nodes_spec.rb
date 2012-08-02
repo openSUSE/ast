@@ -579,13 +579,11 @@ module AST
   describe Range, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
-        start = NumberLiteral.new(1, 42)
-        finish = NumberLiteral.new(1, 43)
-        node = Range.new(1, start, finish)
+        node = Range.new(1, @i42, @i43)
 
         node.line.should == 1
-        node.start.should == start
-        node.finish.should == finish
+        node.start.should == @i42
+        node.finish.should == @i43
       end
     end
   end
