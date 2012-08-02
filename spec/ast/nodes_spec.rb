@@ -290,11 +290,13 @@ module AST
   end
 
   describe Return, :node => true do
-    it "sets attributes correctly" do
-      node = Return.new(1, @i42)
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = Return.new(1, @i42)
 
-      node.line.should == 1
-      node.value.should == @i42
+        node.line.should == 1
+        node.value.should == @i42
+      end
     end
   end
 
