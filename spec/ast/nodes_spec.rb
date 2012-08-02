@@ -2,7 +2,7 @@ require "spec_helper"
 
 module AST
   RSpec.configure do |config|
-    config.before(:each) do
+    config.before(:each, :node => true) do
       @self = Self.new(1)
 
       @nil = NilLiteral.new(1)
@@ -24,7 +24,7 @@ module AST
 
   # ===== File: node.rb =====
 
-  describe Node do
+  describe Node, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Node.new(1)
@@ -82,17 +82,17 @@ module AST
 
   # ===== File: self.rb =====
 
-  describe Self do
+  describe Self, :node => true do
     # Nothing to spec.
   end
 
   # ===== File: constants.rb =====
 
-  describe TypeConstant do
+  describe TypeConstant, :node => true do
     # TODO: Spec.
   end
 
-  describe ScopedConstant do
+  describe ScopedConstant, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ScopedConstant.new(1, @i42, :A)
@@ -104,7 +104,7 @@ module AST
     end
   end
 
-  describe ToplevelConstant do
+  describe ToplevelConstant, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ToplevelConstant.new(1, :A)
@@ -115,7 +115,7 @@ module AST
     end
   end
 
-  describe ConstantAccess do
+  describe ConstantAccess, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ConstantAccess.new(1, :A)
@@ -126,7 +126,7 @@ module AST
     end
   end
 
-  describe ConstantAssignment do
+  describe ConstantAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ConstantAssignment.new(1, :a, @i42)
@@ -155,31 +155,31 @@ module AST
 
   # ===== File: control_flow.rb =====
 
-  describe Case do
+  describe Case, :node => true do
     # TODO: Spec.
   end
 
-  describe ReceiverCase do
+  describe ReceiverCase, :node => true do
     # TODO: Spec.
   end
 
-  describe When do
+  describe When, :node => true do
     # TODO: Spec.
   end
 
-  describe SplatWhen do
+  describe SplatWhen, :node => true do
     # TODO: Spec.
   end
 
-  describe Flip2 do
+  describe Flip2, :node => true do
     # TODO: Spec.
   end
 
-  describe Flip3 do
+  describe Flip3, :node => true do
     # TODO: Spec.
   end
 
-  describe If do
+  describe If, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = If.new(1, @i42, @i43, @i44)
@@ -204,7 +204,7 @@ module AST
     end
   end
 
-  describe While do
+  describe While, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = While.new(1, @i42, @i43, true)
@@ -223,23 +223,23 @@ module AST
     end
   end
 
-  describe Until do
+  describe Until, :node => true do
     # Nothing to spec.
   end
 
-  describe Match do
+  describe Match, :node => true do
     # TODO: Spec.
   end
 
-  describe Match2 do
+  describe Match2, :node => true do
     # TODO: Spec.
   end
 
-  describe Match3 do
+  describe Match3, :node => true do
     # TODO: Spec.
   end
 
-  describe Break do
+  describe Break, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Break.new(1, @i42)
@@ -256,7 +256,7 @@ module AST
     end
   end
 
-  describe Next do
+  describe Next, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Next.new(1, @i42)
@@ -267,7 +267,7 @@ module AST
     end
   end
 
-  describe Redo do
+  describe Redo, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Redo.new(1)
@@ -278,7 +278,7 @@ module AST
     end
   end
 
-  describe Retry do
+  describe Retry, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Retry.new(1)
@@ -289,7 +289,7 @@ module AST
     end
   end
 
-  describe Return do
+  describe Return, :node => true do
     it "sets attributes correctly" do
       node = Return.new(1, @i42)
 
@@ -300,13 +300,13 @@ module AST
 
   # ===== File: data.rb =====
 
-  describe EndData do
+  describe EndData, :node => true do
     # TODO: Spec.
   end
 
   # ===== File: definitions.rb =====
 
-  describe Alias do
+  describe Alias, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Alias.new(1, @sym_a, @sym_b)
@@ -318,11 +318,11 @@ module AST
     end
   end
 
-  describe VAlias do
+  describe VAlias, :node => true do
     # Nothing to spec.
   end
 
-  describe Undef do
+  describe Undef, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Undef.new(1, @sym_a)
@@ -333,7 +333,7 @@ module AST
     end
   end
 
-  describe Block do
+  describe Block, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         array = [@i42, @i43, @i44]
@@ -346,111 +346,111 @@ module AST
     end
   end
 
-  describe ClosedScope do
+  describe ClosedScope, :node => true do
     # TODO: Spec.
   end
 
-  describe Define do
+  describe Define, :node => true do
     # TODO: Spec.
   end
 
-  describe DefineSingleton do
+  describe DefineSingleton, :node => true do
     # TODO: Spec.
   end
 
-  describe DefineSingletonScope do
+  describe DefineSingletonScope, :node => true do
     # TODO: Spec.
   end
 
-  describe FormalArguments do
+  describe FormalArguments, :node => true do
     # TODO: Spec.
   end
 
-  describe FormalArguments19 do
+  describe FormalArguments19, :node => true do
     # TODO: Spec.
   end
 
-  describe PatternArguments do
+  describe PatternArguments, :node => true do
     # TODO: Spec.
   end
 
-  describe DefaultArguments do
+  describe DefaultArguments, :node => true do
     # TODO: Spec.
   end
 
-  describe BlockArgument do
+  describe BlockArgument, :node => true do
     # TODO: Spec.
   end
 
-  describe Class do
+  describe Class, :node => true do
     # TODO: Spec.
   end
 
-  describe ClassScope do
+  describe ClassScope, :node => true do
     # TODO: Spec.
   end
 
-  describe ClassName do
+  describe ClassName, :node => true do
     # TODO: Spec.
   end
 
-  describe ToplevelClassName do
+  describe ToplevelClassName, :node => true do
     # TODO: Spec.
   end
 
-  describe ScopedClassName do
+  describe ScopedClassName, :node => true do
     # TODO: Spec.
   end
 
-  describe Module do
+  describe Module, :node => true do
     # TODO: Spec.
   end
 
-  describe EmptyBody do
+  describe EmptyBody, :node => true do
     # TODO: Spec.
   end
 
-  describe ModuleName do
+  describe ModuleName, :node => true do
     # TODO: Spec.
   end
 
-  describe ToplevelModuleName do
+  describe ToplevelModuleName, :node => true do
     # TODO: Spec.
   end
 
-  describe ScopedModuleName do
+  describe ScopedModuleName, :node => true do
     # TODO: Spec.
   end
 
-  describe ModuleScope do
+  describe ModuleScope, :node => true do
     # TODO: Spec.
   end
 
-  describe SClass do
+  describe SClass, :node => true do
     # TODO: Spec.
   end
 
-  describe SClassScope do
+  describe SClassScope, :node => true do
     # TODO: Spec.
   end
 
-  describe Container do
+  describe Container, :node => true do
     # TODO: Spec.
   end
 
-  describe EvalExpression do
+  describe EvalExpression, :node => true do
     # TODO: Spec.
   end
 
-  describe Snippet do
+  describe Snippet, :node => true do
     # TODO: Spec.
   end
 
-  describe Script do
+  describe Script, :node => true do
     # TODO: Spec.
   end
 
-  describe Defined do
+  describe Defined, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Defined.new(1, @i42)
@@ -463,41 +463,41 @@ module AST
 
   # ===== File: encoding.rb =====
 
-  describe Encoding do
+  describe Encoding, :node => true do
     # TODO: Spec.
   end
 
   # ===== File: exceptions.rb =====
 
-  describe Begin do
+  describe Begin, :node => true do
     # TODO: Spec.
   end
 
-  describe Ensure do
+  describe Ensure, :node => true do
     # TODO: Spec.
   end
 
-  describe Rescue do
+  describe Rescue, :node => true do
     # TODO: Spec.
   end
 
-  describe RescueCondition do
+  describe RescueCondition, :node => true do
     # TODO: Spec.
   end
 
-  describe RescueSplat do
+  describe RescueSplat, :node => true do
     # TODO: Spec.
   end
 
   # ===== File: file.rb =====
 
-  describe File do
+  describe File, :node => true do
     # Nothing to spec.
   end
 
   # ===== File: literals.rb =====
 
-  describe ArrayLiteral do
+  describe ArrayLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         body = [@i42, @i43, @i44]
@@ -509,19 +509,19 @@ module AST
     end
   end
 
-  describe EmptyArray do
+  describe EmptyArray, :node => true do
     # Nothing to spec.
   end
 
-  describe FalseLiteral do
+  describe FalseLiteral, :node => true do
     # Nothing to spec.
   end
 
-  describe TrueLiteral do
+  describe TrueLiteral, :node => true do
     # Nothing to spec.
   end
 
-  describe FloatLiteral do
+  describe FloatLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = FloatLiteral.new(1, "42.0")
@@ -532,7 +532,7 @@ module AST
     end
   end
 
-  describe HashLiteral do
+  describe HashLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         array = [@sym_a, @i42, @sym_b, @i43, @sym_c, @i44]
@@ -544,7 +544,7 @@ module AST
     end
   end
 
-  describe SymbolLiteral do
+  describe SymbolLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SymbolLiteral.new(1, :a)
@@ -555,11 +555,11 @@ module AST
     end
   end
 
-  describe NilLiteral do
+  describe NilLiteral, :node => true do
     # Nothing to spec.
   end
 
-  describe NumberLiteral do
+  describe NumberLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = NumberLiteral.new(1, 42)
@@ -570,11 +570,11 @@ module AST
     end
   end
 
-  describe FixnumLiteral do
+  describe FixnumLiteral, :node => true do
     # Nothing to spec.
   end
 
-  describe Range do
+  describe Range, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         start = NumberLiteral.new(1, 42)
@@ -588,11 +588,11 @@ module AST
     end
   end
 
-  describe RangeExclude do
+  describe RangeExclude, :node => true do
     # Nothing to spec.
   end
 
-  describe RegexLiteral do
+  describe RegexLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = RegexLiteral.new(1, "abcd", 4)
@@ -604,7 +604,7 @@ module AST
     end
   end
 
-  describe StringLiteral do
+  describe StringLiteral, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = StringLiteral.new(1, "abcd")
@@ -615,7 +615,7 @@ module AST
     end
   end
 
-  describe DynamicString do
+  describe DynamicString, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         array = [
@@ -632,15 +632,15 @@ module AST
     end
   end
 
-  describe DynamicSymbol do
+  describe DynamicSymbol, :node => true do
     # Nothing to spec.
   end
 
-  describe DynamicExecuteString do
+  describe DynamicExecuteString, :node => true do
     # Nothing to spec.
   end
 
-  describe DynamicRegex do
+  describe DynamicRegex, :node => true do
     describe "#initialize" do
       before do
         @array = [
@@ -666,17 +666,17 @@ module AST
     end
   end
 
-  describe DynamicOnceRegex do
+  describe DynamicOnceRegex, :node => true do
     # Nothing to spec.
   end
 
-  describe ExecuteString do
+  describe ExecuteString, :node => true do
     # Nothing to spec.
   end
 
   # ===== File: operators.rb =====
 
-  describe And do
+  describe And, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = And.new(1, @i42, @i43)
@@ -688,11 +688,11 @@ module AST
     end
   end
 
-  describe Or do
+  describe Or, :node => true do
     # Nothing to spec.
   end
 
-  describe Not do
+  describe Not, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Not.new(1, @i42)
@@ -703,29 +703,29 @@ module AST
     end
   end
 
-  describe OpAssign1 do
+  describe OpAssign1, :node => true do
     # TODO: Spec.
   end
 
-  describe OpAssign2 do
+  describe OpAssign2, :node => true do
     # TODO: Spec.
   end
 
-  describe OpAssignAnd do
+  describe OpAssignAnd, :node => true do
     # TODO: Spec.
   end
 
-  describe OpAssignOr do
+  describe OpAssignOr, :node => true do
     # TODO: Spec.
   end
 
-  describe OpAssignOr19 do
+  describe OpAssignOr19, :node => true do
     # TODO: Spec.
   end
 
   # ===== File: sends.rb =====
 
-  describe Send do
+  describe Send, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = Send.new(1, @i42, :foo, true, true)
@@ -753,7 +753,7 @@ module AST
     end
   end
 
-  describe SendWithArguments do
+  describe SendWithArguments, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SendWithArguments.new(1, @i42, :foo, @i42, true)
@@ -776,7 +776,7 @@ module AST
     end
   end
 
-  describe AttributeAssignment do
+  describe AttributeAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = AttributeAssignment.new(1, @i42, :a, @i42)
@@ -805,7 +805,7 @@ module AST
     end
   end
 
-  describe ElementAssignment do
+  describe ElementAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ElementAssignment.new(1, @i42, @i42)
@@ -854,15 +854,15 @@ module AST
     end
   end
 
-  describe PreExe do
+  describe PreExe, :node => true do
     # TODO: Spec.
   end
 
-  describe PreExe19 do
+  describe PreExe19, :node => true do
     # TODO: Spec.
   end
 
-  describe PushActualArguments do
+  describe PushActualArguments, :node => true do
     before do
       @pa = PushArgs.new(1, ConcatArgs.new(1, @array_424344, @i45), @i46)
     end
@@ -919,15 +919,15 @@ module AST
     end
   end
 
-  describe BlockPass do
+  describe BlockPass, :node => true do
     # TODO: Spec.
   end
 
-  describe BlockPass19 do
+  describe BlockPass19, :node => true do
     # TODO: Spec.
   end
 
-  describe CollectSplat do
+  describe CollectSplat, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         parts = [@i42, @i43, @i44, @i45, @i46]
@@ -941,7 +941,7 @@ module AST
     end
   end
 
-  describe ActualArguments do
+  describe ActualArguments, :node => true do
     describe "#initialize" do
       it "sets \"line\" correctly" do
         node = ActualArguments.new(1)
@@ -1067,49 +1067,49 @@ module AST
     end
   end
 
-  describe Iter do
+  describe Iter, :node => true do
     # TODO: Spec.
   end
 
-  describe Iter19 do
+  describe Iter19, :node => true do
     # TODO: Spec.
   end
 
-  describe IterArguments do
+  describe IterArguments, :node => true do
     # TODO: Spec.
   end
 
-  describe For do
+  describe For, :node => true do
     # TODO: Spec.
   end
 
-  describe For19Arguments do
+  describe For19Arguments, :node => true do
     # TODO: Spec.
   end
 
-  describe For19 do
+  describe For19, :node => true do
     # TODO: Spec.
   end
 
-  describe Negate do
+  describe Negate, :node => true do
     # TODO: Spec.
   end
 
-  describe Super do
+  describe Super, :node => true do
     # TODO: Spec.
   end
 
-  describe Yield do
+  describe Yield, :node => true do
     # TODO: Spec.
   end
 
-  describe ZSuper do
+  describe ZSuper, :node => true do
     # TODO: Spec.
   end
 
   # ===== File: values.rb =====
 
-  describe SplatValue do
+  describe SplatValue, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SplatValue.new(1, @i42)
@@ -1120,7 +1120,7 @@ module AST
     end
   end
 
-  describe ConcatArgs do
+  describe ConcatArgs, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ConcatArgs.new(1, @array_424344, @i45)
@@ -1174,7 +1174,7 @@ module AST
     end
   end
 
-  describe PushArgs do
+  describe PushArgs, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         arguments = ConcatArgs.new(1, @array_424344, @i45)
@@ -1187,7 +1187,7 @@ module AST
     end
   end
 
-  describe SValue do
+  describe SValue, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SValue.new(1, @i42)
@@ -1198,11 +1198,11 @@ module AST
     end
   end
 
-  describe ToArray do
+  describe ToArray, :node => true do
     # TODO: Spec.
   end
 
-  describe ToString do
+  describe ToString, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = ToString.new(1, @i42)
@@ -1215,7 +1215,7 @@ module AST
 
   # ===== File: variables.rb =====
 
-  describe BackRef do
+  describe BackRef, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = BackRef.new(1, :&)
@@ -1226,7 +1226,7 @@ module AST
     end
   end
 
-  describe NthRef do
+  describe NthRef, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = NthRef.new(1, 42)
@@ -1237,7 +1237,7 @@ module AST
     end
   end
 
-  describe VariableAccess do
+  describe VariableAccess, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = VariableAccess.new(1, :a)
@@ -1248,7 +1248,7 @@ module AST
     end
   end
 
-  describe VariableAssignment do
+  describe VariableAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = VariableAssignment.new(1, :a, @i42)
@@ -1260,23 +1260,23 @@ module AST
     end
   end
 
-  describe ClassVariableAccess do
+  describe ClassVariableAccess, :node => true do
     # Nothing to spec.
   end
 
-  describe ClassVariableAssignment do
+  describe ClassVariableAssignment, :node => true do
     # Nothing to spec.
   end
 
-  describe ClassVariableDeclaration do
+  describe ClassVariableDeclaration, :node => true do
     # Nothing to spec.
   end
 
-  describe CurrentException do
+  describe CurrentException, :node => true do
     # Nothing to spec.
   end
 
-  describe GlobalVariableAccess do
+  describe GlobalVariableAccess, :node => true do
     describe ".for_name" do
       it "returns correct AST node" do
         GlobalVariableAccess.for_name(1, :$!).should ==
@@ -1299,11 +1299,11 @@ module AST
     end
   end
 
-  describe GlobalVariableAssignment do
+  describe GlobalVariableAssignment, :node => true do
     # Nothing to spec.
   end
 
-  describe SplatAssignment do
+  describe SplatAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SplatAssignment.new(1, @i42)
@@ -1314,7 +1314,7 @@ module AST
     end
   end
 
-  describe SplatArray do
+  describe SplatArray, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = SplatArray.new(1, @i42, 42)
@@ -1326,11 +1326,11 @@ module AST
     end
   end
 
-  describe SplatWrapped do
+  describe SplatWrapped, :node => true do
     # Nothing to spec.
   end
 
-  describe EmptySplat do
+  describe EmptySplat, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = EmptySplat.new(1, 42)
@@ -1341,15 +1341,15 @@ module AST
     end
   end
 
-  describe InstanceVariableAccess do
+  describe InstanceVariableAccess, :node => true do
     # Nothing to spec.
   end
 
-  describe InstanceVariableAssignment do
+  describe InstanceVariableAssignment, :node => true do
     # Nothing to spec.
   end
 
-  describe LocalVariableAccess do
+  describe LocalVariableAccess, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = LocalVariableAccess.new(1, :a)
@@ -1361,7 +1361,7 @@ module AST
     end
   end
 
-  describe LocalVariableAssignment do
+  describe LocalVariableAssignment, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = LocalVariableAssignment.new(1, :a, @i42)
@@ -1374,7 +1374,7 @@ module AST
     end
   end
 
-  describe PostArg do
+  describe PostArg, :node => true do
     describe "#initialize" do
       it "sets attributes correctly" do
         node = PostArg.new(1, @i42, @array_424344)
@@ -1386,11 +1386,11 @@ module AST
     end
   end
 
-  describe MultipleAssignment do
+  describe MultipleAssignment, :node => true do
     # TODO: Spec.
   end
 
-  describe PatternVariable do
+  describe PatternVariable, :node => true do
     # TODO: Spec.
   end
 
