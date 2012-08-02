@@ -1447,19 +1447,43 @@ module AST
   end
 
   describe SplatAssignment do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = SplatAssignment.new(1, value)
+
+        node.line.should == 1
+        node.value.should == value
+      end
+    end
   end
 
   describe SplatArray do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        value = FixnumLiteral.new(1, 42)
+        node = SplatArray.new(1, value, 42)
+
+        node.line.should == 1
+        node.value.should == value
+        node.size.should == 42
+      end
+    end
   end
 
   describe SplatWrapped do
-    # TODO: Spec.
+    # Nothing to spec.
   end
 
   describe EmptySplat do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        node = EmptySplat.new(1, 42)
+
+        node.line.should == 1
+        node.size.should == 42
+      end
+    end
   end
 
   describe InstanceVariableAccess do
@@ -1497,7 +1521,21 @@ module AST
   end
 
   describe PostArg do
-    # TODO: Spec.
+    describe "#initialize" do
+      it "sets attributes correctly" do
+        into = FixnumLiteral.new(1, 42)
+        rest = ArrayLiteral.new(1, [
+          FixnumLiteral.new(1, 42),
+          FixnumLiteral.new(1, 43),
+          FixnumLiteral.new(1, 44)
+        ])
+        node = PostArg.new(1, into, rest)
+
+        node.line.should == 1
+        node.into.should == into
+        node.rest.should == rest
+      end
+    end
   end
 
   describe MultipleAssignment do

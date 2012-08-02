@@ -892,19 +892,36 @@ module AST
   end
 
   class SplatAssignment < Node
-    # TODO: Implement.
+    attr_accessor :value
+
+    def initialize(line, value)
+      @line = line
+      @value = value
+    end
   end
 
   class SplatArray < SplatAssignment
-    # TODO: Implement.
+    # Rubinius does not define an accessor for @size. We do.
+    attr_accessor :size
+
+    def initialize(line, value, size)
+      @line = line
+      @value = value
+      @size = size
+    end
   end
 
   class SplatWrapped < SplatAssignment
-    # TODO: Implement.
   end
 
   class EmptySplat < Node
-    # TODO: Implement.
+    # Rubinius does not define an accessor for @size. We do.
+    attr_accessor :size
+
+    def initialize(line, size)
+      @line = line
+      @size = size
+    end
   end
 
   class InstanceVariableAccess < VariableAccess
@@ -935,7 +952,13 @@ module AST
   end
 
   class PostArg < Node
-    # TODO: Implement.
+    attr_accessor :into, :rest
+
+    def initialize(line, into, rest)
+      @line = line
+      @into = into
+      @rest = rest
+    end
   end
 
   class MultipleAssignment < Node
