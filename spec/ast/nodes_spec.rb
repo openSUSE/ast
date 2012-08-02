@@ -1,6 +1,16 @@
 require "spec_helper"
 
 module AST
+  RSpec.configure do |config|
+    config.before(:each) do
+      @i42 = FixnumLiteral.new(1, 42)
+      @i43 = FixnumLiteral.new(1, 43)
+      @i44 = FixnumLiteral.new(1, 44)
+      @i45 = FixnumLiteral.new(1, 45)
+      @i46 = FixnumLiteral.new(1, 46)
+      @i47 = FixnumLiteral.new(1, 47)
+    end
+  end
 
   # ===== File: node.rb =====
 
@@ -75,11 +85,10 @@ module AST
   describe ScopedConstant do
     describe "#initialize" do
       it "sets attributes correctly" do
-        parent = FixnumLiteral.new(1, 42)
-        node = ScopedConstant.new(1, parent, :A)
+        node = ScopedConstant.new(1, @i42, :A)
 
         node.line.should == 1
-        node.parent.should == parent
+        node.parent.should == @i42
         node.name.should == :A
       end
     end
@@ -109,20 +118,16 @@ module AST
 
   describe ConstantAssignment do
     describe "#initialize" do
-      before do
-        @value = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        node = ConstantAssignment.new(1, :a, @value)
+        node = ConstantAssignment.new(1, :a, @i42)
 
         node.line.should == 1
-        node.value.should == @value
+        node.value.should == @i42
       end
 
       describe "when passed a symbol as the \"expr\" param" do
         it "sets \"constant\" correctly" do
-          node = ConstantAssignment.new(1, :a, @value)
+          node = ConstantAssignment.new(1, :a, @i42)
 
           node.constant.should == ConstantAccess.new(1, :a)
         end
@@ -130,10 +135,9 @@ module AST
 
       describe "when passed something else as the \"expr\" param" do
         it "sets \"constant\" correctly" do
-          expr = FixnumLiteral.new(1, 42)
-          node = ConstantAssignment.new(1, expr, @value)
+          node = ConstantAssignment.new(1, @i42, @i42)
 
-          node.constant.should == expr
+          node.constant.should == @i42
         end
       end
     end
@@ -167,29 +171,23 @@ module AST
 
   describe If do
     describe "#initialize" do
-      before do
-        @condition = FixnumLiteral.new(1, 42)
-        @body = FixnumLiteral.new(1, 43)
-        @else = FixnumLiteral.new(1, 44)
-      end
-
       it "sets attributes correctly" do
-        node = If.new(1, @condition, @body, @else)
+        node = If.new(1, @i42, @i43, @i44)
 
         node.line.should == 1
-        node.condition.should == @condition
-        node.body.should == @body
-        node.else.should == @else
+        node.condition.should == @i42
+        node.body.should == @i43
+        node.else.should == @i44
       end
 
       it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
-        node = If.new(1, @condition, nil, @else)
+        node = If.new(1, @i42, nil, @i44)
 
         node.body.should == NilLiteral.new(1)
       end
 
       it "sets \"else\" to a NilLiteral instance when passed nil \"else_body\" param" do
-        node = If.new(1, @condition, @body, nil)
+        node = If.new(1, @i42, @i43, nil)
 
         node.else.should == NilLiteral.new(1)
       end
@@ -198,22 +196,17 @@ module AST
 
   describe While do
     describe "#initialize" do
-      before do
-        @condition = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        body = FixnumLiteral.new(1, 43)
-        node = While.new(1, @condition, body, true)
+        node = While.new(1, @i42, @i43, true)
 
         node.line.should == 1
-        node.condition.should == @condition
-        node.body.should == body
+        node.condition.should == @i42
+        node.body.should == @i43
         node.check_first.should == true
       end
 
       it "sets \"body\" to a NilLiteral instance when passed nil \"body\" param" do
-        node = While.new(1, @condition, nil, true)
+        node = While.new(1, @i42, nil, true)
 
         node.body.should == NilLiteral.new(1)
       end
@@ -239,11 +232,10 @@ module AST
   describe Break do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = Break.new(1, value)
+        node = Break.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
 
       it "sets \"value\" to a NilLiteral instance when passed nil \"expr\" param" do
@@ -257,11 +249,10 @@ module AST
   describe Next do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = Next.new(1, value)
+        node = Next.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -290,11 +281,10 @@ module AST
 
   describe Return do
     it "sets attributes correctly" do
-      value = FixnumLiteral.new(1, 42)
-      node = Return.new(1, value)
+      node = Return.new(1, @i42)
 
       node.line.should == 1
-      node.value.should == value
+      node.value.should == @i42
     end
   end
 
@@ -339,11 +329,7 @@ module AST
   describe Block do
     describe "#initialize" do
       it "sets attributes correctly" do
-        array = [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44)
-        ]
+        array = [@i42, @i43, @i44]
         node = Block.new(1, array)
 
         node.line.should == 1
@@ -460,11 +446,10 @@ module AST
   describe Defined do
     describe "#initialize" do
       it "sets attributes correctly" do
-        expression = FixnumLiteral.new(1, 42)
-        node = Defined.new(1, expression)
+        node = Defined.new(1, @i42)
 
         node.line.should == 1
-        node.expression.should == expression
+        node.expression.should == @i42
       end
     end
   end
@@ -508,11 +493,7 @@ module AST
   describe ArrayLiteral do
     describe "#initialize" do
       it "sets attributes correctly" do
-        body = [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44),
-        ]
+        body = [@i42, @i43, @i44]
         node = ArrayLiteral.new(1, body)
 
         node.line.should == 1
@@ -549,11 +530,11 @@ module AST
       it "sets attributes correctly" do
         array = [
           SymbolLiteral.new(1, :a),
-          FixnumLiteral.new(1, 42),
+          @i42,
           SymbolLiteral.new(1, :b),
-          FixnumLiteral.new(1, 43),
+          @i43,
           SymbolLiteral.new(1, :c),
-          FixnumLiteral.new(1, 44)
+          @i44
         ]
         node = HashLiteral.new(1, array)
 
@@ -698,13 +679,11 @@ module AST
   describe And do
     describe "#initialize" do
       it "sets attributes correctly" do
-        left = FixnumLiteral.new(1, 42)
-        right = FixnumLiteral.new(1, 43)
-        node = And.new(1, left, right)
+        node = And.new(1, @i42, @i43)
 
         node.line.should == 1
-        node.left.should == left
-        node.right.should == right
+        node.left.should == @i42
+        node.right.should == @i43
       end
     end
   end
@@ -716,11 +695,10 @@ module AST
   describe Not do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = Not.new(1, value)
+        node = Not.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -749,15 +727,11 @@ module AST
 
   describe Send do
     describe "#initialize" do
-      before do
-        @receiver = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        node = Send.new(1, @receiver, :foo, true, true)
+        node = Send.new(1, @i42, :foo, true, true)
 
         node.line.should == 1
-        node.receiver.should == @receiver
+        node.receiver.should == @i42
         node.name.should == :foo
         node.privately.should == true
         node.block.should == nil
@@ -766,13 +740,13 @@ module AST
       end
 
       it "sets \"privately\" to false when not passed the corresonding param" do
-        node = Send.new(1, @receiver, :foo)
+        node = Send.new(1, @i42, :foo)
 
         node.privately.should == false
       end
 
       it "sets \"vcall_style\" to false when not passed the corresonding param" do
-        node = Send.new(1, @receiver, :foo, true)
+        node = Send.new(1, @i42, :foo, true)
 
         node.vcall_style.should == false
       end
@@ -781,26 +755,21 @@ module AST
 
   describe SendWithArguments do
     describe "#initialize" do
-      before do
-        @receiver = FixnumLiteral.new(1, 42)
-        @arguments = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        node = SendWithArguments.new(1, @receiver, :foo, @arguments, true)
+        node = SendWithArguments.new(1, @i42, :foo, @i42, true)
 
         node.line.should == 1
-        node.receiver.should == @receiver
+        node.receiver.should == @i42
         node.name.should == :foo
         node.privately.should == true
         node.block.should == nil
         node.check_for_local.should == false
         node.vcall_style.should == false
-        node.arguments.should == ActualArguments.new(1, @arguments)
+        node.arguments.should == ActualArguments.new(1, @i42)
       end
 
       it "sets \"privately\" to false when not passed the corresonding param" do
-        node = SendWithArguments.new(1, @receiver, :foo, @arguments)
+        node = SendWithArguments.new(1, @i42, :foo, @i42)
 
         node.privately.should == false
       end
@@ -809,23 +778,18 @@ module AST
 
   describe AttributeAssignment do
     describe "#initialize" do
-      before do
-        @receiver = FixnumLiteral.new(1, 42)
-        @arguments = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        node = AttributeAssignment.new(1, @receiver, :a, @arguments)
+        node = AttributeAssignment.new(1, @i42, :a, @i42)
 
         node.line.should == 1
-        node.receiver.should == @receiver
+        node.receiver.should == @i42
         node.name.should == :a=
-        node.arguments.should == ActualArguments.new(1, @arguments)
+        node.arguments.should == ActualArguments.new(1, @i42)
       end
 
       describe "when passed a Self instance as the \"receiver\" param" do
         it "sets \"privately\" to true" do
-          node = AttributeAssignment.new(1, Self.new(1), :a, @arguments)
+          node = AttributeAssignment.new(1, Self.new(1), :a, @i42)
 
           node.privately.should == true
         end
@@ -833,7 +797,7 @@ module AST
 
       describe "when passed something else as the \"receiver\" param" do
         it "sets \"privately\" to false" do
-          node = AttributeAssignment.new(1, @receiver, :a, @arguments)
+          node = AttributeAssignment.new(1, @i42, :a, @i42)
 
           node.privately.should == false
         end
@@ -843,22 +807,17 @@ module AST
 
   describe ElementAssignment do
     describe "#initialize" do
-      before do
-        @receiver = FixnumLiteral.new(1, 42)
-        @arguments = FixnumLiteral.new(1, 42)
-      end
-
       it "sets attributes correctly" do
-        node = ElementAssignment.new(1, @receiver, @arguments)
+        node = ElementAssignment.new(1, @i42, @i42)
 
         node.line.should == 1
-        node.receiver.should == @receiver
+        node.receiver.should == @i42
         node.name.should == :[]=
       end
 
       describe "when passed a Self instance as the \"receiver\" param" do
         it "sets \"privately\" to true" do
-          node = ElementAssignment.new(1, Self.new(1), @arguments)
+          node = ElementAssignment.new(1, Self.new(1), @i42)
 
           node.privately.should == true
         end
@@ -866,7 +825,7 @@ module AST
 
       describe "when passed something else as the \"receiver\" param" do
         it "sets \"privately\" to false" do
-          node = ElementAssignment.new(1, @receiver, @arguments)
+          node = ElementAssignment.new(1, @i42, @i42)
 
           node.privately.should == false
         end
@@ -876,18 +835,10 @@ module AST
         it "sets \"arguments\" correctly" do
           arguments = PushArgs.new(
             1,
-            ConcatArgs.new(
-              1,
-              ArrayLiteral.new(1, [
-                FixnumLiteral.new(1, 42),
-                FixnumLiteral.new(1, 43),
-                FixnumLiteral.new(1, 44)
-              ]),
-              FixnumLiteral.new(1, 45)
-            ),
-            FixnumLiteral.new(1, 46)
+            ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
+            @i46
           )
-          node = ElementAssignment.new(1, @receiver, arguments)
+          node = ElementAssignment.new(1, @i42, arguments)
 
           node.arguments.should == PushActualArguments.new(arguments)
         end
@@ -895,9 +846,9 @@ module AST
 
       describe "when passed something else as the \"arguments\" param" do
         it "sets \"arguments\" correctly" do
-          node = ElementAssignment.new(1, @receiver, @arguments)
+          node = ElementAssignment.new(1, @i42, @i42)
 
-          node.arguments.should == ActualArguments.new(1, @arguments)
+          node.arguments.should == ActualArguments.new(1, @i42)
         end
       end
     end
@@ -915,16 +866,8 @@ module AST
     before do
       @pa = PushArgs.new(
         1,
-        ConcatArgs.new(
-          1,
-          ArrayLiteral.new(1, [
-            FixnumLiteral.new(1, 42),
-            FixnumLiteral.new(1, 43),
-            FixnumLiteral.new(1, 44)
-          ]),
-          FixnumLiteral.new(1, 45)
-        ),
-        FixnumLiteral.new(1, 46)
+        ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
+        @i46
       )
     end
 
@@ -991,13 +934,7 @@ module AST
   describe CollectSplat do
     describe "#initialize" do
       it "sets attributes correctly" do
-        parts = [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44),
-          FixnumLiteral.new(1, 45),
-          FixnumLiteral.new(1, 46)
-        ]
+        parts = [@i42, @i43, @i44, @i45, @i46]
         node = CollectSplat.new(1, *parts)
 
         node.line.should == 1
@@ -1027,7 +964,7 @@ module AST
 
       describe "when passed a SplatValue instance as the \"arguments\" param" do
         it "sets \"array\" and \"splat\" correctly" do
-          arguments = SplatValue.new(1, FixnumLiteral.new(1, 42))
+          arguments = SplatValue.new(1, @i42)
           node = ActualArguments.new(1, arguments)
 
           node.array.should == []
@@ -1038,19 +975,14 @@ module AST
       describe "when passed a ConcatArgs instance as the \"arguments\" param" do
         describe "and its \"array\" is an ArrayLiteral instance" do
           it "sets \"array\" and \"splat\" correctly" do
-            body = [
-              FixnumLiteral.new(1, 42),
-              FixnumLiteral.new(1, 43),
-              FixnumLiteral.new(1, 44)
-            ]
-            rest = FixnumLiteral.new(1, 45)
+            body = [@i42, @i43, @i44]
             node = ActualArguments.new(
               1,
-              ConcatArgs.new(1, ArrayLiteral.new(1, body), rest)
+              ConcatArgs.new(1, ArrayLiteral.new(1, body), @i45)
             )
 
             node.array.should == body
-            node.splat.should == SplatValue.new(1, rest)
+            node.splat.should == SplatValue.new(1, @i45)
           end
         end
 
@@ -1058,34 +990,23 @@ module AST
           it "sets \"array\" and \"splat\" correctly" do
             array = PushArgs.new(
               1,
-              ConcatArgs.new(
-                1,
-                ArrayLiteral.new(1, [
-                  FixnumLiteral.new(1, 42),
-                  FixnumLiteral.new(1, 43),
-                  FixnumLiteral.new(1, 44)
-                ]),
-                FixnumLiteral.new(1, 45)
-              ),
-              FixnumLiteral.new(1, 46)
+              ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
+              @i46
             )
-            rest = FixnumLiteral.new(1, 47)
-            node = ActualArguments.new(1, ConcatArgs.new(1, array, rest))
+            node = ActualArguments.new(1, ConcatArgs.new(1, array, @i47))
 
             node.array.should == []
             node.splat.should ==
-              CollectSplat.new(1, array, SplatValue.new(1, rest))
+              CollectSplat.new(1, array, SplatValue.new(1, @i47))
           end
         end
 
         describe "and its \"array\" is something else" do
           it "sets \"array\" and \"splat\" correctly" do
-            array = FixnumLiteral.new(1, 42),
-            rest = FixnumLiteral.new(1, 43)
-            node = ActualArguments.new(1, ConcatArgs.new(1, array, rest))
+            node = ActualArguments.new(1, ConcatArgs.new(1, @i42, @i43))
 
             node.array.should == []
-            node.splat.should == CollectSplat.new(1, array, rest)
+            node.splat.should == CollectSplat.new(1, @i42, @i43)
           end
         end
       end
@@ -1094,59 +1015,39 @@ module AST
         describe "and its \"arguments\" is a ConcatArgs instance" do
           describe "and calling \"pee_lhs\" on it returns a non-nil value" do
             it "sets \"array\" and \"splat\" correctly" do
-              body = [
-                FixnumLiteral.new(1, 42),
-                FixnumLiteral.new(1, 43),
-                FixnumLiteral.new(1, 44)
-              ]
-              arguments = ConcatArgs.new(
-                1,
-                ArrayLiteral.new(1, body),
-                FixnumLiteral.new(1, 45)
-              )
-              value = FixnumLiteral.new(1, 46)
-              node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+              body = [@i42, @i43, @i44]
+              arguments = ConcatArgs.new(1, ArrayLiteral.new(1, body), @i45)
+              node = ActualArguments.new(1, PushArgs.new(1, arguments, @i46))
 
               node.array.should == body
-              node.splat.should == CollectSplat.new(1, arguments, value)
+              node.splat.should == CollectSplat.new(1, arguments, @i46)
             end
           end
 
           describe "and calling \"pee_lhs\" on it returns nil" do
             it "sets \"array\" and \"splat\" correctly" do
-              arguments = ConcatArgs.new(
-                1,
-                FixnumLiteral.new(1, 42),
-                FixnumLiteral.new(1, 43)
-              )
-              value = FixnumLiteral.new(1, 44)
-              node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+              arguments = ConcatArgs.new(1, @i42, @i43)
+              node = ActualArguments.new(1, PushArgs.new(1, arguments, @i44))
 
               node.array.should == []
-              node.splat.should == CollectSplat.new(1, arguments, value)
+              node.splat.should == CollectSplat.new(1, arguments, @i44)
             end
           end
         end
 
         describe "and its \"arguments\" is something else" do
           it "sets \"array\" and \"splat\" correctly" do
-            arguments = FixnumLiteral.new(1, 42)
-            value = FixnumLiteral.new(1, 43)
-            node = ActualArguments.new(1, PushArgs.new(1, arguments, value))
+            node = ActualArguments.new(1, PushArgs.new(1, @i42, @i43))
 
             node.array.should == []
-            node.splat.should == CollectSplat.new(1, arguments, value)
+            node.splat.should == CollectSplat.new(1, @i42, @i43)
           end
         end
       end
 
       describe "when passed an ArrayLiteral instance as the \"arguments\" param" do
         it "sets \"array\" and \"splat\" correctly" do
-          body = [
-            FixnumLiteral.new(1, 42),
-            FixnumLiteral.new(1, 43),
-            FixnumLiteral.new(1, 44)
-          ]
+          body = [@i42, @i43, @i44]
           node = ActualArguments.new(1, ArrayLiteral.new(1, body))
 
           node.array.should == body
@@ -1165,10 +1066,9 @@ module AST
 
       describe "when passed something else as the \"arguments\" param" do
         it "sets \"array\" and \"splat\" correctly" do
-          arguments = FixnumLiteral.new(1, 42)
-          node = ActualArguments.new(1, arguments)
+          node = ActualArguments.new(1, @i42)
 
-          node.array.should == [arguments]
+          node.array.should == [@i42]
           node.splat.should == nil
         end
       end
@@ -1220,11 +1120,10 @@ module AST
   describe SplatValue do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = SplatValue.new(1, value)
+        node = SplatValue.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -1232,39 +1131,26 @@ module AST
   describe ConcatArgs do
     describe "#initialize" do
       it "sets attributes correctly" do
-        array = ArrayLiteral.new(1, [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44)
-        ])
-        rest = FixnumLiteral.new(1, 45)
-        node = ConcatArgs.new(1, array, rest)
+        array = ArrayLiteral.new(1, [@i42, @i43, @i44])
+        node = ConcatArgs.new(1, array, @i45)
 
         node.line.should == 1
         node.array.should == array
-        node.rest.should == rest
+        node.rest.should == @i45
       end
     end
 
     describe "#peel_lhs" do
       before do
-        @body = [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44)
-        ]
+        @body = [@i42, @i43, @i44]
       end
 
       describe "when \"array\" is a ConcatArgs instance" do
         it "calls itself recursively and returns the result" do
           node = ConcatArgs.new(
             1,
-            ConcatArgs.new(
-              1,
-              ArrayLiteral.new(1, @body),
-              FixnumLiteral.new(1, 45)
-            ),
-            FixnumLiteral.new(1, 46)
+            ConcatArgs.new(1, ArrayLiteral.new(1, @body), @i45),
+            @i46
           )
 
           node.peel_lhs.should == @body
@@ -1273,11 +1159,7 @@ module AST
 
       describe "when \"array\" is an ArrayLiteral instance" do
         before do
-          @node = ConcatArgs.new(
-            1,
-            ArrayLiteral.new(1, @body),
-            FixnumLiteral.new(1, 45)
-          )
+          @node = ConcatArgs.new(1, ArrayLiteral.new(1, @body), @i45)
         end
 
         it "returns \"array\"'s body" do
@@ -1293,11 +1175,7 @@ module AST
 
       describe "when \"array\" is something else" do
         it "returns nil" do
-          node = ConcatArgs.new(
-            1,
-            FixnumLiteral.new(1, 42),
-            FixnumLiteral.new(1, 43)
-          )
+          node = ConcatArgs.new(1, @i42, @i43)
 
           node.peel_lhs.should == nil
         end
@@ -1310,19 +1188,14 @@ module AST
       it "sets attributes correctly" do
         arguments = ConcatArgs.new(
           1,
-          ArrayLiteral.new(1, [
-            FixnumLiteral.new(1, 42),
-            FixnumLiteral.new(1, 43),
-            FixnumLiteral.new(1, 44)
-          ]),
-          FixnumLiteral.new(1, 45)
+          ArrayLiteral.new(1, [@i42, @i43, @i44]),
+          @i45
         )
-        value = FixnumLiteral.new(1, 46)
-        node = PushArgs.new(1, arguments, value)
+        node = PushArgs.new(1, arguments, @i46)
 
         node.line.should == 1
         node.arguments.should == arguments
-        node.value.should == value
+        node.value.should == @i46
       end
     end
   end
@@ -1330,11 +1203,10 @@ module AST
   describe SValue do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = SValue.new(1, value)
+        node = SValue.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -1346,11 +1218,10 @@ module AST
   describe ToString do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = ToString.new(1, value)
+        node = ToString.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -1393,12 +1264,11 @@ module AST
   describe VariableAssignment do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = VariableAssignment.new(1, :a, value)
+        node = VariableAssignment.new(1, :a, @i42)
 
         node.line.should == 1
         node.name.should == :a
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -1449,11 +1319,10 @@ module AST
   describe SplatAssignment do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = SplatAssignment.new(1, value)
+        node = SplatAssignment.new(1, @i42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
       end
     end
   end
@@ -1461,11 +1330,10 @@ module AST
   describe SplatArray do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = SplatArray.new(1, value, 42)
+        node = SplatArray.new(1, @i42, 42)
 
         node.line.should == 1
-        node.value.should == value
+        node.value.should == @i42
         node.size.should == 42
       end
     end
@@ -1509,12 +1377,11 @@ module AST
   describe LocalVariableAssignment do
     describe "#initialize" do
       it "sets attributes correctly" do
-        value = FixnumLiteral.new(1, 42)
-        node = LocalVariableAssignment.new(1, :a, value)
+        node = LocalVariableAssignment.new(1, :a, @i42)
 
         node.line.should == 1
         node.name.should == :a
-        node.value.should == value
+        node.value.should == @i42
         node.variable.should == nil
       end
     end
@@ -1523,16 +1390,11 @@ module AST
   describe PostArg do
     describe "#initialize" do
       it "sets attributes correctly" do
-        into = FixnumLiteral.new(1, 42)
-        rest = ArrayLiteral.new(1, [
-          FixnumLiteral.new(1, 42),
-          FixnumLiteral.new(1, 43),
-          FixnumLiteral.new(1, 44)
-        ])
-        node = PostArg.new(1, into, rest)
+        rest = ArrayLiteral.new(1, [@i42, @i43, @i44])
+        node = PostArg.new(1, @i42, rest)
 
         node.line.should == 1
-        node.into.should == into
+        node.into.should == @i42
         node.rest.should == rest
       end
     end
