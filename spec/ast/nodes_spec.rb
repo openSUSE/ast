@@ -17,6 +17,8 @@ module AST
       @sym_a = SymbolLiteral.new(1, :a)
       @sym_b = SymbolLiteral.new(1, :b)
       @sym_c = SymbolLiteral.new(1, :c)
+
+      @array_424344 = ArrayLiteral.new(1, [@i42, @i43, @i44])
     end
   end
 
@@ -833,7 +835,7 @@ module AST
         it "sets \"arguments\" correctly" do
           arguments = PushArgs.new(
             1,
-            ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
+            ConcatArgs.new(1, @array_424344, @i45),
             @i46
           )
           node = ElementAssignment.new(1, @i42, arguments)
@@ -862,11 +864,7 @@ module AST
 
   describe PushActualArguments do
     before do
-      @pa = PushArgs.new(
-        1,
-        ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
-        @i46
-      )
+      @pa = PushArgs.new(1, ConcatArgs.new(1, @array_424344, @i45), @i46)
     end
 
     describe "#initialize" do
@@ -986,11 +984,7 @@ module AST
 
         describe "and its \"array\" is an PushArgs instance" do
           it "sets \"array\" and \"splat\" correctly" do
-            array = PushArgs.new(
-              1,
-              ConcatArgs.new(1, ArrayLiteral.new(1, [@i42, @i43, @i44]), @i45),
-              @i46
-            )
+            array = PushArgs.new(1, ConcatArgs.new(1, @array_424344, @i45), @i46)
             node = ActualArguments.new(1, ConcatArgs.new(1, array, @i47))
 
             node.array.should == []
@@ -1129,11 +1123,10 @@ module AST
   describe ConcatArgs do
     describe "#initialize" do
       it "sets attributes correctly" do
-        array = ArrayLiteral.new(1, [@i42, @i43, @i44])
-        node = ConcatArgs.new(1, array, @i45)
+        node = ConcatArgs.new(1, @array_424344, @i45)
 
         node.line.should == 1
-        node.array.should == array
+        node.array.should == @array_424344
         node.rest.should == @i45
       end
     end
@@ -1184,11 +1177,7 @@ module AST
   describe PushArgs do
     describe "#initialize" do
       it "sets attributes correctly" do
-        arguments = ConcatArgs.new(
-          1,
-          ArrayLiteral.new(1, [@i42, @i43, @i44]),
-          @i45
-        )
+        arguments = ConcatArgs.new(1, @array_424344, @i45)
         node = PushArgs.new(1, arguments, @i46)
 
         node.line.should == 1
@@ -1388,12 +1377,11 @@ module AST
   describe PostArg do
     describe "#initialize" do
       it "sets attributes correctly" do
-        rest = ArrayLiteral.new(1, [@i42, @i43, @i44])
-        node = PostArg.new(1, @i42, rest)
+        node = PostArg.new(1, @i42, @array_424344)
 
         node.line.should == 1
         node.into.should == @i42
-        node.rest.should == rest
+        node.rest.should == @array_424344
       end
     end
   end
