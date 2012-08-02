@@ -13,6 +13,10 @@ module AST
       @i45 = FixnumLiteral.new(1, 45)
       @i46 = FixnumLiteral.new(1, 46)
       @i47 = FixnumLiteral.new(1, 47)
+
+      @sym_a = SymbolLiteral.new(1, :a)
+      @sym_b = SymbolLiteral.new(1, :b)
+      @sym_c = SymbolLiteral.new(1, :c)
     end
   end
 
@@ -303,13 +307,11 @@ module AST
   describe Alias do
     describe "#initialize" do
       it "sets attributes correctly" do
-        to = SymbolLiteral.new(1, :a)
-        from = SymbolLiteral.new(1, :b)
-        node = Alias.new(1, to, from)
+        node = Alias.new(1, @sym_a, @sym_b)
 
         node.line.should == 1
-        node.to.should == to
-        node.from.should == from
+        node.to.should == @sym_a
+        node.from.should == @sym_b
       end
     end
   end
@@ -321,11 +323,10 @@ module AST
   describe Undef do
     describe "#initialize" do
       it "sets attributes correctly" do
-        name = SymbolLiteral.new(1, :a)
-        node = Undef.new(1, name)
+        node = Undef.new(1, @sym_a)
 
         node.line.should == 1
-        node.name.should == name
+        node.name.should == @sym_a
       end
     end
   end
@@ -532,14 +533,7 @@ module AST
   describe HashLiteral do
     describe "#initialize" do
       it "sets attributes correctly" do
-        array = [
-          SymbolLiteral.new(1, :a),
-          @i42,
-          SymbolLiteral.new(1, :b),
-          @i43,
-          SymbolLiteral.new(1, :c),
-          @i44
-        ]
+        array = [@sym_a, @i42, @sym_b, @i43, @sym_c, @i44]
         node = HashLiteral.new(1, array)
 
         node.line.should == 1
