@@ -10,22 +10,30 @@ module AST
   # The files are in the same order as in lib/compiler/ast.rb in Rubinius.
   # The nodes are in the same order as in the files in Rubinius.
 
-  # ===== File: node.rb =====
-
-  class Node
-    attr_accessor :line
-
-    def initialize(line)
-      @line = line
-    end
-
-    # This is not defiend in Rubinius but makes our specs easier to write.
+  # Including this little module gives class a "==" method that considers two
+  # objects equal if and only if they are of the same class and have the same
+  # set of instance variables with equal values (according to "==").
+  #
+  # This is not defiend in Rubinius but makes our specs easier to write.
+  module EqualByInstanceVariables
     def ==(other)
       other.instance_of?(self.class) &&
         instance_variables.sort == other.instance_variables.sort &&
         instance_variables.all? do |name|
           instance_variable_get(name) == other.instance_variable_get(name)
         end
+    end
+  end
+
+  # ===== File: node.rb =====
+
+  class Node
+    include EqualByInstanceVariables
+
+    attr_accessor :line
+
+    def initialize(line)
+      @line = line
     end
   end
 
@@ -622,19 +630,14 @@ module AST
   end
 
   class PushActualArguments
+    include EqualByInstanceVariables
+
     # Rubinius does not define accessors for @arguments and @value. We do.
     attr_accessor :arguments, :value
 
     def initialize(pa)
       @arguments = pa.arguments
       @value = pa.value
-    end
-
-    # This is not defiend in Rubinius but makes our specs easier to write.
-    def ==(other)
-      other.instance_of?(self.class) &&
-        @arguments == other.arguments &&
-        @value == other.value
     end
   end
 

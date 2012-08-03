@@ -22,6 +22,52 @@ module AST
     end
   end
 
+  describe EqualByInstanceVariables do
+    describe "#==" do
+      class MyEqualObject
+        include EqualByInstanceVariables
+
+        def initialize(*args)
+          @a, @b, @c, @d = args
+        end
+      end
+
+      class MySubclassedEqualObject < MyEqualObject
+      end
+
+      before do
+        @object = MyEqualObject.new(:a, :b, :c)
+      end
+
+      it "returns true when passed the same object" do
+        @object.should == @object
+      end
+
+      it "returns true when passed an instance of the same class with the same instance variables" do
+        @object.should == MyEqualObject.new(:a, :b, :c)
+      end
+
+      it "returns false when passed some random object" do
+        @object.should_not == Object.new
+      end
+
+      it "returns false when passed an instance of a subclass with the same instance variables" do
+        @object.should_not == MySubclassedEqualObject.new(:a, :b, :c)
+      end
+
+      it "returns false when passed an instance of the same class with different set of instance variables" do
+        @object.should_not == MyEqualObject.new(:a, :b)
+        @object.should_not == MyEqualObject.new(:a, :b, :c, :d)
+      end
+
+      it "returns false when passed an instance of the same class with different instance variable values" do
+        @object.should_not == MyEqualObject.new(:e, :b, :c)
+        @object.should_not == MyEqualObject.new(:a, :f, :c)
+        @object.should_not == MyEqualObject.new(:a, :b, :g)
+      end
+    end
+  end
+
   # ===== File: node.rb =====
 
   describe Node, :node => true do
@@ -30,52 +76,6 @@ module AST
         node = Node.new(1)
 
         node.line.should == 1
-      end
-    end
-
-    describe "#==" do
-      class MyNode < Node
-        attr_accessor :foo, :bar, :baz, :qux
-
-        def initialize(line, foo = nil, bar = nil, baz = nil, qux = nil)
-          @line = line
-          @foo = foo if foo
-          @bar = bar if bar
-          @baz = baz if baz
-          @qux = baz if qux
-        end
-      end
-
-      class MySubclassedNode < MyNode
-      end
-
-      before do
-        @node = MyNode.new(42, :a, :b, :c)
-      end
-
-      it "returns true when passed the same object" do
-        @node.should == @node
-      end
-
-      it "returns true when passed a MyNode with the same instance variables" do
-        @node.should == MyNode.new(42, :a, :b, :c)
-      end
-
-      it "returns false when passed some random object" do
-        @node.should_not == Object.new
-      end
-
-      it "returns false when passed a subclass of MyNode with the same instance variables" do
-        @node.should_not == MySubclassedNode.new(42, :a, :b, :c)
-      end
-
-      it "returns false when passed a MyNode with different instance variables" do
-        @node.should_not == MyNode.new(42, :a, :b)
-        @node.should_not == MyNode.new(42, :a, :b, :c, :d)
-
-        @node.should_not == MyNode.new(42, :e, :b, :c)
-        @node.should_not == MyNode.new(42, :a, :f, :c)
-        @node.should_not == MyNode.new(42, :a, :b, :g)
       end
     end
   end
@@ -873,48 +873,6 @@ module AST
 
         node.arguments.should == @pa.arguments
         node.value.should == @pa.value
-      end
-    end
-
-    describe "#==" do
-      before do
-        @paa = PushActualArguments.new(@pa)
-      end
-
-      it "returns true when passed the same object" do
-        @paa.should == @paa
-      end
-
-      it "returns true when passed a PushActualArguments initialized with the same parameter" do
-        @paa.should == PushActualArguments.new(@paa)
-      end
-
-      it "returns false when passed some random object" do
-        @paa.should_not == Object.new
-      end
-
-      it "returns false when passed a subclass of PushActualArguments initialized with the same parameter" do
-        class SubclassedPushActualArguments < PushActualArguments
-        end
-
-        @paa.should_not == SubclassedPushActualArguments.new(@pa)
-      end
-
-      it "returns false when passed a PushActualArguments initialized with a different parameter" do
-        pa = PushArgs.new(
-          1,
-          ConcatArgs.new(
-            1,
-            ArrayLiteral.new(1, [
-              FixnumLiteral.new(1, 84),
-              FixnumLiteral.new(1, 86),
-              FixnumLiteral.new(1, 88)
-            ]),
-            FixnumLiteral.new(1, 90)
-          ),
-          FixnumLiteral.new(1, 92)
-        )
-        @paa.should_not == PushActualArguments.new(pa)
       end
     end
   end
